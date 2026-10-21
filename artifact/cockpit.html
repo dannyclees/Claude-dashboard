@@ -1,0 +1,654 @@
+<title>Cockpit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: Apple-artige Seitenleiste links, Inhalt in Karten rechts; schmal: Navigation oben als Leiste.
+   Farben = Apple-Systemfarben, Typo = iOS-Skala „Large“, Systemschrift (SF auf Apple-Geräten). */
+:root{
+  --blue:#007aff;--blue-text:#0066cc;--green:#34c759;--green-text:#1f8a3a;--orange:#ff9500;--orange-text:#b25e00;
+  --red:#ff3b30;--red-text:#d70015;--purple:#af52de;--purple-text:#8944ab;--teal:#30b0c7;--gray:#8e8e93;
+  --label:#000;--label-2:#6e6e73;--label-3:#8e8e93;--bg:#f2f2f7;--surface:#fff;--surface-2:#f7f7fa;
+  --fill:rgba(120,120,128,.12);--fill-2:rgba(120,120,128,.2);--sep:rgba(60,60,67,.18);
+  --glass:rgba(246,246,248,.78);--glass-dicht:rgba(252,252,253,.96);--glass-border:rgba(0,0,0,.06);
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);--shadow-hover:0 2px 4px rgba(0,0,0,.05),0 12px 32px rgba(0,0,0,.1);
+  --t-red:rgba(255,59,48,.12);--t-blue:rgba(0,122,255,.12);--t-orange:rgba(255,149,0,.14);--t-green:rgba(52,199,89,.14);--t-purple:rgba(175,82,222,.12);--t-gray:rgba(142,142,147,.14);
+  --font:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  --r-card:20px;--r-ctl:12px;--side:256px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --blue:#0a84ff;--blue-text:#409cff;--green:#30d158;--green-text:#30d158;--orange:#ff9f0a;--orange-text:#ffb340;
+  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--purple-text:#da8fff;--teal:#40c8e0;
+  --label:#fff;--label-2:#aeaeb2;--label-3:#8e8e93;--bg:#000;--surface:#1c1c1e;--surface-2:#232325;
+  --fill:rgba(120,120,128,.24);--fill-2:rgba(120,120,128,.36);--sep:rgba(84,84,88,.6);
+  --glass:rgba(28,28,30,.78);--glass-dicht:rgba(36,36,38,.96);--glass-border:rgba(255,255,255,.08);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);--shadow-hover:0 2px 4px rgba(0,0,0,.5),0 12px 32px rgba(0,0,0,.5);
+  --t-red:rgba(255,69,58,.2);--t-blue:rgba(10,132,255,.22);--t-orange:rgba(255,159,10,.2);--t-green:rgba(48,209,88,.2);--t-purple:rgba(191,90,242,.22);--t-gray:rgba(142,142,147,.24);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --blue:#0a84ff;--blue-text:#409cff;--green:#30d158;--green-text:#30d158;--orange:#ff9f0a;--orange-text:#ffb340;
+  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--purple-text:#da8fff;--teal:#40c8e0;
+  --label:#fff;--label-2:#aeaeb2;--label-3:#8e8e93;--bg:#000;--surface:#1c1c1e;--surface-2:#232325;
+  --fill:rgba(120,120,128,.24);--fill-2:rgba(120,120,128,.36);--sep:rgba(84,84,88,.6);
+  --glass:rgba(28,28,30,.78);--glass-dicht:rgba(36,36,38,.96);--glass-border:rgba(255,255,255,.08);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);--shadow-hover:0 2px 4px rgba(0,0,0,.5),0 12px 32px rgba(0,0,0,.5);
+  --t-red:rgba(255,69,58,.2);--t-blue:rgba(10,132,255,.22);--t-orange:rgba(255,159,10,.2);--t-green:rgba(48,209,88,.2);--t-purple:rgba(191,90,242,.22);--t-gray:rgba(142,142,147,.24);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--label);font-family:var(--font);font-size:1.0625rem;line-height:22px;letter-spacing:-.026em;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+h1,h2,h3,p,ul,ol,dl,dd{margin:0;padding:0}
+ul,ol{list-style:none}
+a{color:var(--blue-text)}
+
+.t-lt{font-size:2.125rem;line-height:41px;font-weight:700;letter-spacing:.012em;text-wrap:balance}
+.t-t2{font-size:1.375rem;line-height:28px;font-weight:700;letter-spacing:-.012em}
+.t-t3{font-size:1.25rem;line-height:25px;font-weight:600;letter-spacing:-.023em}
+.t-hl{font-size:1.0625rem;line-height:22px;font-weight:600}
+.t-sub{font-size:.9375rem;line-height:20px;letter-spacing:-.016em}
+.t-fn{font-size:.8125rem;line-height:18px;letter-spacing:-.006em}
+.t-c1{font-size:.75rem;line-height:16px;letter-spacing:0}
+.t-title1{font-size:1.75rem;line-height:34px;font-weight:700;letter-spacing:.014em}
+.c2{color:var(--label-2)}.num{font-variant-numeric:tabular-nums}
+
+.app{display:flex;min-height:100%}
+.side{position:sticky;top:0;align-self:flex-start;height:100vh;width:var(--side);flex-shrink:0;display:flex;flex-direction:column;gap:12px;padding:20px 12px 16px;
+  background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);border-right:.5px solid var(--glass-border)}
+.marke{padding:0 12px}
+.suche-knopf{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border-radius:var(--r-ctl);background:var(--fill);color:var(--label-2);text-align:left}
+.suche-knopf kbd{margin-left:auto;font:inherit;font-size:.75rem;background:var(--surface);border-radius:6px;padding:1px 6px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border-radius:var(--r-ctl);color:var(--label);text-decoration:none}
+.nav a:hover{background:var(--fill)}
+.nav a[aria-current="page"]{background:var(--fill-2);font-weight:600}
+.ico{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.ico svg{width:17px;height:17px}
+.mark{margin-top:auto;display:flex;align-items:center;gap:12px;min-height:56px;padding:0 12px;border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+.mark .rund{width:36px;height:36px;border-radius:50%;background:var(--fill);display:flex;align-items:center;justify-content:center;color:var(--label-2)}
+
+main{flex:1;min-width:0;padding-block:40px 64px;padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+.kopf{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+.kopf p{margin-top:4px}
+section>h2{margin-bottom:12px}
+.zeile-titel{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+
+.card{background:var(--surface);border-radius:var(--r-card);box-shadow:var(--shadow)}
+.gruppe{background:var(--surface);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden}
+.gruppe>li+li{border-top:.5px solid var(--sep)}
+.grid3{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid4{display:grid;gap:16px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.grid2{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}
+
+.knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:44px;padding:0 16px;border-radius:var(--r-ctl);font-size:1rem;font-weight:600;transition:transform .16s cubic-bezier(.2,.8,.2,1),filter .16s}
+.knopf:active{transform:scale(.97)}
+.primaer{background:var(--blue);color:#fff}.primaer:hover{filter:brightness(1.06)}
+.sekundaer{background:var(--fill);color:var(--blue-text)}.sekundaer:hover{background:var(--fill-2)}
+.knopf:disabled{opacity:.45;cursor:not-allowed}
+.feld{min-height:44px;width:100%;padding:0 12px;border-radius:var(--r-ctl);background:var(--fill);border:1px solid transparent}
+textarea.feld{padding:10px 12px;min-height:88px;resize:vertical}
+.feld::placeholder{color:var(--label-3)}
+:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(0,122,255,.35);border-radius:var(--r-ctl)}
+label.f{display:flex;flex-direction:column;gap:4px;min-width:0}
+label.f>span{font-size:.8125rem;line-height:18px;color:var(--label-2)}
+
+.pille{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:.75rem;line-height:16px;font-weight:600;white-space:nowrap;letter-spacing:0}
+.pille svg{width:12px;height:12px}
+.meta{background:var(--fill);color:var(--label-2);font-weight:500}
+.warn{background:var(--t-red);color:var(--red-text)}
+
+.top3 a{display:flex;flex-direction:column;gap:12px;height:100%;padding:20px;color:inherit;text-decoration:none;transition:box-shadow .2s}
+.top3 a:hover{box-shadow:var(--shadow-hover)}
+.platz{width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}
+.top3 .fuss{margin-top:auto}
+.clamp3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.clamp1{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+
+.tabs{display:flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:14px;background:var(--fill)}
+.tabs button{display:flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:10px;font-size:.9375rem;color:var(--label-2);font-weight:500}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--label);font-weight:600;box-shadow:var(--shadow)}
+.tabs .z{font-size:.75rem;color:var(--label-2)}
+.werkzeug{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:20px}
+.werkzeug .knopf{margin-left:auto}
+.filter{display:grid;gap:12px;grid-template-columns:minmax(0,1fr) 220px 220px;margin-bottom:24px}
+.mit-ico{position:relative}.mit-ico svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--label-3);pointer-events:none}
+.mit-ico .feld{padding-left:40px}
+
+.az{scroll-margin-top:96px}
+.az-kopf{display:flex;align-items:flex-start;gap:12px;padding:12px 16px}
+.haken{width:44px;height:44px;margin:-10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.haken span{width:24px;height:24px;border-radius:50%;border:2px solid var(--label-3);display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.haken[aria-pressed="true"] span{background:var(--green);border-color:var(--green)}
+.az-text{flex:1;min-width:0;text-align:left;border-radius:10px}
+.az-titel{display:flex;gap:8px;align-items:flex-start}
+.az-titel .t{flex:1}
+.az-titel svg{width:18px;height:18px;color:var(--label-3);flex-shrink:0;margin-top:2px;transition:transform .2s}
+.az-text[aria-expanded="true"] .az-titel svg{transform:rotate(180deg)}
+.erledigt .az-titel .t{text-decoration:line-through;color:var(--label-2)}
+.pillen{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.az-detail{display:grid;gap:12px;grid-template-columns:repeat(4,minmax(0,1fr));padding:16px;border-top:.5px solid var(--sep);background:var(--surface-2)}
+.az-detail .breit{grid-column:1/-1}
+.gruppen{display:flex;flex-direction:column;gap:24px}
+.gruppen h2{display:flex;align-items:baseline;gap:8px;padding:0 4px;margin-bottom:8px}
+
+.ziel{display:flex;flex-direction:column;gap:12px;padding:20px}
+.ziel .oben{display:flex;justify-content:space-between;gap:8px}
+.balken{height:8px;border-radius:99px;background:var(--fill);overflow:hidden}
+.balken div{height:100%;background:var(--green);border-radius:99px;transition:width .5s}
+.ziel form{display:flex;gap:8px}
+.stift{width:44px;height:44px;margin:-10px -12px 0 0;display:flex;align-items:center;justify-content:center;color:var(--blue-text);border-radius:var(--r-ctl)}
+.stift svg{width:17px;height:17px}
+
+.box{padding:20px;display:flex;flex-direction:column;gap:12px}
+.box h2{display:flex;align-items:center;gap:8px;margin:0}
+.box h2 svg{width:18px;height:18px}
+.liste-klein{display:flex;flex-direction:column;gap:8px}
+.liste-klein a{color:inherit;text-decoration:none}
+.liste-klein a:hover{text-decoration:underline}
+.briefing{display:flex;align-items:center;gap:16px;padding:24px}
+.briefing .ico{width:48px;height:48px;border-radius:14px}
+.briefing .ico svg{width:24px;height:24px}
+.briefing>div{flex:1;min-width:0}
+.ereignis{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding:12px 16px}
+.ereignis .d{flex-basis:100%}
+
+.partner{padding:20px;display:flex;flex-direction:column;gap:16px}
+.partner .oben{display:flex;align-items:center;gap:12px}
+.av{width:48px;height:48px;border-radius:14px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.25rem;font-weight:600;flex-shrink:0}
+.zahlen{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.zahlen div{background:var(--fill);border-radius:12px;padding:8px 0}
+.agent{padding:20px;display:flex;flex-direction:column;gap:12px}
+.agent .oben{display:flex;align-items:center;gap:12px}
+.agent .kreis{width:44px;height:44px;border-radius:50%;background:var(--fill);display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+.ampel{display:inline-flex;align-items:center;gap:6px}
+.ampel i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.werkz{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.leer{padding:56px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.leer .ico{width:64px;height:64px;border-radius:18px;margin-bottom:8px}
+.leer .ico svg{width:30px;height:30px}
+.leer p{max-width:520px}
+.hinweis{padding:16px 20px;border-radius:16px;background:var(--t-orange);color:var(--label)}
+
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.35);display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px}
+.dialog{width:100%;max-width:640px;border-radius:20px;border:.5px solid var(--glass-border);background:var(--glass-dicht);-webkit-backdrop-filter:saturate(180%) blur(32px);backdrop-filter:saturate(180%) blur(32px);box-shadow:var(--shadow-hover);overflow:hidden;animation:ein .3s cubic-bezier(.2,.8,.2,1) both}
+.pal-kopf{display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:.5px solid var(--sep)}
+.pal-kopf svg{width:20px;height:20px;color:var(--label-2)}
+.pal-kopf input{flex:1;min-height:56px;background:transparent;border:0;outline:0;font-size:1.25rem}
+.pal-kopf input:focus-visible{box-shadow:none}
+.pal-liste{max-height:50vh;overflow-y:auto;padding:8px}
+.pal-gruppe{padding:12px 12px 4px;font-size:.75rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--label-2)}
+.pal-liste button{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:0 12px;border-radius:12px;text-align:left}
+.pal-liste button .u{margin-left:auto;font-size:.8125rem;color:var(--label-2);white-space:nowrap}
+.pal-liste button[aria-selected="true"]{background:var(--blue);color:#fff}
+.pal-liste button[aria-selected="true"] .u{color:rgba(255,255,255,.85)}
+.blatt{max-width:560px;padding:24px;background:var(--surface);align-self:center}
+.blatt form{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+.blatt .breit{grid-column:1/-1}
+.blatt .aktionen{grid-column:1/-1;display:flex;justify-content:flex-end;gap:12px}
+
+@keyframes ein{from{opacity:0;transform:translateY(6px) scale(.99)}to{opacity:1;transform:none}}
+.ein{animation:ein .36s cubic-bezier(.2,.8,.2,1) both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}.knopf:active{transform:none}}
+@media (prefers-reduced-transparency:reduce){.side,.dialog{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--surface)}}
+
+@media (max-width:1100px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.az-detail{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .app{flex-direction:column}
+  .side{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;height:auto;width:100%;flex-direction:row;align-items:center;gap:8px;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-right:0;border-bottom:.5px solid var(--glass-border);overflow-x:auto}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+  .marke,.mark,.suche-knopf .txt,.suche-knopf kbd,.nav .txt{display:none}
+  .nav{flex-direction:row}
+  .nav a{padding:0 8px}
+  main{padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .grid3,.grid2{grid-template-columns:minmax(0,1fr)}
+  .filter{grid-template-columns:minmax(0,1fr)}
+  .briefing{flex-wrap:wrap}
+  .wrap{gap:32px}
+}
+@media (max-width:560px){.grid4,.az-detail,.blatt form{grid-template-columns:minmax(0,1fr)}.overlay{padding-top:8vh}}
+</style>
+
+<div class="app">
+  <nav class="side" aria-label="Hauptnavigation">
+    <div class="marke"><div class="t-t3">Cockpit</div><div class="t-fn c2">Clees &amp; Ernster</div></div>
+    <button class="suche-knopf" id="suche-knopf" aria-label="Suchen und Befehle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="txt t-sub">Suchen</span><kbd>⌘K</kbd></button>
+    <ul class="nav" id="nav"></ul>
+    <div class="mark" aria-disabled="true"><span class="rund"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></span><span><span class="t-hl" style="display:block">Mark</span><span class="t-fn c2">Stimme folgt in Phase 5</span></span></div>
+  </nav>
+  <main id="inhalt"><div class="wrap" id="seite"></div></main>
+</div>
+<div id="schicht"></div>
+
+<script>
+(() => {
+"use strict";
+const I = {
+  sonne:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  liste:'<path d="M11 6h10M11 12h10M11 18h10"/><path d="m3 6 1.5 1.5L7 5M3 12l1.5 1.5L7 11M3 18l1.5 1.5L7 17"/>',
+  mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+  haus:'<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/>',
+  klappe:'<path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 3.9M12.4 3.4l3.1 4M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/>',
+  bot:'<path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/>',
+  zahnrad:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>',
+  feuer:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.2.3 1.7 1.5 2.7 2.5 2.7Z"/>',
+  kal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  uhr:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  runter:'<circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12l4 4 4-4"/>',
+  achtung:'<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>',
+  sanduhr:'<path d="M5 22h14M5 2h14M17 22v-4.2a2 2 0 0 0-.6-1.4L12 12l-4.4 4.4a2 2 0 0 0-.6 1.4V22M7 2v4.2a2 2 0 0 0 .6 1.4L12 12l4.4-4.4a2 2 0 0 0 .6-1.4V2"/>',
+  schild:'<path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.7 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1Z"/><path d="m9 12 2 2 4-4"/>',
+  zeitung:'<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0V11a2 2 0 0 1 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8Z"/>',
+  stift:'<path d="M21.2 6.8a2.8 2.8 0 0 0-4-4L3.8 16.2a2 2 0 0 0-.5.8l-1.3 4.4a.5.5 0 0 0 .6.6l4.4-1.3a2 2 0 0 0 .8-.5Z"/>',
+  pfeil:'<path d="m6 9 6 6 6-6"/>',
+  haken:'<path d="M20 6 9 17l-5-5"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  lupe:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  punkt:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/>'
+};
+const ic = (n, extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${I[n]}</svg>`;
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+const NAV = [
+  {id:"heute",titel:"Heute",ico:"sonne",farbe:"var(--orange)"},
+  {id:"aufgaben",titel:"Aufgaben",ico:"liste",farbe:"var(--blue)"},
+  {id:"mails",titel:"Mails",ico:"mail",farbe:"var(--teal)"},
+  {id:"partner",titel:"Partner",ico:"haus",farbe:"var(--green)"},
+  {id:"content",titel:"Content",ico:"klappe",farbe:"var(--purple)"},
+  {id:"agenten",titel:"Agenten",ico:"bot",farbe:"var(--red)"},
+  {id:"einstellungen",titel:"Einstellungen",ico:"zahnrad",farbe:"var(--gray)"}
+];
+const STATUS = ["offen","in Arbeit","wartet","wartet auf Freigabe","prüfen","später","erledigt"];
+const BEREICHE = ["Akquise","Kunde","Content","Finanzen","Strategie","System"];
+const HEBEL = ["hoch","mittel","niedrig"];
+const ZUST = ["Danny","Mark","Alex","Organisator","Mail-Assistent","Drive-Agent","Akquise-Agent","Text-Agent","Erklärvideo-Agent","Motion-Design-Agent","Partner-Agent","Claude Code"];
+const PRIO_NAME = {1:"Sofort",2:"Planen",3:"Delegieren",4:"Später"};
+const PRIO_ERKL = {1:"wichtig und dringend",2:"wichtig, nicht dringend",3:"dringend, nicht wichtig",4:"weder wichtig noch dringend"};
+const PRIO_STIL = {1:["var(--t-red)","var(--red-text)","feuer"],2:["var(--t-blue)","var(--blue-text)","kal"],3:["var(--t-orange)","var(--orange-text)","uhr"],4:["var(--t-gray)","var(--label-2)","runter"]};
+const STATUS_STIL = {"offen":["var(--t-gray)","var(--label-2)"],"in Arbeit":["var(--t-blue)","var(--blue-text)"],"wartet":["var(--t-orange)","var(--orange-text)","sanduhr"],"wartet auf Freigabe":["var(--t-purple)","var(--purple-text)","schild"],"prüfen":["var(--t-orange)","var(--orange-text)","achtung"],"später":["var(--t-gray)","var(--label-2)"],"erledigt":["var(--t-green)","var(--green-text)"]};
+const ANSICHTEN = [["aktiv","Aktiv",["offen","in Arbeit"]],["wartet","Wartet",["wartet","wartet auf Freigabe"]],["pruefen","Prüfen",["prüfen"]],["spaeter","Später",["später"]],["erledigt","Erledigt",["erledigt"]],["alle","Alle",null]];
+const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)","var(--teal)","var(--red)"];
+
+const S = {
+  db:null, verbunden:false, geladen:{aufgaben:false,ziele:false,partner:false,agenten:false},
+  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[],
+  ansicht:"aktiv", fPartner:"", fZust:"", suche:"", offen:new Set(), fehler:null, nurLesen:false, renderOffen:false
+};
+
+const heute = () => new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Luxembourg"}).format(new Date());
+const datumDe = iso => { if(!iso) return ""; const [j,m,t] = String(iso).slice(0,10).split("-"); return `${t}.${m}.${j}`; };
+const zahl = new Intl.NumberFormat("de-DE",{maximumFractionDigits:0});
+const zeitDe = new Intl.DateTimeFormat("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit",timeZone:"Europe/Luxembourg"});
+
+function prio(a){ if(a.status==="erledigt") return null; if(a.wichtig==null||a.dringend==null) return null; if(a.wichtig&&a.dringend) return 1; if(a.wichtig) return 2; if(a.dringend) return 3; return 4; }
+const HG = {hoch:0,mittel:1,niedrig:2};
+function vergleich(a,b){ const pa=prio(a)??9, pb=prio(b)??9; if(pa!==pb) return pa-pb; const ha=HG[a.umsatzhebel]??3, hb=HG[b.umsatzhebel]??3; if(ha!==hb) return ha-hb; const fa=a.faelligAm||"9999", fb=b.faelligAm||"9999"; if(fa!==fb) return fa<fb?-1:1; return a.id.localeCompare(b.id); }
+const sortiert = () => [...S.aufgaben].sort(vergleich);
+const topDrei = () => sortiert().filter(a => (a.status==="offen"||a.status==="in Arbeit") && prio(a)!==null).slice(0,3);
+const ueberfaellig = a => a.status!=="erledigt" && a.faelligAm && a.faelligAm < heute();
+const partnerVon = a => Array.isArray(a.partner) ? a.partner : [];
+
+const pille = (bg,fg,inhalt,icon) => `<span class="pille" style="background:${bg};color:${fg}">${icon?ic(icon):""}${inhalt}</span>`;
+function prioPille(p){ if(p===null) return pille("var(--t-gray)","var(--label-2)","Einschätzen","achtung"); const [bg,fg,i]=PRIO_STIL[p]; return pille(bg,fg,`${p} ${PRIO_NAME[p]}`,i); }
+function statusPille(s){ const [bg,fg,i]=STATUS_STIL[s]||STATUS_STIL.offen; return pille(bg,fg,esc(s),i); }
+
+/* ---------- Ansichten ---------- */
+function ansichtAus(){ const h = location.hash.slice(1); if(NAV.some(n=>n.id===h)) return {seite:h}; if(/^AUF-\d+$/.test(h)) return {seite:"aufgaben", aufgabe:h}; return {seite:"heute"}; }
+
+function renderNav(){
+  const {seite} = ansichtAus();
+  document.getElementById("nav").innerHTML = NAV.map((n,i)=>`<li><a href="#${n.id}" ${seite===n.id?'aria-current="page"':""} title="${n.titel} (⌘${i+1})"><span class="ico" style="background:${n.farbe}">${ic(n.ico)}</span><span class="txt">${n.titel}</span></a></li>`).join("");
+}
+
+function kopf(titel, unter){ return `<div class="kopf"><div><h1 class="t-lt">${esc(titel)}</h1>${unter?`<p class="c2">${unter}</p>`:""}</div></div>`; }
+
+function verbindungsHinweis(){
+  if(S.db) return "";
+  if(!S.verbunden) return `<div class="hinweis t-sub">Das Gehirn wird verbunden …</div>`;
+  return `<div class="hinweis t-sub">Das Gehirn ist hier nicht erreichbar. Öffne das Cockpit angemeldet in Claude, damit Aufgaben geladen und gespeichert werden.</div>`;
+}
+
+function top3Html(){
+  if(!geladen()) return `<div class="card t-sub c2" style="padding:24px">Aufgaben werden geladen …</div>`;
+  const t = topDrei();
+  if(!t.length) return `<div class="card c2" style="padding:24px">Keine wichtigen, dringenden Aufgaben. Gute Zeit für „Planen“.</div>`;
+  return `<ol class="grid3 top3">${t.map((a,i)=>`<li class="card ein" style="animation-delay:${i*60}ms"><a href="#${a.id}"><span class="platz" aria-label="Platz ${i+1}">${i+1}</span><span class="t-hl">${esc(a.aufgabe)}</span>${a.naechsterSchritt?`<span class="t-sub c2 clamp3">${esc(a.naechsterSchritt)}</span>`:""}<span class="t-fn c2 fuss">${esc([partnerVon(a).join(", "), a.umsatzhebel&&`Hebel ${a.umsatzhebel}`, a.faelligAm&&`fällig ${datumDe(a.faelligAm)}`].filter(Boolean).join(" · "))}</span></a></li>`).join("")}</ol>`;
+}
+const geladen = () => S.geladen.aufgaben;
+
+function seiteHeute(){
+  const d = new Date();
+  const std = Number(new Intl.DateTimeFormat("de-DE",{hour:"numeric",hour12:false,timeZone:"Europe/Luxembourg"}).format(d));
+  const gruss = std<11?"Guten Morgen, Danny":std<18?"Hallo Danny":"Guten Abend, Danny";
+  const datum = new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"numeric",month:"long",timeZone:"Europe/Luxembourg"}).format(d);
+  const wartet = S.aufgaben.filter(a=>a.status==="wartet");
+  const pruefen = S.aufgaben.filter(a=>a.status==="prüfen").length;
+  const ziele = S.ziele.filter(z=>!String(z.ziel).startsWith("Bestand"));
+  return `${kopf(gruss, esc(datum))}
+  ${verbindungsHinweis()}
+  <section class="card briefing" aria-labelledby="h-brief"><span class="ico" style="background:var(--orange)">${ic("zeitung")}</span><div><h2 id="h-brief" class="t-hl">Morgen-Briefing</h2><p class="t-sub c2">Ab Phase 3 schreibt der Organisator hier jeden Morgen um 06:30 dein Briefing; ab Phase 5 liest Mark es dir vor.${pruefen?` Bis dahin: ${pruefen} alte Aufgaben warten auf deine Entscheidung.`:""}</p></div>${pruefen?`<a class="knopf sekundaer" href="#aufgaben" data-ansicht="pruefen">Prüfen</a>`:""}</section>
+  <section aria-labelledby="h-top"><div class="zeile-titel"><h2 id="h-top" class="t-t2">Top 3 heute</h2><a class="t-sub" style="font-weight:600;text-decoration:none" href="#aufgaben">Alle Aufgaben</a></div>${top3Html()}</section>
+  <div class="grid3">
+    <section class="card box" aria-labelledby="h-ter"><h2 id="h-ter" class="t-hl"><span style="color:var(--red-text);display:flex">${ic("kal")}</span>Termine</h2><p class="t-sub c2">Der Kalender wird in Phase 3 angebunden.</p></section>
+    <section class="card box" aria-labelledby="h-frei"><h2 id="h-frei" class="t-hl"><span style="color:var(--purple-text);display:flex">${ic("schild")}</span>Wartet auf deine Freigabe</h2><p class="t-sub c2">Nichts offen. Hier landen später Mail-Entwürfe, Posts und Dateiaktionen der Agenten.</p></section>
+    <section class="card box" aria-labelledby="h-wart"><h2 id="h-wart" class="t-hl"><span style="color:var(--orange-text);display:flex">${ic("sanduhr")}</span>Du wartest auf</h2>${wartet.length?`<ul class="liste-klein">${wartet.map(a=>`<li><a class="t-sub" href="#${a.id}">${esc(a.aufgabe)} <span class="c2">· ${esc(partnerVon(a).join(", "))}</span></a>${a.wartetAuf?`<div class="t-fn c2">${esc(a.wartetAuf)}</div>`:""}</li>`).join("")}</ul>`:`<p class="t-sub c2">${geladen()?"Nichts.":"…"}</p>`}</section>
+  </div>
+  <section aria-labelledby="h-ziele"><h2 id="h-ziele" class="t-t2">Ziele</h2>${ziele.length?`<div class="grid4">${ziele.map(zielHtml).join("")}</div>`:`<div class="card c2" style="padding:24px">${S.geladen.ziele?"Noch keine Ziele im Gehirn.":"Ziele werden geladen …"}</div>`}</section>
+  <section aria-labelledby="h-verl"><h2 id="h-verl" class="t-t2">Zuletzt im Gehirn</h2>${S.ereignisse.length?`<ul class="gruppe">${S.ereignisse.map(e=>`<li class="ereignis"><span class="t-fn c2 num">${esc(zeitDe.format(new Date(e.zeit)))}</span><span class="t-sub" style="font-weight:600">${esc(e.akteur)}</span><span class="t-sub">${esc(e.aktion)}${e.objekt?` · ${esc(e.objekt)}`:""}</span>${e.details?`<span class="t-fn c2 d">${esc(e.details)}</span>`:""}</li>`).join("")}</ul>`:`<div class="card t-sub c2" style="padding:20px">Noch keine Einträge.</div>`}</section>`;
+}
+
+function formatZ(w,einheit){ return einheit==="EUR" ? `${zahl.format(w)} €` : zahl.format(w); }
+function zielHtml(z){
+  const ist = Number(z.ist)||0, soll = Number(z.soll)||0, anteil = soll>0 ? Math.min(ist/soll,1) : 0;
+  const bearb = S.offen.has("ziel:"+z.id);
+  return `<div class="card ziel"><div class="oben"><div><div class="t-hl">${esc(z.ziel)}</div><div class="t-fn c2">${esc(z.einheit==="EUR"?z.zeitraum:`${z.einheit} · ${z.zeitraum}`)}</div></div><button class="stift" data-aktion="ziel-bearb" data-id="${esc(z.id)}" aria-label="Ist-Wert für ${esc(z.ziel)} eintragen" ${S.nurLesen?"disabled":""}>${ic("stift")}</button></div>
+  <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><span class="t-title1 num">${formatZ(ist,z.einheit)}</span><span class="t-sub c2">von ${formatZ(soll,z.einheit)}</span></div>
+  <div class="balken" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(anteil*100)}" aria-label="${esc(z.ziel)}: ${Math.round(anteil*100)} Prozent"><div style="width:${anteil*100}%"></div></div>
+  ${bearb?`<form data-form="ziel" data-id="${esc(z.id)}"><label style="flex:1"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Ist-Wert</span><input id="ziel-${esc(z.id)}" name="ist" class="feld" inputmode="decimal" value="${z.ist??""}"></label><button class="knopf primaer">Sichern</button></form>`:""}</div>`;
+}
+
+function seiteAufgaben(){
+  const offenAnz = S.aufgaben.filter(a=>a.status!=="erledigt").length;
+  const pruefAnz = S.aufgaben.filter(a=>a.status==="prüfen").length;
+  const v = ANSICHTEN.find(x=>x[0]===S.ansicht);
+  const s = S.suche.trim().toLowerCase();
+  const gef = sortiert().filter(a =>
+    (!v[2] || v[2].includes(a.status)) &&
+    (!S.fPartner || partnerVon(a).includes(S.fPartner) || (S.fPartner!=="C&E intern" && partnerVon(a).includes("Alle Partner"))) &&
+    (!S.fZust || a.zustaendig===S.fZust) &&
+    (!s || `${a.aufgabe} ${a.naechsterSchritt||""} ${a.id} ${partnerVon(a).join(" ")}`.toLowerCase().includes(s)));
+  const zaehl = id => { const x = ANSICHTEN.find(y=>y[0]===id); return x[2] ? S.aufgaben.filter(a=>x[2].includes(a.status)).length : S.aufgaben.length; };
+  const partnerNamen = S.partner.map(p=>p.name).sort();
+  let gruppen = "";
+  for(const g of [1,2,3,4,null]){
+    const liste = gef.filter(a => a.status==="erledigt" ? g===null : prio(a)===g);
+    if(!liste.length) continue;
+    const titel = g===null ? (S.ansicht==="erledigt"?"Erledigt":"Noch nicht eingeschätzt") : `${g} ${PRIO_NAME[g]}`;
+    const erkl = g===null ? (S.ansicht==="erledigt"?"":"Wichtig und Dringend setzen") : PRIO_ERKL[g];
+    gruppen += `<section aria-labelledby="g-${g}"><h2 id="g-${g}"><span class="t-t3">${titel}</span><span class="t-sub c2">${liste.length}${erkl?` · ${erkl}`:""}</span></h2><ul class="gruppe">${liste.map(zeileHtml).join("")}</ul></section>`;
+  }
+  return `${kopf("Aufgaben", geladen()?`${offenAnz} offen${pruefAnz?` · ${pruefAnz} zum Prüfen aus früheren Gesprächen`:""}`:"Wird geladen …")}
+  ${verbindungsHinweis()}
+  <section aria-labelledby="h-top"><h2 id="h-top" class="t-t2">Top 3 heute</h2>${top3Html()}</section>
+  <section aria-label="Aufgabenliste">
+    <div class="werkzeug"><div class="tabs" role="tablist" aria-label="Ansicht">${ANSICHTEN.map(([id,t])=>`<button role="tab" aria-selected="${S.ansicht===id}" data-aktion="ansicht" data-id="${id}">${t}<span class="z num">${zaehl(id)}</span></button>`).join("")}</div>
+    <button class="knopf primaer" data-aktion="neu" ${S.nurLesen||!S.db?"disabled":""}>${ic("plus",'width="18" height="18"')}Neue Aufgabe</button></div>
+    <div class="filter">
+      <label class="mit-ico">${ic("lupe")}<span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Aufgaben durchsuchen</span><input id="f-suche" class="feld" placeholder="Durchsuchen" value="${esc(S.suche)}"></label>
+      <label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Partner</span><select id="f-partner" class="feld"><option value="">Alle Partner</option>${[...partnerNamen,"C&E intern"].map(p=>`<option ${S.fPartner===p?"selected":""}>${esc(p)}</option>`).join("")}</select></label>
+      <label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Zuständig</span><select id="f-zust" class="feld"><option value="">Alle Zuständigen</option>${ZUST.map(z=>`<option ${S.fZust===z?"selected":""}>${z}</option>`).join("")}</select></label>
+    </div>
+    ${geladen() && !gef.length ? `<div class="card c2" style="padding:40px;text-align:center">Keine Aufgaben in dieser Ansicht.</div>` : ""}
+    <div class="gruppen">${gruppen}</div>
+  </section>`;
+}
+
+function auswahl(id, label, feld, wert, optionen, leer){
+  return `<label class="f"><span>${label}</span><select id="${id}" class="feld" data-feld="${feld}" ${S.nurLesen?"disabled":""}>${leer!==undefined?`<option value="">${leer}</option>`:""}${optionen.map(o=>`<option ${o===wert?"selected":""}>${esc(o)}</option>`).join("")}</select></label>`;
+}
+const jaNein = w => w===true?"ja":w===false?"nein":"";
+
+function zeileHtml(a){
+  const p = prio(a), erl = a.status==="erledigt", ue = ueberfaellig(a), offen = S.offen.has(a.id);
+  const pillen = [
+    erl ? "" : prioPille(p),
+    a.status!=="offen" ? statusPille(a.status) : "",
+    ...partnerVon(a).map(x=>`<span class="pille meta">${esc(x)}</span>`),
+    a.umsatzhebel ? `<span class="pille meta">Hebel: ${esc(a.umsatzhebel)}</span>` : "",
+    a.faelligAm ? `<span class="pille ${ue?"warn":"meta"}">${ue?"überfällig":"fällig"} ${datumDe(a.faelligAm)}</span>` : "",
+    a.zustaendig && a.zustaendig!=="Danny" ? `<span class="pille meta">${esc(a.zustaendig)}</span>` : ""
+  ].join("");
+  const k = a.id;
+  return `<li id="${k}" class="az ${erl?"erledigt":""}" data-id="${k}">
+    <div class="az-kopf">
+      <button class="haken" data-aktion="haken" aria-pressed="${erl}" aria-label="${esc(a.aufgabe)} ${erl?"wieder öffnen":"erledigen"}" ${S.nurLesen?"disabled":""}><span>${erl?ic("haken",'width="14" height="14" stroke="#fff" stroke-width="3"'):""}</span></button>
+      <button class="az-text" data-aktion="auf" aria-expanded="${offen}" aria-controls="d-${k}">
+        <div class="az-titel"><span class="t">${esc(a.aufgabe)}</span>${ic("pfeil")}</div>
+        <div class="pillen">${pillen}</div>
+        ${a.naechsterSchritt && !offen ? `<p class="t-sub c2 clamp1" style="margin-top:6px">${esc(a.naechsterSchritt)}</p>` : ""}
+      </button>
+    </div>
+    ${offen ? `<div class="az-detail ein" id="d-${k}">
+      ${auswahl(`s-${k}`,"Status","status",a.status,STATUS)}
+      ${auswahl(`w-${k}`,"Wichtig","wichtig",jaNein(a.wichtig),["ja","nein"],"offen")}
+      ${auswahl(`dr-${k}`,"Dringend","dringend",jaNein(a.dringend),["ja","nein"],"offen")}
+      ${auswahl(`h-${k}`,"Umsatzhebel","umsatzhebel",a.umsatzhebel||"",HEBEL,"–")}
+      <label class="f"><span>Fällig am</span><input id="fa-${k}" type="date" class="feld" data-feld="faelligAm" value="${esc(a.faelligAm||"")}" ${S.nurLesen?"disabled":""}></label>
+      ${auswahl(`z-${k}`,"Zuständig","zustaendig",a.zustaendig||"",ZUST,"–")}
+      ${auswahl(`b-${k}`,"Bereich","bereich",a.bereich||"",BEREICHE,"–")}
+      <label class="f"><span>Wartet auf / seit</span><input id="wa-${k}" class="feld" data-feld="wartetAuf" data-text value="${esc(a.wartetAuf||"")}" ${S.nurLesen?"disabled":""}></label>
+      <label class="f breit"><span>Nächster Schritt</span><textarea id="n-${k}" class="feld" data-feld="naechsterSchritt" data-text ${S.nurLesen?"disabled":""}>${esc(a.naechsterSchritt||"")}</textarea></label>
+      <p class="t-fn c2 breit">${esc(a.id)} · Quelle: ${esc(a.quelle||"–")} · erstellt ${datumDe(a.erstelltAm)}${a.projekt?` · Projekt: ${esc(a.projekt)}`:""}</p>
+    </div>` : ""}
+  </li>`;
+}
+
+function seitePartner(){
+  const offen = S.aufgaben.filter(a=>a.status!=="erledigt");
+  const pa = [...S.partner].sort((x,y)=>x.name.localeCompare(y.name));
+  return `${kopf("Partner", `${pa.length} aktive Partnerbetriebe`)}${verbindungsHinweis()}
+  <ul class="grid2">${pa.map((p,i)=>{ const eig = offen.filter(a=>partnerVon(a).includes(p.name)||partnerVon(a).includes("Alle Partner")); const sof = eig.filter(a=>prio(a)===1).length; const wa = eig.filter(a=>a.status==="wartet").length;
+    return `<li class="card partner ein" style="animation-delay:${i*50}ms"><div class="oben"><span class="av" style="background:${AV_FARBEN[i%AV_FARBEN.length]}">${esc(p.name.slice(0,1))}</span><div style="min-width:0"><h2 class="t-t3">${esc(p.name)}</h2><p class="t-fn c2">Partner-Agent folgt in Phase 6</p></div></div>
+    <dl class="zahlen"><div><dt class="t-c1 c2">offen</dt><dd class="t-t3 num">${eig.length}</dd></div><div><dt class="t-c1 c2">sofort</dt><dd class="t-t3 num" ${sof?'style="color:var(--red-text)"':""}>${sof}</dd></div><div><dt class="t-c1 c2">wartet</dt><dd class="t-t3 num">${wa}</dd></div></dl>
+    ${eig.length?`<ul class="liste-klein">${eig.sort(vergleich).slice(0,3).map(a=>`<li><a class="t-sub" href="#${a.id}">${esc(a.aufgabe)}</a></li>`).join("")}</ul>`:""}
+    <p class="t-fn c2" style="margin-top:auto">${p.driveOrdner?`Drive: ${esc(p.driveOrdner)}`:""}${p.web?` · ${esc(p.web)}`:""}</p></li>`; }).join("")}</ul>`;
+}
+
+function seiteAgenten(){
+  const EB = {1:["Stimme","Mit ihnen sprichst du."],2:["Kern-Team","Halten den Alltag zusammen."],3:["Fach-Agenten","Partnerbetriebe, Akquise und Content."]};
+  const ST = {aktiv:["var(--green)","aktiv"],pausiert:["var(--orange)","pausiert"],geplant:["var(--gray)","geplant"]};
+  const ag = [...S.agenten].sort((x,y)=>(x.ebene-y.ebene)||((x.reihe??0)-(y.reihe??0)));
+  return `${kopf("Agenten", `${ag.length} Agenten · ${ag.filter(a=>a.status==="aktiv").length} aktiv`)}${verbindungsHinweis()}
+  ${[1,2,3].map(e=>`<section aria-labelledby="eb-${e}"><h2 id="eb-${e}" class="t-t2" style="margin-bottom:2px">Ebene ${e}: ${EB[e][0]}</h2><p class="t-sub c2" style="margin-bottom:12px">${EB[e][1]}</p><ul class="grid3">${ag.filter(a=>a.ebene===e).map(a=>{ const [f,t]=ST[a.status]||ST.geplant; return `<li class="card agent"><div class="oben"><span class="kreis">${esc(a.name.replace("Partner-Agent ","").slice(0,1))}</span><div style="flex:1;min-width:0"><h3 class="t-hl">${esc(a.name)}</h3><p class="t-fn c2">${esc(a.rolle)}</p></div><span class="ampel t-fn"><i style="background:${f}"></i>${t}</span></div><p class="t-sub c2">${esc(a.beschreibung)}</p><div class="werkz">${(a.werkzeuge||[]).map(w=>`<span class="pille meta">${esc(w)}</span>`).join("")}</div><p class="t-fn c2">${a.status==="aktiv"?"Läuft in ElevenLabs":a.phase?`Wird in Phase ${a.phase} gebaut`:"Wartet auf Freischaltung"}</p></li>`; }).join("")}</ul></section>`).join("")}`;
+}
+
+function leer(titel, unter, ico, farbe, h, text, pill){
+  return `${kopf(titel, unter)}<div class="card leer ein"><span class="ico" style="background:${farbe}">${ic(ico)}</span><h2 class="t-t3">${h}</h2><p class="c2">${text}</p>${pill?`<span class="pille meta" style="margin-top:8px">${pill}</span>`:""}</div>`;
+}
+const seiteMails = () => leer("Mails","Zusammenfassungen und Antwortentwürfe","mail","var(--teal)","Der Mail-Assistent kommt in Phase 4","Er sortiert deinen Posteingang, fasst zusammen und schreibt Entwürfe. Jeder Entwurf landet hier mit „Freigeben, Bearbeiten, Verwerfen“; ohne dein OK geht nichts raus.","Wartet auf Gmail-Zugang");
+const seiteContent = () => leer("Content-Studio","Texte, Erklärvideos und Motion Design","klappe","var(--purple)","Die Content-Agenten kommen in Phase 7","Text-Agent, Erklärvideo-Agent und Motion-Design-Agent arbeiten mit deinen Skills copywriter-cockpit und motion-designer-cockpit sowie HyperFrames. Jedes Projekt läuft durch die Stufen Idee, Skript, Produktion, Freigabe, Live.");
+
+function seiteEinstellungen(){
+  const REG = [["Mails senden","nur nach Freigabe"],["Dateien teilen oder löschen","nur nach Freigabe"],["Kampagnen ändern","nur nach Freigabe"],["Inhalte veröffentlichen","nur nach Freigabe"],["Lesen, zusammenfassen, Entwürfe schreiben","selbstständig"],["Dateien einsortieren","selbstständig"]];
+  const z = [["Aufgaben",S.aufgaben.length],["Ziele",S.ziele.length],["Partner",S.partner.length],["Agenten",S.agenten.length]];
+  return `${kopf("Einstellungen")}
+  <section aria-labelledby="h-g"><h2 id="h-g" class="t-t3" style="margin-bottom:4px">Gehirn</h2><p class="t-sub c2" style="margin-bottom:12px">${S.db?"Verbunden. Die Daten liegen in der Datenbank dieses Artifacts; Claude kann sie lesen und schreiben.":"Nicht verbunden."} Hell oder Dunkel stellst du über Claude ein.</p><dl class="grid4">${z.map(([t,n])=>`<div class="card" style="padding:16px"><dt class="t-fn c2">${t}</dt><dd class="t-t2 num">${n}</dd></div>`).join("")}</dl></section>
+  <section aria-labelledby="h-r"><h2 id="h-r" class="t-t3">Freigaberegeln</h2><ul class="gruppe">${REG.map(([a,b])=>`<li style="display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:48px;padding:8px 16px"><span>${a}</span><span class="t-sub c2">${b}</span></li>`).join("")}</ul><p class="t-fn c2" style="margin-top:8px">Jede Aktion eines Agenten landet im Ereignis-Log des Gehirns.</p></section>
+  <section aria-labelledby="h-t"><h2 id="h-t" class="t-t3">Tastenkürzel</h2><ul class="gruppe">${[["Suchen und Befehle","⌘K"],["Heute … Einstellungen","⌘1 … ⌘7"],["Dialog schließen","esc"]].map(([a,b])=>`<li style="display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 16px"><span>${a}</span><kbd class="t-sub c2" style="font:inherit">${b}</kbd></li>`).join("")}</ul></section>`;
+}
+
+function render(){
+  const ae = document.activeElement;
+  if(ae && ae.matches && ae.matches("main textarea, main input[data-text], main input#f-suche, main form input")){ S.renderOffen = true; return; }
+  S.renderOffen = false;
+  renderNav();
+  const {seite} = ansichtAus();
+  const html = {heute:seiteHeute,aufgaben:seiteAufgaben,partner:seitePartner,agenten:seiteAgenten,mails:seiteMails,content:seiteContent,einstellungen:seiteEinstellungen}[seite]();
+  document.getElementById("seite").innerHTML = html;
+  document.title = "Cockpit";
+}
+
+/* ---------- Schreiben ins Gehirn ---------- */
+async function protokoll(aktion, objekt, details){
+  if(!S.db) return;
+  try{ await S.db.collection("ereignisse").add({zeit:new Date().toISOString(), akteur:"Danny", aktion, objekt, details}); }catch(e){}
+}
+function schreibFehler(e){
+  if(e && e.code==="invalid_argument"){ S.nurLesen = true; }
+  S.fehler = e && e.code==="invalid_argument" ? "Du hast hier nur Lesezugriff." : "Speichern hat nicht geklappt. Bitte noch einmal versuchen.";
+  zeigeToast(S.fehler); render();
+}
+const FELDNAME = {status:"Status",wichtig:"Wichtig",dringend:"Dringend",umsatzhebel:"Umsatzhebel",faelligAm:"Fällig am",zustaendig:"Zuständig",bereich:"Bereich",wartetAuf:"Wartet auf",naechsterSchritt:"Nächster Schritt"};
+async function aendere(id, feld, roh){
+  if(!S.db) return;
+  let wert = roh;
+  if(feld==="wichtig"||feld==="dringend") wert = roh==="ja"?true:roh==="nein"?false:null;
+  else if(typeof roh==="string"){ wert = roh.trim()===""?null:roh.trim(); }
+  const a = S.aufgaben.find(x=>x.id===id); if(!a) return;
+  if(a[feld]===wert) return;
+  try{
+    await S.db.doc("aufgaben/"+id).update({[feld]:wert, aktualisiertAm:new Date().toISOString()});
+    protokoll("Aufgabe geändert", id, `${FELDNAME[feld]}: ${wert===true?"ja":wert===false?"nein":wert??"leer"}`);
+  }catch(e){ schreibFehler(e); }
+}
+function naechsteId(){ const m = S.aufgaben.reduce((x,a)=>Math.max(x, Number(String(a.id).replace(/\D/g,""))||0),0); return "AUF-"+String(m+1).padStart(4,"0"); }
+async function lege(form){
+  const g = n => (form.elements[n]?.value||"").trim();
+  const titel = g("aufgabe"); if(!titel || !S.db) return null;
+  const id = naechsteId(), jetzt = new Date().toISOString(), jn = v => v==="ja"?true:v==="nein"?false:null;
+  const doc = {aufgabe:titel, partner:g("partner")?[g("partner")]:[], bereich:g("bereich")||null, wichtig:jn(g("wichtig")), dringend:jn(g("dringend")), umsatzhebel:g("umsatzhebel")||null, faelligAm:g("faelligAm")||null, zustaendig:g("zustaendig")||"Danny", status:"offen", wartetAuf:null, naechsterSchritt:g("naechsterSchritt")||null, quelle:"Cockpit", projekt:null, erstelltAm:jetzt.slice(0,10), aktualisiertAm:jetzt};
+  try{ await S.db.doc("aufgaben/"+id).set(doc); protokoll("Aufgabe angelegt", id, titel); return id; }
+  catch(e){ schreibFehler(e); return null; }
+}
+async function setzeZiel(id, roh){
+  if(!S.db) return;
+  const t = roh.trim().replace(/\./g,"").replace(",",".");
+  const w = t===""?null:Number(t);
+  if(w!==null && Number.isNaN(w)){ zeigeToast("Bitte eine Zahl eingeben, zum Beispiel 25.000"); return; }
+  try{ await S.db.doc("ziele/"+id).update({ist:w}); protokoll("Ziel aktualisiert", String(id), `Ist: ${w??"leer"}`); }
+  catch(e){ schreibFehler(e); }
+}
+
+let toastZeit;
+function zeigeToast(t){
+  let el = document.getElementById("toast");
+  if(!el){ el = document.createElement("div"); el.id="toast"; el.setAttribute("role","status"); el.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:60;padding:12px 18px;border-radius:14px;background:var(--label);color:var(--bg);font-size:.9375rem;box-shadow:var(--shadow-hover);max-width:calc(100% - 32px)"; document.body.appendChild(el); }
+  el.textContent = t; el.hidden = false; clearTimeout(toastZeit); toastZeit = setTimeout(()=>{ el.hidden = true; }, 4000);
+}
+
+/* ---------- Dialoge ---------- */
+const schicht = document.getElementById("schicht");
+let vorherFokus = null;
+function schliesseSchicht(){ schicht.innerHTML = ""; if(vorherFokus && vorherFokus.focus) vorherFokus.focus(); vorherFokus = null; }
+
+function oeffneNeu(){
+  vorherFokus = document.activeElement;
+  const opt = (n,l,o,std) => `<label class="f"><span>${l}</span><select id="neu-${n}" name="${n}" class="feld"><option value="">–</option>${o.map(x=>`<option ${x===std?"selected":""}>${esc(x)}</option>`).join("")}</select></label>`;
+  schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt" role="dialog" aria-modal="true" aria-labelledby="neu-titel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 id="neu-titel" class="t-t2">Neue Aufgabe</h2><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
+    <form id="neu-form">
+      <label class="f breit"><span>Aufgabe</span><input id="neu-aufgabe" name="aufgabe" class="feld" required placeholder="Was ist zu tun?"></label>
+      ${opt("partner","Partner",[...S.partner.map(p=>p.name).sort(),"C&E intern","Alle Partner"])}
+      ${opt("bereich","Bereich",BEREICHE)}
+      ${opt("wichtig","Wichtig",["ja","nein"])}
+      ${opt("dringend","Dringend",["ja","nein"])}
+      ${opt("umsatzhebel","Umsatzhebel",HEBEL)}
+      <label class="f"><span>Fällig am</span><input id="neu-faellig" type="date" name="faelligAm" class="feld"></label>
+      ${opt("zustaendig","Zuständig",ZUST,"Danny")}
+      <label class="f breit"><span>Nächster Schritt</span><textarea id="neu-schritt" name="naechsterSchritt" class="feld"></textarea></label>
+      <div class="aktionen"><button type="button" class="knopf sekundaer" data-schliessen-knopf>Abbrechen</button><button type="submit" class="knopf primaer">Anlegen</button></div>
+    </form></div></div>`;
+  document.getElementById("neu-aufgabe").focus();
+  document.getElementById("neu-form").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const btn = ev.target.querySelector('[type="submit"]'); btn.disabled = true; btn.textContent = "Speichert …";
+    const id = await lege(ev.target);
+    schliesseSchicht();
+    if(id){ S.ansicht="aktiv"; S.fPartner=""; S.fZust=""; S.suche=""; S.offen.add(id); zeigeToast(`Aufgabe ${id} angelegt`); location.hash = id; }
+  });
+}
+
+let palAuswahl = 0, palEintraege = [];
+function oeffnePalette(){
+  vorherFokus = document.activeElement;
+  schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog" role="dialog" aria-modal="true" aria-label="Befehlspalette">
+    <div class="pal-kopf">${ic("lupe")}<input id="pal-eingabe" placeholder="Suchen, springen, anlegen …" aria-label="Suchbegriff" aria-controls="pal-liste" autocomplete="off"><kbd class="t-c1 c2" style="font:inherit;font-size:.75rem">esc</kbd></div>
+    <ul class="pal-liste" id="pal-liste" role="listbox"></ul></div></div>`;
+  const inp = document.getElementById("pal-eingabe");
+  inp.addEventListener("input", ()=>{ palAuswahl = 0; palRender(inp.value); });
+  inp.addEventListener("keydown", e => {
+    if(e.key==="ArrowDown"){ e.preventDefault(); palAuswahl = Math.min(palAuswahl+1, palEintraege.length-1); palRender(inp.value); }
+    else if(e.key==="ArrowUp"){ e.preventDefault(); palAuswahl = Math.max(palAuswahl-1,0); palRender(inp.value); }
+    else if(e.key==="Enter"){ e.preventDefault(); palEintraege[palAuswahl]?.los(); }
+  });
+  palRender(""); inp.focus();
+}
+function palRender(q){
+  const liste = [
+    {g:"Aktionen", t:"Neue Aufgabe", ico:"plus", los:()=>{ schliesseSchicht(); location.hash="aufgaben"; setTimeout(oeffneNeu,50); }},
+    ...NAV.map((n,i)=>({g:"Gehe zu", t:n.titel, u:`⌘${i+1}`, ico:n.ico, los:()=>{ schliesseSchicht(); location.hash=n.id; }})),
+    ...sortiert().map(a=>({g:"Aufgaben", t:a.aufgabe, u:`${a.id} · ${a.status}`, s:`${partnerVon(a).join(" ")} ${a.naechsterSchritt||""}`, ico:"punkt", los:()=>{ schliesseSchicht(); S.ansicht="alle"; S.offen.add(a.id); location.hash=a.id; }}))
+  ];
+  const s = q.trim().toLowerCase();
+  palEintraege = s ? liste.filter(e=>`${e.t} ${e.u||""} ${e.s||""}`.toLowerCase().includes(s)).slice(0,30) : liste.filter(e=>e.g!=="Aufgaben");
+  let letzte = "";
+  const ul = document.getElementById("pal-liste");
+  ul.innerHTML = palEintraege.length ? palEintraege.map((e,i)=>{ const k = e.g!==letzte ? `<li role="presentation" class="pal-gruppe">${e.g}</li>` : ""; letzte = e.g; return `${k}<li role="presentation"><button role="option" id="pal-${i}" data-i="${i}" aria-selected="${i===palAuswahl}">${ic(e.ico,'width="18" height="18"')}<span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(e.t)}</span>${e.u?`<span class="u">${esc(e.u)}</span>`:""}</button></li>`; }).join("") : `<li class="t-sub c2" style="padding:16px 12px">Nichts gefunden.</li>`;
+  document.getElementById("pal-eingabe").setAttribute("aria-activedescendant", palEintraege.length?`pal-${palAuswahl}`:"");
+  ul.querySelector('[aria-selected="true"]')?.scrollIntoView({block:"nearest"});
+}
+
+schicht.addEventListener("click", e => {
+  const b = e.target.closest("#pal-liste button[data-i]"); if(b){ palEintraege[Number(b.dataset.i)]?.los(); return; }
+  if(e.target.closest("[data-schliessen-knopf]") || e.target.matches("[data-schliessen]")) schliesseSchicht();
+});
+schicht.addEventListener("mousemove", e => { const b = e.target.closest("#pal-liste button[data-i]"); if(b && Number(b.dataset.i)!==palAuswahl){ palAuswahl = Number(b.dataset.i); document.querySelectorAll("#pal-liste button").forEach(x=>x.setAttribute("aria-selected", x.dataset.i==palAuswahl)); } });
+
+/* ---------- Ereignisse der Seite ---------- */
+const seite = document.getElementById("seite");
+seite.addEventListener("click", e => {
+  const el = e.target.closest("[data-aktion]");
+  const ans = e.target.closest("[data-ansicht]"); if(ans){ S.ansicht = ans.dataset.ansicht; }
+  if(!el) return;
+  const akt = el.dataset.aktion, li = el.closest("[data-id]");
+  if(akt==="ansicht"){ S.ansicht = el.dataset.id; render(); }
+  else if(akt==="neu"){ oeffneNeu(); }
+  else if(akt==="auf"){ const id = li.dataset.id; S.offen.has(id)?S.offen.delete(id):S.offen.add(id); render(); }
+  else if(akt==="haken"){ const a = S.aufgaben.find(x=>x.id===li.dataset.id); if(a) aendere(a.id,"status",a.status==="erledigt"?"offen":"erledigt"); }
+  else if(akt==="ziel-bearb"){ const k="ziel:"+el.dataset.id; S.offen.has(k)?S.offen.delete(k):S.offen.add(k); render(); document.getElementById("ziel-"+el.dataset.id)?.focus(); }
+});
+seite.addEventListener("change", e => {
+  const t = e.target;
+  if(t.id==="f-partner"){ S.fPartner = t.value; render(); return; }
+  if(t.id==="f-zust"){ S.fZust = t.value; render(); return; }
+  const feld = t.dataset.feld; if(!feld) return;
+  const li = t.closest("[data-id]"); if(!li) return;
+  if(t.hasAttribute("data-text")) return; // Textfelder speichern beim Verlassen
+  aendere(li.dataset.id, feld, t.value);
+});
+seite.addEventListener("input", e => { if(e.target.id==="f-suche"){ S.suche = e.target.value; clearTimeout(seite._s); seite._s = setTimeout(()=>{ const pos = e.target.selectionStart; S.renderOffen=false; const f=document.activeElement; f.blur(); render(); const n=document.getElementById("f-suche"); if(n){ n.focus(); n.setSelectionRange(pos,pos); } }, 180); } });
+seite.addEventListener("focusout", e => {
+  const t = e.target;
+  if(t.hasAttribute && t.hasAttribute("data-text")){ const li = t.closest("[data-id]"); if(li) aendere(li.dataset.id, t.dataset.feld, t.value); }
+  setTimeout(()=>{ if(S.renderOffen && !(document.activeElement && document.activeElement.matches && document.activeElement.matches("main textarea, main input[data-text], main input#f-suche, main form input"))) render(); }, 0);
+});
+seite.addEventListener("submit", e => {
+  const f = e.target; if(f.dataset.form!=="ziel") return;
+  e.preventDefault(); const id = f.dataset.id; const w = f.elements.ist.value;
+  S.offen.delete("ziel:"+id); document.activeElement?.blur(); render(); setzeZiel(id, w);
+});
+
+document.getElementById("suche-knopf").addEventListener("click", oeffnePalette);
+window.addEventListener("keydown", e => {
+  const mod = e.metaKey || e.ctrlKey;
+  if(mod && e.key.toLowerCase()==="k"){ e.preventDefault(); schicht.innerHTML ? schliesseSchicht() : oeffnePalette(); return; }
+  if(mod && /^[1-7]$/.test(e.key)){ e.preventDefault(); location.hash = NAV[Number(e.key)-1].id; return; }
+  if(e.key==="Escape" && schicht.innerHTML){ e.preventDefault(); schliesseSchicht(); }
+});
+window.addEventListener("hashchange", () => {
+  const v = ansichtAus();
+  if(v.aufgabe){ if(!S.offen.has(v.aufgabe)){ S.offen.add(v.aufgabe); } const a = S.aufgaben.find(x=>x.id===v.aufgabe); if(a){ const pass = ANSICHTEN.find(x=>x[0]===S.ansicht); if(pass[2] && !pass[2].includes(a.status)) S.ansicht="alle"; } }
+  render();
+  if(v.aufgabe) requestAnimationFrame(()=>document.getElementById(v.aufgabe)?.scrollIntoView({block:"center"}));
+  else window.scrollTo(0,0);
+});
+
+/* ---------- Gehirn verbinden ---------- */
+render();
+(async () => {
+  let db = null;
+  try{ db = window.claude && window.claude.use ? await window.claude.use("db") : null; }catch(e){ db = null; }
+  S.verbunden = true;
+  if(!db){ render(); return; }
+  S.db = db;
+  const abo = (name, setze, q) => (q||db.collection(name)).onSnapshot(snap => { setze(snap.docs.map(d=>({id:d.id, ...d.data()}))); S.geladen[name]=true; render(); }, err => { if(err && err.code==="revoked"){ S.db=null; } render(); });
+  abo("aufgaben", v => S.aufgaben = v);
+  abo("ziele", v => S.ziele = v.sort((a,b)=>String(a.id).localeCompare(String(b.id))));
+  abo("partner", v => S.partner = v);
+  abo("agenten", v => S.agenten = v);
+  abo("ereignisse", v => S.ereignisse = v, db.collection("ereignisse").orderBy("zeit","desc").limit(8));
+  const v = ansichtAus(); if(v.aufgabe){ S.ansicht="alle"; S.offen.add(v.aufgabe); }
+  render();
+})();
+})();
+</script>
