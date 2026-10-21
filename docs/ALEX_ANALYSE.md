@@ -1,6 +1,6 @@
 # Analyse: ElevenLabs-Agent „Alex“ (Hormozi-Wissen)
 
-> Stand: 21.10.2026 · nur gelesen, nichts verändert
+> Stand: 21.10.2026 · Analyse; die Bereinigung wurde am selben Tag umgesetzt (siehe unten)
 
 ## Kurzfazit
 
@@ -76,3 +76,12 @@ Alex ist **inhaltlich gut gedacht**: klare Rolle (Angebote, Leads, Skripte nach 
 4. Prompt aufräumen: Tool-Namen korrigieren, Dubletten raus, erste Nachricht korrigieren.
 5. Speicherung künftig ins Cockpit-Backend statt über Make. Der Organisator übernimmt die Zuordnung.
 6. Die 21 verwaisten Dokumente im Workspace löschen.
+
+## Umsetzung (21.10.2026, freigegeben von Danny)
+
+- **Behalten (15 Dokumente):** $100M Leads, $100M Offers, Money-Models-Bonuskapitel, Money-Models-Launch-Handbuch, Setter- & Warm-Outreach-Skripte, Messenger-Setter-Skript, Core Offer, Niche, Pricing, Bonuses, Scarcity & Urgency, Guarantee, MAGIC Naming, Agenten-Framework-Playbook, neue Firmendaten (Stand 10/2026)
+- **Gelöscht aus Alex' Wissen:** Quellenindex (2×), Offizielle Ressourcen (2×), Community-Prüfung (2×), Compliance-Notiz (2×), Lieferpaket (2×), ältere Playbook-Version, alte Firmendaten (2×), Affiliate Black Book und Workshop Black Book (Event-Werbematerial)
+- **Workspace:** 21 verwaiste Dokumente gelöscht. Beim Website-Agent-C&E 3 identische Doppel entfernt, je eine Kopie bleibt angehängt.
+- **Konfiguration:** Modell `claude-sonnet-5-5`, Temperatur 0,3, RAG an, Zeitzone Europe/Luxembourg, neuer Prompt, Begrüßung „Hey Danny, Alex hier. Lass uns loslegen – woran arbeiten wir?“
+- **Ergebnis:** 199 → 92 Seiten Wissen.
+- **Nicht angefasst:** die anderen Agenten (Website-, Rezeptions-, Pizzeria-Agenten) und deren Prompts. Die Test-/Demo-Agenten („test cederic“, „receptionist“, „Tassa“, „Agents v3 Demo“) bestehen weiter.

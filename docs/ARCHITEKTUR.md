@@ -135,9 +135,16 @@ Details: `docs/ALEX_ANALYSE.md`, `docs/AUFGABEN_SYSTEM.md`.
 | Betrieb | zunächst lokal auf Dannys Rechner |
 | Figma | Standard: klickbare HTML-Prototypen (View-Seat) |
 
-## 6. Noch offen
+## 6. Umgesetzt am 21.10.2026
 
-- Freigabe Alex-Bereinigung (Wissen, RAG, Modell, Prompt)
-- Freigabe Löschung von 21 verwaisten ElevenLabs-Dokumenten
-- Freigabe Master-Aufgaben-Sheet statt `TASKS.md`
+- **ElevenLabs bereinigt:** 39 Dokumente gelöscht (Dubletten, Link- und Quellenlisten, Meta-Notizen, verwaiste Dokumente). Ordnerstruktur: „Alex – Hormozi-Wissen“, „C&E – Firmendaten“, „Kunden-Agenten“.
+- **Alex:** Modell `claude-sonnet-5-5`, RAG an (`multilingual_e5_large_instruct`), Zeitzone Europe/Luxembourg, Prompt neu (Tool-Name `Alex-Agent` korrigiert), Begrüßung korrigiert, Wissen von 199 auf 92 Seiten.
+- **Drive:** `Dashboard/_System/Cockpit-Aufgaben` (Master-Sheet: Aufgaben, Ziele, Listen, Anleitung) und `Dashboard/07_Ressourcen/Hormozi-Wissen/00_Übersicht Hormozi-Wissen`.
+- `TASKS.md` bleibt unverändert als Archiv bestehen; die Inhalte stehen jetzt im Master-Sheet.
+
+## 7. Noch offen
+
 - Drive-Ordner „Hausman“ in „Hausmann“ umbenennen? (Domain ist hausman.lu)
+- 6 Aufgaben mit Status „prüfen“ (aus Alex-Gesprächen im Mai) entscheiden
+- Fälligkeitsdaten im Master-Sheet ergänzen
+- Gmail-Zugang, Adspirer-Abo

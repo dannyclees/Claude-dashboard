@@ -1,4 +1,4 @@
-# Aufgaben-System: Bestand und Vorschlag
+# Aufgaben-System: Bestand und Umsetzung
 
 > Stand: 21.10.2026
 
@@ -80,3 +80,13 @@
 
 **Danach:** Marketing-Testabo definieren (das ist dein Angebot), Google-Bewertungen, Förder-Rechner als Lead-Magnet.
 **Kann warten:** LinkedIn-Profil (wichtig, aber nicht dringend), E-Mail-Liste.
+
+## Umgesetzt (21.10.2026)
+
+Google Sheet **`Dashboard/_System/Cockpit-Aufgaben`**, Gebietsschema Deutsch, Zeitzone Europe/Luxembourg:
+- **Aufgaben:** 25 Einträge (19 aus `TASKS.md`, 6 aus dem Alex-Sheet mit Status „prüfen“). Die Priorität wird per Formel aus Wichtig/Dringend berechnet (1 Sofort … 4 Später). Dropdowns für Partner, Bereich, Wichtig/Dringend, Umsatzhebel, Zuständig und Status. Überfällige Termine werden rot markiert, erledigte grau.
+- **Ziele:** Neuumsatz, Website-Projekte, Jahresverträge, Pipeline, Bestand. Soll aus `TASKS.md`, Ist als gelbes Eingabefeld, Fortschritt per Formel.
+- **Listen:** Auswahlwerte, erweiterbar.
+- **Anleitung:** Regeln für Status, Priorität und neue Einträge.
+
+Fälligkeitsdaten sind noch leer, weil `TASKS.md` keine hatte. Wichtig/Dringend ist meine Ersteinschätzung und kann jederzeit geändert werden.
