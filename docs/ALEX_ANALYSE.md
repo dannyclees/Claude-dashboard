@@ -56,7 +56,7 @@ Alex ist **inhaltlich gut gedacht**: klare Rolle (Angebote, Leads, Skripte nach 
 ### Lücken
 - **$100M Money Models** fehlt, bis auf das Bonuskapitel (Attraction-, Upsell-, Downsell- und Continuity-Angebote).
 - Ein klares **Verkaufsgespräch-Framework** (z. B. CLOSER) fehlt als eigenes Dokument.
-- Eigene **C&E-Fälle** fehlen: Hausmann-Zahlen, Angebote, Preise. Gerade die machen Alex für dich spezifisch.
+- Eigene **C&E-Fälle** fehlen: Hausman-Zahlen, Angebote, Preise. Gerade die machen Alex für dich spezifisch.
 
 ## Google Sheet „Alex-Agent“
 

@@ -78,7 +78,7 @@ Lose Dateien im Hauptordner sortiert der Drive-Agent erst nach Freigabe ein.
 | 2 | **Organisator** | Calendar-API, Gehirn (Aufgaben, Ziele, Übergaben), Wispr-Flow-Meetings, Alex-Gespräche |
 | 2 | **Mail-Assistent** | Gmail-API (nur lesen + Entwürfe) – Zugang folgt |
 | 2 | **Drive-Agent** | Drive-API, Ordner `Dashboard` |
-| 3 | **Partner-Agent Hausmann** | `04_Kunden/Hausman`, Meta Ads (Adspirer), monday-Boards |
+| 3 | **Partner-Agent Hausman** | `04_Kunden/Hausman`, Meta Ads (Adspirer), monday-Boards |
 | 3 | **Partner-Agent Ytter Design** | `04_Kunden/YtterDesign` |
 | 3 | **Partner-Agent Berdorfer Käse** | `04_Kunden/Berdorfer_Kaese` |
 | 3 | **Partner-Agent Peinture de l'Est** | `04_Kunden/Peinture_de_lEst`, HyperFrames |
@@ -104,7 +104,7 @@ Dashboard/07_Ressourcen/Hormozi-Wissen/      ← EINE bereinigte Quelle (Markdow
 ```
 
 - Der Skill enthält die verdichteten Frameworks (Value Equation, Grand Slam Offer, Core Four, Lead Getters, Money Models, Preis/Garantie/Bonus) plus Verweise auf die Volltexte.
-- Eigene C&E-Fälle (Hausmann-Zahlen, Angebote, Preise) kommen dazu. Sie machen das Wissen erst spezifisch.
+- Eigene C&E-Fälle (Hausman-Zahlen, Angebote, Preise) kommen dazu. Sie machen das Wissen erst spezifisch.
 - Rechtlicher Rahmen wie in der bestehenden Compliance-Notiz: offizielle Acquisition.com-Materialien und eigene Zusammenfassungen, keine kopierten Buch-Volltexte.
 - Rollen: **Alex denkt mit** (Sparring per Sprache), **der Akquise-Agent setzt um** (Listen, Entwürfe, Nachfassen). Mark kann dich per Sprache an Alex übergeben.
 
@@ -122,8 +122,8 @@ Details: `docs/ALEX_ANALYSE.md`, `docs/AUFGABEN_SYSTEM.md`.
 
 | Thema | Entscheidung |
 |---|---|
-| Aktive Partner | Hausmann, Ytter Design, Berdorfer Käse, Peinture de l'Est |
-| Schreibweise | **Hausmann** (mit zwei n) |
+| Aktive Partner | Hausman, Ytter Design, Berdorfer Käse, Peinture de l'Est |
+| Schreibweise | **Hausman** (mit einem n, wie die Domain hausman.lu) |
 | Morgen-Briefing | fertig um **06:30**, Danny im Büro ab 07:00 |
 | Tagesabschluss | **18:00** |
 | Zeitzone | Europe/Luxembourg |
@@ -140,11 +140,10 @@ Details: `docs/ALEX_ANALYSE.md`, `docs/AUFGABEN_SYSTEM.md`.
 - **ElevenLabs bereinigt:** 39 Dokumente gelöscht (Dubletten, Link- und Quellenlisten, Meta-Notizen, verwaiste Dokumente). Ordnerstruktur: „Alex – Hormozi-Wissen“, „C&E – Firmendaten“, „Kunden-Agenten“.
 - **Alex:** Modell `claude-sonnet-5-5`, RAG an (`multilingual_e5_large_instruct`), Zeitzone Europe/Luxembourg, Prompt neu (Tool-Name `Alex-Agent` korrigiert), Begrüßung korrigiert, Wissen von 199 auf 92 Seiten.
 - **Drive:** `Dashboard/07_Ressourcen/Hormozi-Wissen/00_Übersicht Hormozi-Wissen`.
-- **Aufgaben:** Entscheidung von Danny: Aufgaben leben im Gehirn des Cockpits, nicht in einem Sheet. Startdaten (25 Aufgaben, Ziele, Partner) liegen in `brain/seed/`. `TASKS.md` bleibt als Archiv. Das am 21.10. angelegte Sheet `_System/Cockpit-Aufgaben` wird nicht weitergeführt.
+- **Aufgaben:** Entscheidung von Danny: Aufgaben leben im Gehirn des Cockpits, nicht in einem Sheet. Startdaten (25 Aufgaben, Ziele, Partner) liegen in `brain/seed/`. `TASKS.md` bleibt als Archiv. Das am 21.10. angelegte Sheet `_System/Cockpit-Aufgaben` bleibt liegen, wird aber nicht gepflegt.
 
 ## 7. Noch offen
 
-- Drive-Ordner „Hausman“ in „Hausmann“ umbenennen? (Domain ist hausman.lu)
 - 6 Aufgaben mit Status „prüfen“ (aus Alex-Gesprächen im Mai) entscheiden
 - Fälligkeitsdaten ergänzen (im Dashboard, sobald es steht)
 - Gmail-Zugang, Adspirer-Abo

@@ -13,7 +13,7 @@ Aufgaben leben **im Gehirn des Cockpits** (siehe `brain/README.md`), nicht in ei
 | `Dashboard/TASKS/TASKS.md` (Google Doc) | Inhalte übernommen nach `brain/seed/aufgaben.json`. Das Doc bleibt als Archiv. |
 | Google Sheet „Alex-Agent“ → `02_TASKS` | 6 offene Punkte übernommen, Status „prüfen“ |
 | monday.com CRM | bleibt CRM für Leads und Projekte, keine persönlichen Aufgaben |
-| `Dashboard/_System/Cockpit-Aufgaben` (Sheet vom 21.10.) | Zwischenstand, wird nicht weitergeführt |
+| `Dashboard/_System/Cockpit-Aufgaben` (Sheet vom 21.10.) | bleibt liegen, falls es gebraucht wird; wird nicht gepflegt |
 
 ## Felder einer Aufgabe
 
@@ -36,7 +36,7 @@ Neuumsatz +140.000 €, 4 Website-Projekte, 4 Jahresverträge, Pipeline 5–6 qu
 ## Erste Einschätzung (Hormozi-Brille)
 
 **Top 3 mit dem größten Hebel aufs 140k-Ziel:**
-1. **Ergebniszahlen Hausmann + Video-Testimonial:** Beweise sind die Grundlage jeder Akquise.
+1. **Ergebniszahlen Hausman + Video-Testimonial:** Beweise sind die Grundlage jeder Akquise.
 2. **Empfehlungen aktiv anfragen:** Warm Outreach ist die günstigste Lead-Quelle.
 3. **Förderablauf klären:** Zwei Websites à ca. 25.000 € hängen daran.
 
