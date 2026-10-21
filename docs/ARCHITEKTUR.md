@@ -1,6 +1,6 @@
 # Cockpit – Architektur (Phase 0, ENTWURF)
 
-> Status: **Entwurf, weitgehend abgestimmt.** Offene Punkte siehe Abschnitt 6.
+> Status: Phase 0 abgeschlossen, Phase 1 umgesetzt (siehe `docs/PHASE1.md`).
 > Stand: 21.10.2026
 
 ## 1. Bestandsaufnahme der Verbindungen
@@ -112,7 +112,7 @@ Details: `docs/ALEX_ANALYSE.md`, `docs/AUFGABEN_SYSTEM.md`.
 
 ## 4. Technische Standardentscheidungen
 
-- Monorepo: `apps/web` (Next.js App Router, TypeScript, Tailwind) + `apps/agents` (Claude Agent SDK, TypeScript) + `agents/*.md` (Agenten-Konfiguration).
+- **Eine Next.js-App** im Repo-Hauptordner (Entscheidung in Phase 1): Oberfläche, Server-Aktionen und später die Agenten-Jobs greifen direkt auf das Gehirn zu. Agenten-Konfiguration ab Phase 2 in `agents/*.md`.
 - **Gehirn:** SQLite über Drizzle ORM als einzige Quelle für Aufgaben, Ziele, Partner, Agenten, Übergaben, Freigaben, Gespräche, Ereignis-Log und Gedächtnis. Drive speichert nur Dateien; das Gehirn wird täglich nach `_System/Backup` gesichert.
 - Zeitsteuerung: Node-Scheduler im Backend (`node-cron`), Zeitzone `Europe/Luxembourg`.
 - Mark: ElevenLabs Conversational AI mit Client-Tools, die das Backend über eine gesicherte API aufrufen.

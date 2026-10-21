@@ -7,21 +7,25 @@
     "quellen": [
       "Meta Ads (Adspirer)",
       "monday-Boards"
-    ]
+    ],
+    "id": "hausman"
   },
   {
     "name": "Ytter Design",
     "drive_ordner": "04_Kunden/YtterDesign",
-    "status": "aktiv"
+    "status": "aktiv",
+    "id": "ytter"
   },
   {
     "name": "Berdorfer Käse",
     "drive_ordner": "04_Kunden/Berdorfer_Kaese",
-    "status": "aktiv"
+    "status": "aktiv",
+    "id": "berdorfer"
   },
   {
     "name": "Peinture de l'Est",
     "drive_ordner": "04_Kunden/Peinture_de_lEst",
-    "status": "aktiv"
+    "status": "aktiv",
+    "id": "peinture"
   }
 ]

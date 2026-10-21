@@ -1,0 +1,185 @@
+[
+  {
+    "id": "mark",
+    "name": "Mark",
+    "ebene": 1,
+    "rolle": "Stimme & Ausführung",
+    "beschreibung": "Dein Mitarbeiter, mit dem du sprichst. Nimmt Aufträge an, verteilt sie an die Agenten und meldet zurück.",
+    "werkzeuge": [
+      "ElevenLabs",
+      "Gehirn"
+    ],
+    "status": "geplant",
+    "phase": 5
+  },
+  {
+    "id": "alex",
+    "name": "Alex",
+    "ebene": 1,
+    "rolle": "Stratege & Sparringspartner",
+    "beschreibung": "Denkt mit dir nach den Hormozi-Frameworks: Angebote, Leads, Money Models, Skripte.",
+    "werkzeuge": [
+      "ElevenLabs",
+      "Hormozi-Wissen"
+    ],
+    "status": "aktiv",
+    "phase": null
+  },
+  {
+    "id": "organisator",
+    "name": "Organisator",
+    "ebene": 2,
+    "rolle": "Aufgaben & Prioritäten",
+    "beschreibung": "Pflegt deine Aufgaben, priorisiert nach Wichtigkeit und Umsatzhebel, schreibt Morgen-Briefing und Tagesabschluss.",
+    "werkzeuge": [
+      "Gehirn",
+      "Kalender",
+      "Wispr Flow"
+    ],
+    "status": "geplant",
+    "phase": 3
+  },
+  {
+    "id": "mail-assistent",
+    "name": "Mail-Assistent",
+    "ebene": 2,
+    "rolle": "Posteingang",
+    "beschreibung": "Sortiert und fasst Mails zusammen, schreibt Entwürfe in deinem Stil. Sendet nie ohne Freigabe.",
+    "werkzeuge": [
+      "Gmail"
+    ],
+    "status": "geplant",
+    "phase": 4
+  },
+  {
+    "id": "drive-agent",
+    "name": "Drive-Agent",
+    "ebene": 2,
+    "rolle": "Dateien",
+    "beschreibung": "Hält den Drive-Ordner Dashboard sauber, sortiert neue Dateien ein und meldet sie dem Gehirn.",
+    "werkzeuge": [
+      "Google Drive"
+    ],
+    "status": "geplant",
+    "phase": 2
+  },
+  {
+    "id": "partner-hausman",
+    "name": "Partner-Agent Hausman",
+    "ebene": 3,
+    "rolle": "Partnerbetrieb",
+    "beschreibung": "Kennt Marke, Kampagnen, Deadlines und Ansprechpartner von Hausman.",
+    "werkzeuge": [
+      "Gehirn",
+      "Drive 04_Kunden/Hausman",
+      "Meta Ads",
+      "monday"
+    ],
+    "status": "geplant",
+    "phase": 6
+  },
+  {
+    "id": "partner-ytter",
+    "name": "Partner-Agent Ytter Design",
+    "ebene": 3,
+    "rolle": "Partnerbetrieb",
+    "beschreibung": "Kennt Marke, Projekte und Ansprechpartner von Ytter Design.",
+    "werkzeuge": [
+      "Gehirn",
+      "Drive 04_Kunden/YtterDesign"
+    ],
+    "status": "geplant",
+    "phase": 6
+  },
+  {
+    "id": "partner-berdorfer",
+    "name": "Partner-Agent Berdorfer Käse",
+    "ebene": 3,
+    "rolle": "Partnerbetrieb",
+    "beschreibung": "Kennt Marke, Projekte und Ansprechpartner von Berdorfer Käse.",
+    "werkzeuge": [
+      "Gehirn",
+      "Drive 04_Kunden/Berdorfer_Kaese"
+    ],
+    "status": "geplant",
+    "phase": 6
+  },
+  {
+    "id": "partner-peinture",
+    "name": "Partner-Agent Peinture de l'Est",
+    "ebene": 3,
+    "rolle": "Partnerbetrieb",
+    "beschreibung": "Kennt Marke, Projekte und Ansprechpartner von Peinture de l'Est.",
+    "werkzeuge": [
+      "Gehirn",
+      "Drive 04_Kunden/Peinture_de_lEst",
+      "HyperFrames"
+    ],
+    "status": "geplant",
+    "phase": 6
+  },
+  {
+    "id": "akquise",
+    "name": "Akquise-Agent",
+    "ebene": 3,
+    "rolle": "Neukunden",
+    "beschreibung": "Setzt die Hormozi-Strategie um: Empfehlungen, Outreach-Entwürfe, Nachfassen, Pipeline.",
+    "werkzeuge": [
+      "Gehirn",
+      "Hormozi-Wissen"
+    ],
+    "status": "geplant",
+    "phase": 7
+  },
+  {
+    "id": "text",
+    "name": "Text-Agent",
+    "ebene": 3,
+    "rolle": "Texte",
+    "beschreibung": "Ads, Hooks, Skripte, Landingpages, E-Mails.",
+    "werkzeuge": [
+      "copywriter-cockpit"
+    ],
+    "status": "geplant",
+    "phase": 7
+  },
+  {
+    "id": "erklaervideo",
+    "name": "Erklärvideo-Agent",
+    "ebene": 3,
+    "rolle": "Erklärvideos",
+    "beschreibung": "Skript, Storyboard, Voiceover, Video.",
+    "werkzeuge": [
+      "motion-designer-cockpit",
+      "HyperFrames",
+      "ElevenLabs"
+    ],
+    "status": "geplant",
+    "phase": 7
+  },
+  {
+    "id": "motion",
+    "name": "Motion-Design-Agent",
+    "ebene": 3,
+    "rolle": "Motion Design",
+    "beschreibung": "Animierte Ads, Reels, Bauchbinden, Overlays, Hook-Varianten.",
+    "werkzeuge": [
+      "motion-designer-cockpit",
+      "HyperFrames"
+    ],
+    "status": "geplant",
+    "phase": 7
+  },
+  {
+    "id": "performance",
+    "name": "Performance-Agent",
+    "ebene": 3,
+    "rolle": "Kampagnen-Zahlen",
+    "beschreibung": "Behält die Kampagnen der Partner im Blick und meldet Auffälligkeiten. Nur lesend.",
+    "werkzeuge": [
+      "Adspirer"
+    ],
+    "status": "geplant",
+    "phase": null
+  }
+]
