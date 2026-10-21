@@ -16,3 +16,4 @@
 - Version 13: „Wartet auf deine Freigabe“ als kompakte Liste, Text zum Aufklappen.
 - Version 14: Startseite als Desktop-Übersicht: 6 Mini-Kennzahlen, Briefing und Top 3, „Wer macht was“ (Danny und Agenten mit Aufgaben, Freigaben, letzter Aktion), Anrufen, Freigaben (Dialog), Pipeline, Wochenfokus, Gespräche, Zuletzt passiert.
 - Version 15: Anrufliste zeigt den Zweck jedes Anrufs als farbiges Etikett mit Farbstreifen (Empfehlung anfragen, Empfehlung, Termin fixieren/vorbereiten, Rückruf, Nachfassen, Unterlagen, Erstanruf).
+- Version 16: „Mein Tag“ (Aufgaben-Board Als Nächstes/Heute/In Arbeit/Wartet/Erledigt, ziehen, Tag abschließen), „Kurz gefragt“ (Fragen zum Ankreuzen, Antwort wird direkt umgesetzt, Sammlung `fragen`), Kampagnenplan (Sammlung `kampagnen`, Vorbereitung wird 21 Tage vorher an Agenten verteilt), Partner-Kennzahlen beschriftet, Content-Seite entfernt.

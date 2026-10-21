@@ -180,6 +180,35 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .chance .oben{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .chance-felder{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .chance-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
+.tagboard .tile-kopf{flex-wrap:wrap}
+.fr-liste{display:flex;flex-direction:column}
+.fr-liste>li{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:8px 0;min-height:52px}
+.fr-liste>li+li{border-top:.5px solid var(--sep)}
+.fr-text{display:flex;flex-direction:column;min-width:0;flex:1}
+.fr-akt{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.fr-datum{width:auto;min-height:36px}
+.fr-spaeter{color:var(--label-2)}
+.fragen{border:1px solid var(--t-orange)}
+.mini-liste.scroll{max-height:360px;overflow:auto}
+.p-block{display:flex;flex-direction:column;gap:6px}
+.p-block-t{font-weight:600;color:var(--label-2);text-transform:uppercase;letter-spacing:.05em}
+@media (max-width:760px){.fr-liste>li{flex-direction:column;align-items:flex-start}.fr-akt{justify-content:flex-start}}
+.tboard{grid-auto-columns:minmax(200px,1fr)}
+.tboard .spalte{min-height:150px;gap:6px}
+.ak{display:flex;align-items:flex-start;gap:8px;padding:8px 8px 8px 10px;border-radius:10px;background:var(--surface);box-shadow:var(--shadow);cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation;min-height:44px}
+.ak:hover{box-shadow:var(--shadow-hover)}
+.ak:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.ak-prio{width:4px;align-self:stretch;border-radius:2px;flex:none}
+.ak-text{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.ak-titel{font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+.ak-haken{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--label-3);display:flex;align-items:center;justify-content:center;color:transparent;flex:none;margin-top:2px}
+.ak-haken svg{width:14px;height:14px}
+.ak-haken:hover{border-color:var(--green);color:var(--green)}
+.ak-fertig{opacity:.6}
+.ak-fertig .ak-titel{text-decoration:line-through}
+.leer-spalte{padding:10px 4px}
+.ta-liste{display:flex;flex-direction:column;gap:6px;margin:6px 0 4px}
+.ta-liste li{display:flex;gap:10px;align-items:center}
 .kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
 .kpi{display:flex;flex-direction:column;gap:2px;padding:14px 16px;text-decoration:none;color:inherit;min-height:112px;transition:box-shadow .15s ease}
 .kpi:hover{box-shadow:var(--shadow-hover)}
@@ -226,7 +255,7 @@ table.wer th,table.wer td{overflow:hidden;text-overflow:ellipsis;white-space:now
 .wer-zuletzt .wer-text{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .wer-zuletzt .t-c1{display:block}
 .wer-name{overflow:hidden;text-overflow:ellipsis}
-.tile-6{grid-column:span 6}.tile-12{grid-column:span 12}
+.tile-6{grid-column:span 6}.tile-8{grid-column:span 8}.tile-12{grid-column:span 12}
 .mini-liste.zwei{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
 .mini-liste.zwei>li+li{border-top:0}
 .mini-liste.zwei>li{border-bottom:.5px solid var(--sep)}
@@ -241,9 +270,9 @@ details.mini-titel summary .t-sub{display:block;max-width:100%;overflow:hidden;t
 .pipe-mini .tb{height:8px;background:var(--fill);border-radius:4px;overflow:hidden}
 .pipe-mini .tb div{height:100%;border-radius:4px}
 .pm-s{text-align:right}
-@media (max-width:1280px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.tile,.tile-5,.tile-6,.tile-7{grid-column:span 6}.tile-7,.tile-12{grid-column:span 12}}
+@media (max-width:1280px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.tile,.tile-5,.tile-6,.tile-7{grid-column:span 6}.tile-7,.tile-8,.tile-12{grid-column:span 12}}
 @media (max-width:1100px){.tile-6{grid-column:span 12}}
-@media (max-width:760px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.tile,.tile-5,.tile-6,.tile-7,.tile-12{grid-column:span 12}table.wer col:nth-child(2),table.wer td:nth-child(2),table.wer th:nth-child(2){display:none}.mini-liste.zwei{grid-template-columns:1fr}}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.tile,.tile-5,.tile-6,.tile-7,.tile-8,.tile-12{grid-column:span 12}table.wer col:nth-child(2),table.wer td:nth-child(2),table.wer th:nth-child(2){display:none}.mini-liste.zwei{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.kpi{transition:none}}
 .gruppe.frei-liste{display:block}
 .frei-zeile{padding:6px 12px 6px 6px}
@@ -436,7 +465,6 @@ const NAV = [
   {id:"leads",titel:"Leads",ico:"telefon",farbe:"var(--green)"},
   {id:"mails",titel:"Mails",ico:"mail",farbe:"var(--teal)"},
   {id:"partner",titel:"Partner",ico:"haus",farbe:"var(--green)"},
-  {id:"content",titel:"Content",ico:"klappe",farbe:"var(--purple)"},
   {id:"agenten",titel:"Agenten",ico:"bot",farbe:"var(--red)"},
   {id:"einstellungen",titel:"Einstellungen",ico:"zahnrad",farbe:"var(--gray)"}
 ];
@@ -486,7 +514,7 @@ const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)",
 
 const S = {
   db:null, verbunden:false, geladen:{aufgaben:false,ziele:false,partner:false,agenten:false},
-  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], leads:[], system:{}, lFilter:"alle", lSuche:"", pJahr:null, bearbeite:null,
+  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], leads:[], system:{}, fragen:[], kampagnen:[], lFilter:"alle", lSuche:"", pJahr:null, bearbeite:null,
   ansicht:"aktiv", fPartner:"", fZust:"", suche:"", offen:new Set(), fehler:null, nurLesen:false, renderOffen:false
 };
 
@@ -630,8 +658,8 @@ function wermachtwasHtml(){
 function freigabenMiniHtml(){
   const offen = S.freigaben.filter(f=>f.status==="wartet").sort((a,b)=>String(a.erstelltAm).localeCompare(String(b.erstelltAm)));
   const FARBE = {Nachricht:"var(--blue)",Mail:"var(--blue)",Angebot:"var(--orange)",Dokument:"var(--purple)",Dateiaktion:"var(--gray)"};
-  return `<section class="card tile tile-6" aria-labelledby="h-frei">${kachelKopf(`<span id="h-frei">Wartet auf Freigabe</span>${offen.length?` <span class="zahl-badge">${offen.length}</span>`:""}`,"schild","var(--purple)","#content","Alle Entwürfe")}
-    ${offen.length?`<ul class="mini-liste">${offen.slice(0,7).map(f=>`<li data-fid="${esc(f.id)}"><span class="punkt-s" style="background:${FARBE[f.art]||"var(--purple)"}" title="${esc(f.art||"")}"></span><button class="mini-titel" data-freioffen="${esc(f.id)}"><span class="t-sub">${esc(f.titel)}</span><span class="t-c1 c2">${esc([f.art, f.agent].filter(Boolean).join(" · "))}</span></button><button class="knopf primaer mini" data-frei="freigeben" aria-label="${esc(f.titel)} freigeben" ${S.nurLesen?"disabled":""}>${ic("haken")}</button></li>`).join("")}</ul>${offen.length>7?`<p class="t-c1 c2">${offen.length-7} weitere im Content-Studio.</p>`:""}`:`<p class="t-sub c2">Nichts offen.</p>`}
+  return `<section class="card tile tile-6" aria-labelledby="h-frei">${kachelKopf(`<span id="h-frei">Wartet auf Freigabe</span>${offen.length?` <span class="zahl-badge">${offen.length}</span>`:""}`,"schild","var(--purple)")}
+    ${offen.length?`<ul class="mini-liste scroll">${offen.map(f=>`<li data-fid="${esc(f.id)}"><span class="punkt-s" style="background:${FARBE[f.art]||"var(--purple)"}" title="${esc(f.art||"")}"></span><button class="mini-titel" data-freioffen="${esc(f.id)}"><span class="t-sub">${esc(f.titel)}</span><span class="t-c1 c2">${esc([f.art, f.agent].filter(Boolean).join(" · "))}</span></button><button class="knopf primaer mini" data-frei="freigeben" aria-label="${esc(f.titel)} freigeben" ${S.nurLesen?"disabled":""}>${ic("haken")}</button></li>`).join("")}</ul>`:`<p class="t-sub c2">Nichts offen.</p>`}
   </section>`;
 }
 function oeffneFreigabe(fid, edit=false){
@@ -645,6 +673,70 @@ function oeffneFreigabe(fid, edit=false){
     <div class="frei-knoepfe" style="margin-top:14px">${edit?`<button class="knopf primaer" data-frei="speichern">Speichern</button><button class="knopf sekundaer" data-frei="abbrechen">Abbrechen</button>`:`${link?`<a class="knopf sekundaer" href="${esc(link)}" target="_blank" rel="noopener">Dokument öffnen</a>`:""}<button class="knopf primaer" data-frei="freigeben" ${S.nurLesen?"disabled":""}>Freigeben</button><button class="knopf sekundaer" data-frei="bearbeiten" ${S.nurLesen?"disabled":""}>Bearbeiten</button><button class="knopf sekundaer" data-frei="verwerfen" style="color:var(--red-text)" ${S.nurLesen?"disabled":""}>Verwerfen</button>`}</div>
   </div></div>`;
   (edit ? document.getElementById("fe-"+f.id) : schicht.querySelector('[data-frei="freigeben"]'))?.focus();
+}
+function fragenHtml(){
+  const offen = S.fragen.filter(f=>f.status==="offen").sort((a,b)=>(a.prio??5)-(b.prio??5)||String(a.erstelltAm).localeCompare(String(b.erstelltAm)));
+  const beantwortet = S.fragen.filter(f=>f.status!=="offen"&&String(f.beantwortetAm||"").slice(0,10)===heute()).length;
+  const zeigen = offen.slice(0,6);
+  const antwortUI = f => {
+    if(f.typ==="datum") return `<div class="fr-akt"><input type="date" class="feld fr-datum" aria-label="Datum für: ${esc(f.frage)}" ${S.nurLesen?"disabled":""}><button class="knopf primaer klein" data-fantwort="datum">Speichern</button><button class="knopf sekundaer klein" data-fantwort="Weiß noch nicht">Weiß nicht</button></div>`;
+    const opts = Array.isArray(f.optionen)&&f.optionen.length ? f.optionen : ["Ja","Nein"];
+    return `<div class="fr-akt">${opts.map((o,i)=>`<button class="knopf ${i===0?"primaer":"sekundaer"} klein" data-fantwort="${esc(o)}" ${S.nurLesen?"disabled":""}>${esc(o)}</button>`).join("")}<button class="knopf klein fr-spaeter" data-fantwort="__spaeter" aria-label="Später fragen">Später</button></div>`;
+  };
+  return `<section class="card tile tile-12 fragen" aria-labelledby="h-fr">${kachelKopf(`<span id="h-fr">Kurz gefragt</span>${offen.length?` <span class="zahl-badge">${offen.length}</span>`:""}`,"achtung","var(--orange)")}
+    ${zeigen.length?`<ul class="fr-liste">${zeigen.map(f=>`<li data-frage="${esc(f.id)}"><div class="fr-text"><span class="t-sub" style="font-weight:600">${esc(f.frage)}</span>${f.kontext?`<span class="t-c1 c2">${esc(f.kontext)}</span>`:""}</div>${antwortUI(f)}</li>`).join("")}</ul>${offen.length>zeigen.length?`<p class="t-c1 c2">${offen.length-zeigen.length} weitere Fragen danach.</p>`:""}`:`<p class="t-sub c2">${beantwortet?`Alles beantwortet (${beantwortet} heute). Danke!`:"Keine offenen Fragen."}</p>`}
+    <p class="t-c1 c2">Ein Klick reicht. Ich setze deine Antwort um oder nehme sie in den nächsten Lauf mit.</p>
+  </section>`;
+}
+async function frageBeantworten(id, wert, el){
+  const f = S.fragen.find(x=>x.id===id); if(!f || !S.db) return;
+  const jetzt = new Date().toISOString();
+  if(wert==="__spaeter"){ const m = morgenIso(); try{ await S.db.doc("fragen/"+id).update({status:"offen", erstelltAm:m+"T05:00:00.000Z", verschobenAm:jetzt, prio:(f.prio??5)+1}); zeigeToast("Frage ich dich morgen nochmal"); }catch(e){ schreibFehler(e); } return; }
+  if(wert==="datum"){ wert = el?.closest("li")?.querySelector(".fr-datum")?.value; if(!wert){ zeigeToast("Bitte ein Datum wählen"); return; } }
+  try{
+    const a = f.aktion||{};
+    let umgesetzt = false;
+    const set = a.wenn && a.wenn[wert];
+    if(a.ziel && set && Object.keys(set).length){ const daten = {...set}; for(const k in daten){ if(daten[k]==="__heute") daten[k]=heute(); if(daten[k]==="__jetzt") daten[k]=jetzt; } await S.db.doc(a.ziel).update({...daten, aktualisiertAm:jetzt}); umgesetzt = true; }
+    if(a.neu && f.typ==="datum"){ const kid = "k-"+Date.now().toString(36); await S.db.doc(a.neu+"/"+kid).set({...(a.vorlage||{}), [a.feld||"start"]:wert, erstelltAm:jetzt, aktualisiertAm:jetzt, quelle:"Frage "+id}); umgesetzt = true; }
+    await S.db.doc("fragen/"+id).update({status:"beantwortet", antwort:wert, beantwortetAm:jetzt, umgesetzt});
+    protokoll("Frage beantwortet", id, `${f.frage} → ${wert}`);
+    zeigeToast(umgesetzt ? "Danke, ist eingetragen." : "Danke, ich kümmere mich darum.");
+  }catch(e){ schreibFehler(e); }
+}
+function kampagnenHtml(){
+  const h = heute();
+  const ks = S.kampagnen.filter(k=>k.status!=="abgeschlossen").sort((a,b)=>String(a.start).localeCompare(String(b.start)));
+  const tage = d => Math.round((new Date(d+"T12:00:00")-new Date(h+"T12:00:00"))/86400000);
+  const partnerOhne = S.partner.filter(p=>!ks.some(k=>k.partner===p.name)).map(p=>p.name);
+  return `<section class="card tile" aria-labelledby="h-kamp">${kachelKopf(`<span id="h-kamp">Kampagnen</span>`,"klappe","var(--purple)")}
+    ${ks.length?`<ul class="mini-liste">${ks.slice(0,6).map(k=>{ const t = k.start?tage(k.start):null; const farbe = t==null?"var(--gray)":t<0?"var(--green)":t<=7?"var(--red)":t<=21?"var(--orange)":"var(--blue)";
+      return `<li><span class="punkt-s" style="background:${farbe}"></span><span style="min-width:0;flex:1"><span class="t-sub" style="font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(k.partner)}: ${esc(k.titel)}</span><span class="t-c1 c2">${k.start?esc(datumDe(k.start)):"Datum offen"}${k.kanal?` · ${esc(k.kanal)}`:""} · ${esc(k.status||"geplant")}${k.aufgabenErstellt?" · Aufgaben verteilt":""}</span></span><span class="t-fn num" style="color:${farbe};font-weight:600;white-space:nowrap">${t==null?"":t<0?"läuft":t===0?"heute":`in ${t} T.`}</span></li>`; }).join("")}</ul>`:`<p class="t-sub c2">Noch keine Kampagne geplant.</p>`}
+    ${partnerOhne.length?`<p class="t-c1 c2">Ohne Termin: ${esc(partnerOhne.join(", "))}. Ich frage dich danach.</p>`:""}
+    <button class="knopf sekundaer klein" data-kneu ${S.nurLesen?"disabled":""} style="align-self:flex-start">${ic("plus")}Kampagne planen</button>
+  </section>`;
+}
+function oeffneKampagne(){
+  vorherFokus = document.activeElement;
+  schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt" role="dialog" aria-modal="true" aria-labelledby="ka-titel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h2 id="ka-titel" class="t-t2">Kampagne planen</h2><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
+    <form id="ka-form">
+      <label class="f"><span>Partner</span><select name="partner" class="feld" required>${S.partner.map(p=>`<option>${esc(p.name)}</option>`).join("")}<option>Clees &amp; Ernster</option></select></label>
+      <label class="f"><span>Kanal</span><select name="kanal" class="feld"><option>Meta</option><option>Google</option><option>Meta + Google</option><option>LinkedIn</option><option>E-Mail</option><option>Print/Flyer</option></select></label>
+      <label class="f breit"><span>Titel</span><input id="ka-t" name="titel" class="feld" required placeholder="z. B. Wärmepumpen-Kampagne Frühjahr"></label>
+      <label class="f"><span>Start</span><input name="start" type="date" class="feld" required></label>
+      <label class="f"><span>Ende</span><input name="ende" type="date" class="feld"></label>
+      <label class="f breit"><span>Notiz</span><textarea name="notiz" class="feld" placeholder="Ziel, Angebot, Budget …"></textarea></label>
+      <p class="t-fn c2 breit">Drei Wochen vor Start verteile ich die Vorbereitung an die Agenten (Texte, Videos, Bilder, Aufsetzen) und erinnere dich 14, 7 und 1 Tag vorher.</p>
+      <div class="aktionen"><button type="button" class="knopf sekundaer" data-schliessen-knopf>Abbrechen</button><button type="submit" class="knopf primaer">Planen</button></div>
+    </form></div></div>`;
+  document.getElementById("ka-t").focus();
+  document.getElementById("ka-form").addEventListener("submit", async ev => {
+    ev.preventDefault(); const g = n => (ev.target.elements[n]?.value||"").trim(); if(!S.db) return;
+    const id = "k-"+Date.now().toString(36), jetzt = new Date().toISOString();
+    try{ await S.db.doc("kampagnen/"+id).set({partner:g("partner"), titel:g("titel"), kanal:g("kanal")||null, start:g("start"), ende:g("ende")||null, status:"geplant", vorbereitungTage:21, aufgabenErstellt:false, notiz:g("notiz")||null, erstelltAm:jetzt, aktualisiertAm:jetzt, quelle:"Cockpit"}); protokoll("Kampagne geplant", id, `${g("partner")}: ${g("titel")} ab ${g("start")}`); zeigeToast("Kampagne eingeplant"); }catch(e){ schreibFehler(e); }
+    schliesseSchicht();
+  });
 }
 function seiteHeute(){
   const d = new Date();
@@ -665,7 +757,6 @@ function seiteHeute(){
   const agAktiv = S.agenten.filter(a=>a.status==="aktiv"||a.status==="test").length;
   const org = S.agenten.find(a=>a.id==="organisator");
   const b = [...S.briefings].sort((x,y)=>String(y.erstelltAm).localeCompare(String(x.erstelltAm)))[0];
-  const top = topDrei();
   const fokus = ((S.system.sales||{}).wochenfokus||[]).filter(Boolean);
   const stufen = BOARD.map(st=>{ const l = S.pipeline.filter(c=>(c.stufe||"Lead")===st); return {st, n:l.length, s:l.reduce((x,c)=>x+(Number(c.betrag)||0),0)}; });
   const maxS = Math.max(1,...stufen.map(x=>x.s));
@@ -677,15 +768,15 @@ function seiteHeute(){
     ${kpi("Neuumsatz", euro(z.pz.gewonnen), `${Math.round(z.pz.gewonnen/ziel*100)} % von ${euro(ziel)}`, miniBalken(z.pz.gewonnen/ziel), "#sales")}
     ${kpi("Pipeline offen", euro(offenSumme), `${offenNeu.length} Chancen · ${euro(z.heissSumme)} heiß`, `<div class="seg-balken">${stufen.filter(x=>x.st!=="Gewonnen").map(x=>`<div style="flex:${x.s||0.0001};background:${STUFE_FARBE[x.st]}" title="${x.st}: ${euro(x.s)}"></div>`).join("")}</div>`, "#sales")}
     ${kpi("Anrufe offen", anrufeOffen.length, `${tage.reduce((x,t)=>x+t.n,0)} Anrufe in 7 Tagen`, `<div class="spark">${tage.map(t=>`<div title="${t.wt}: ${t.n}" style="height:${Math.max(8,t.n/maxT*100)}%;${t.n?"":"opacity:.35"}"></div>`).join("")}</div>`, "#leads")}
-    ${kpi("Freigaben", fr.length, aeltesteFr?`älteste ${vorZeit(aeltesteFr)}`:"nichts offen", "", "#content")}
+    ${kpi("Freigaben", fr.length, aeltesteFr?`älteste ${vorZeit(aeltesteFr)}`:"nichts offen", "", "#h-frei")}
     ${kpi("Deine Aufgaben", meine.filter(a=>a.status!=="später").length, `${sofort} sofort · ${ueber} überfällig${pruefen?` · ${pruefen} prüfen`:""}`, miniBalken(sofort/Math.max(1,meine.length),"var(--red)"), "#aufgaben")}
     ${kpi("Agenten", `${agAktiv}/${S.agenten.length}`, org?.letzteAktionAm?`Organisator ${vorZeit(org.letzteAktionAm)}`:"aktiv", miniBalken(agAktiv/Math.max(1,S.agenten.length),"var(--blue)"), "#agenten")}
   </div>
   <div class="dash">
+    ${fragenHtml()}
+    ${tagBoardHtml()}
     <section class="card tile tile-5" aria-labelledby="h-brief">${kachelKopf(`<span id="h-brief">${b?(b.art==="abend"?"Tagesabschluss":"Morgen-Briefing"):"Briefing"}</span>`,"zeitung",b?.art==="abend"?"var(--purple)":"var(--orange)")}
       ${b?`<p class="t-c1 c2">${esc(datumLang(b.erstelltAm))} · ${esc(uhrzeit(b.erstelltAm))} Uhr</p><p class="t-sub clamp4">${esc(b.zusammenfassung||"")}</p>${(b.abschnitte||[]).length?`<details class="brief-mehr"><summary class="t-fn">Ganzes Briefing</summary>${b.abschnitte.map(a=>`<h3 class="t-fn" style="font-weight:600;margin-top:8px">${esc(a.titel)}</h3><ul>${(a.punkte||[]).map(x=>`<li class="t-fn">${esc(x)}</li>`).join("")}</ul>`).join("")}</details>`:""}`:`<p class="t-sub c2">Kommt werktags um 06:15.</p>`}
-      <h3 class="t-fn tile-sub">Top 3 heute</h3>
-      ${top.length?`<ol class="mini-liste top">${top.map((a,i)=>`<li><span class="platz-mini">${i+1}</span><a class="mini-titel" href="#${a.id}"><span class="t-sub">${esc(a.aufgabe)}</span><span class="t-c1 c2">${esc([partnerVon(a).join(", "), a.faelligAm&&`fällig ${datumDe(a.faelligAm)}`].filter(Boolean).join(" · "))}</span></a></li>`).join("")}</ol>`:`<p class="t-sub c2">${geladen()?"Keine dringenden Aufgaben.":"…"}</p>`}
       <p class="t-c1 c2">Kalender noch nicht verbunden.</p>
     </section>
     ${wermachtwasHtml()}
@@ -697,13 +788,14 @@ function seiteHeute(){
       <ul class="pipe-mini">${stufen.map(x=>`<li><span class="punkt-s" style="background:${STUFE_FARBE[x.st]}"></span><span class="t-fn">${x.st}</span><div class="tb"><div style="width:${x.s/maxS*100}%;background:${STUFE_FARBE[x.st]}"></div></div><span class="t-fn num">${x.n}</span><span class="t-fn num pm-s">${x.s?euro(x.s):"–"}</span></li>`).join("")}</ul>
       <p class="t-c1 c2">Laufend ${euro(z.laufend)}/Jahr · Klumpenrisiko <span style="color:${z.anteil>0.6?"var(--red-text)":"var(--green-text)"};font-weight:600">${Math.round(z.anteil*100)} %</span></p>
     </section>
+    ${kampagnenHtml()}
     <section class="card tile" aria-labelledby="h-wf">${kachelKopf(`<span id="h-wf">Wochenfokus KW ${kw()}</span>`,"ziel","var(--red)","#sales","Ändern")}
       ${fokus.length?`<ol class="mini-liste">${fokus.map((f,i)=>`<li><span class="platz-mini">${i+1}</span><span class="t-sub">${esc(f)}</span></li>`).join("")}</ol>`:`<p class="t-sub c2">Noch kein Fokus gesetzt.</p>`}
     </section>
     <section class="card tile" aria-labelledby="h-ges">${kachelKopf(`<span id="h-ges">Gespräche</span>`,"bot","var(--blue)")}
       ${ges.length?`<ul class="mini-liste">${ges.map(g=>`<li><span class="t-c1 c2 num" style="min-width:42px">${esc(datumDe(g.datum).slice(0,6))}</span><details class="mini-titel"><summary><span class="t-sub">${esc(g.titel||"Gespräch")}</span><span class="t-c1 c2">${esc(g.agent||"")}</span></summary><p class="t-fn c2" style="white-space:pre-wrap;margin-top:4px">${esc(g.zusammenfassung||"")}</p></details></li>`).join("")}</ul>`:`<p class="t-sub c2">Noch keine Gespräche.</p>`}
     </section>
-    <section class="card tile tile-12" aria-labelledby="h-verl">${kachelKopf(`<span id="h-verl">Zuletzt passiert</span>`,"uhr","var(--gray)")}
+    <section class="card tile tile-8" aria-labelledby="h-verl">${kachelKopf(`<span id="h-verl">Zuletzt passiert</span>`,"uhr","var(--gray)")}
       ${S.ereignisse.length?`<ul class="mini-liste zwei">${S.ereignisse.slice(0,8).map(e=>`<li><span class="t-c1 c2" style="min-width:64px">${esc(vorZeit(e.zeit))}</span><span style="min-width:0;flex:1"><span class="t-fn" style="font-weight:600">${esc(e.akteur)}</span> <span class="t-fn">${esc(e.aktion)}</span>${e.objekt?`<span class="t-c1 c2"> · ${esc(e.objekt)}</span>`:""}</span></li>`).join("")}</ul>`:`<p class="t-sub c2">Noch keine Einträge.</p>`}
     </section>
   </div>`;
@@ -801,11 +893,11 @@ function seitePartner(){
   const offen = S.aufgaben.filter(a=>a.status!=="erledigt");
   const pa = [...S.partner].sort((x,y)=>x.name.localeCompare(y.name));
   return `${kopf("Partner", `${pa.length} aktive Partnerbetriebe`)}${verbindungsHinweis()}
-  <ul class="grid2">${pa.map((p,i)=>{ const eig = offen.filter(a=>partnerVon(a).includes(p.name)||partnerVon(a).includes("Alle Partner")); const sof = eig.filter(a=>prio(a)===1).length; const wa = eig.filter(a=>a.status==="wartet").length;
+  <ul class="grid2">${pa.map((p,i)=>{ const eig = offen.filter(a=>partnerVon(a).includes(p.name)&&a.status!=="später"); const sof = eig.filter(a=>prio(a)===1).length; const wa = eig.filter(a=>a.status==="wartet"||a.status==="wartet auf Freigabe").length; const kamp = S.kampagnen.filter(k=>k.partner===p.name&&k.status!=="abgeschlossen").sort((a,b)=>String(a.start).localeCompare(String(b.start)));
     return `<li class="card partner ein" style="animation-delay:${i*50}ms"><div class="oben"><span class="av" style="background:${AV_FARBEN[i%AV_FARBEN.length]}">${esc(p.name.slice(0,1))}</span><div style="min-width:0"><h2 class="t-t3">${esc(p.name)}</h2><p class="t-fn c2">${p.vertrag?esc([p.vertrag.volumenJahr?euro(p.vertrag.volumenJahr)+"/Jahr":null, p.vertrag.umfang, p.vertrag.status].filter(Boolean).join(" · ")):"Partner-Agent folgt in Phase 6"}</p></div></div>
     ${p.vertrag?`<dl class="vertrag t-fn"><div><dt class="c2">Ansprechpartner</dt><dd>${esc(p.vertrag.ansprechpartner||"–")}</dd></div><div><dt class="c2">Vertragsende</dt><dd>${esc(p.vertrag.vertragsende||"–")}</dd></div><div><dt class="c2">Sprache</dt><dd>${esc(p.vertrag.sprache||"–")}</dd></div></dl>${p.vertrag.notiz?`<p class="t-fn c2">${esc(p.vertrag.notiz)}</p>`:""}`:""}
-    <dl class="zahlen"><div><dt class="t-c1 c2">offen</dt><dd class="t-t3 num">${eig.length}</dd></div><div><dt class="t-c1 c2">sofort</dt><dd class="t-t3 num" ${sof?'style="color:var(--red-text)"':""}>${sof}</dd></div><div><dt class="t-c1 c2">wartet</dt><dd class="t-t3 num">${wa}</dd></div></dl>
-    ${eig.length?`<ul class="liste-klein">${eig.sort(vergleich).slice(0,3).map(a=>`<li><a class="t-sub" href="#${a.id}">${esc(a.aufgabe)}</a></li>`).join("")}</ul>`:""}
+    <div class="p-block"><h3 class="t-fn p-block-t">Aufgaben für ${esc(p.name)}</h3><dl class="zahlen"><div><dt class="t-c1 c2">offene Aufgaben</dt><dd class="t-t3 num">${eig.length}</dd></div><div><dt class="t-c1 c2">davon sofort</dt><dd class="t-t3 num" ${sof?'style="color:var(--red-text)"':""}>${sof}</dd></div><div><dt class="t-c1 c2">warten auf andere</dt><dd class="t-t3 num">${wa}</dd></div></dl>${eig.length?`<ul class="liste-klein">${eig.sort(vergleich).slice(0,3).map(a=>`<li><a class="t-sub" href="#${a.id}">${esc(a.aufgabe)}</a></li>`).join("")}${eig.length>3?`<li class="t-fn c2">+ ${eig.length-3} weitere unter „Aufgaben“</li>`:""}</ul>`:""}</div>
+    <div class="p-block"><h3 class="t-fn p-block-t">Kampagnen</h3>${kamp.length?`<ul class="liste-klein">${kamp.slice(0,3).map(k=>`<li class="t-sub">${esc(datumDe(k.start))} · ${esc(k.titel)} <span class="c2">· ${esc(k.status||"geplant")}</span></li>`).join("")}</ul>`:`<p class="t-fn c2">Noch keine Kampagne geplant. Ich frage dich danach.</p>`}</div>
     ${steckbriefHtml(p)}
     <p class="t-fn c2" style="margin-top:auto">${p.driveOrdner?`Drive: ${esc(p.driveOrdner)}`:""}${p.web?` · ${esc(p.web)}`:""}</p></li>`; }).join("")}</ul>`;
 }
@@ -1029,6 +1121,94 @@ function oeffneChanceDetail(id){
     </div></div></div>`;
   schicht.querySelector('[data-pfeld="betrag"]')?.focus();
 }
+const TSPALTEN = [["offen","Als Nächstes","var(--gray)"],["heute","Heute","var(--orange)"],["arbeit","In Arbeit","var(--blue)"],["wartet","Wartet","var(--purple)"],["erledigt","Erledigt","var(--green)"]];
+const HEUTE_MAX = 5;
+function tagSpalten(){
+  const h = heute();
+  const meine = S.aufgaben.filter(a=> S.tAlle ? true : (a.zustaendig||"Danny")==="Danny");
+  const erlTag = a => String(a.erledigtAm||a.aktualisiertAm||"").slice(0,10)===h;
+  const sp = {
+    heute: meine.filter(a=>a.status==="offen" && a.heute && a.heute<=h),
+    arbeit: meine.filter(a=>a.status==="in Arbeit"),
+    wartet: meine.filter(a=>a.status==="wartet"||a.status==="wartet auf Freigabe"),
+    erledigt: meine.filter(a=>a.status==="erledigt" && erlTag(a)),
+    offen: meine.filter(a=>a.status==="offen" && !(a.heute && a.heute<=h))
+  };
+  Object.values(sp).forEach(l=>l.sort(vergleich));
+  return sp;
+}
+function aufgabenKarte(a){
+  const p = prio(a); const farbe = p===1?"var(--red)":p===2?"var(--blue)":p===3?"var(--orange)":"var(--gray)";
+  const ueber = ueberfaellig(a);
+  const meta = [partnerVon(a).join(", "), a.faelligAm&&`${ueber?"überfällig":"fällig"} ${datumDe(a.faelligAm).slice(0,6)}`, a.umsatzhebel==="hoch"&&"€ hoch", S.tAlle&&a.zustaendig&&a.zustaendig!=="Danny"&&a.zustaendig].filter(Boolean);
+  return `<div class="ak${a.status==="erledigt"?" ak-fertig":""}" data-aufgabe="${esc(a.id)}" role="button" tabindex="0" aria-label="${esc(a.aufgabe)}. Öffnen oder in eine andere Spalte ziehen">
+    <span class="ak-prio" style="background:${farbe}" title="${p?PRIO_NAME[p]:"Einschätzen"}"></span>
+    <span class="ak-text"><span class="t-fn ak-titel">${esc(a.aufgabe)}</span>${meta.length?`<span class="t-c1 ${ueber?"":"c2"}" ${ueber?'style="color:var(--red-text)"':""}>${esc(meta.join(" · "))}</span>`:""}</span>
+    ${a.status!=="erledigt"?`<button class="ak-haken" data-aknopf="erledigt" aria-label="${esc(a.aufgabe)} erledigt">${ic("haken")}</button>`:""}
+  </div>`;
+}
+function tagBoardHtml(){
+  const sp = tagSpalten();
+  const MAXZ = {offen:8, erledigt:8};
+  return `<section class="card tile tile-12 tagboard" aria-labelledby="h-tag">
+    <header class="tile-kopf"><span class="ico-mini" style="background:var(--orange)">${ic("liste")}</span><h2 class="t-hl" id="h-tag">Mein Tag</h2>
+      <div class="seg" role="group" aria-label="Wessen Aufgaben"><button class="knopf klein ${!S.tAlle?"primaer":"sekundaer"}" data-talle="0" aria-pressed="${!S.tAlle}">Meine</button><button class="knopf klein ${S.tAlle?"primaer":"sekundaer"}" data-talle="1" aria-pressed="${!!S.tAlle}">Alle inkl. Agenten</button></div>
+      <button class="knopf sekundaer klein" data-tneu ${S.nurLesen?"disabled":""}>${ic("plus")}Aufgabe</button>
+      <button class="knopf primaer klein" data-tagab ${S.nurLesen?"disabled":""}>Tag abschließen</button></header>
+    <p class="t-c1 c2">Karten ziehen, um sie einzuplanen oder den Stand zu ändern (am Handy kurz halten). Der Haken erledigt sofort, ein Klick öffnet die Aufgabe.</p>
+    <div class="board tboard">${TSPALTEN.map(([id,t,f])=>{ const l = sp[id]; const max = MAXZ[id]; const voll = id==="heute" && l.length>HEUTE_MAX;
+      return `<section class="spalte" data-tziel="${id}" aria-label="${t}"><header><span class="punkt-s" style="background:${f}"></span><span class="t-sub" style="font-weight:600">${t}</span><span class="t-fn num ${voll?"":"c2"}" style="margin-left:auto;${voll?"color:var(--red-text);font-weight:600":""}">${id==="heute"?`${l.length}/${HEUTE_MAX}`:l.length}</span></header>
+      ${l.length?l.slice(0,max||99).map(aufgabenKarte).join(""):`<p class="t-c1 c2 leer-spalte">${id==="heute"?"Hierher ziehen, was du heute schaffen willst.":"–"}</p>`}
+      ${max&&l.length>max?`<a class="t-c1" href="#aufgaben" style="font-weight:600;padding:2px 4px">+ ${l.length-max} weitere</a>`:""}
+      ${voll?`<p class="t-c1" style="color:var(--red-text)">Mehr als ${HEUTE_MAX} – lieber etwas zurückschieben.</p>`:""}</section>`; }).join("")}</div>
+  </section>`;
+}
+async function aufgabeVerschieben(id, ziel){
+  const a = S.aufgaben.find(x=>x.id===id); if(!a || !S.db) return;
+  const jetzt = new Date().toISOString(), h = heute();
+  const U = {offen:{status:"offen", heute:null}, heute:{status:"offen", heute:h}, arbeit:{status:"in Arbeit", heute:a.heute||h}, wartet:{status:"wartet"}, erledigt:{status:"erledigt", erledigtAm:jetzt}}[ziel];
+  if(!U) return;
+  if(ziel!=="erledigt" && a.status==="erledigt") U.erledigtAm = null;
+  const name = (TSPALTEN.find(x=>x[0]===ziel)||[])[1];
+  try{ await S.db.doc("aufgaben/"+id).update({...U, aktualisiertAm:jetzt}); protokoll("Aufgabe verschoben", id, `${a.aufgabe} → ${name}`); zeigeToast(`${a.aufgabe.slice(0,40)} → ${name}`); }
+  catch(e){ schreibFehler(e); }
+}
+function morgenIso(){ const d = new Date(heute()+"T12:00:00"); d.setDate(d.getDate()+ (d.getDay()===5?3:d.getDay()===6?2:1)); return d.toISOString().slice(0,10); }
+function oeffneTagAbschluss(){
+  vorherFokus = document.activeElement;
+  const sp = tagSpalten();
+  const offenHeute = [...sp.heute, ...sp.arbeit];
+  schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt" role="dialog" aria-modal="true" aria-labelledby="ta-titel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h2 id="ta-titel" class="t-t2">Tag abschließen</h2><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
+    <form id="ta-form">
+      <div class="breit"><h3 class="t-hl" style="color:var(--green-text)">Erledigt heute (${sp.erledigt.length})</h3>${sp.erledigt.length?`<ul class="ta-liste">${sp.erledigt.map(a=>`<li class="t-sub">✓ ${esc(a.aufgabe)}</li>`).join("")}</ul>`:`<p class="t-sub c2">Noch nichts abgehakt.</p>`}</div>
+      <div class="breit"><h3 class="t-hl">Noch offen (${offenHeute.length})</h3>${offenHeute.length?`<ul class="ta-liste">${offenHeute.map(a=>`<li><span class="t-sub" style="flex:1;min-width:0">${esc(a.aufgabe)}</span><select class="feld" name="w-${esc(a.id)}" style="width:auto"><option value="morgen">Morgen wieder</option><option value="arbeit" ${a.status==="in Arbeit"?"selected":""}>Bleibt in Arbeit</option><option value="offen">Zurück zu „Als Nächstes“</option><option value="erledigt">Doch erledigt</option></select></li>`).join("")}</ul>`:`<p class="t-sub c2">Alles geschafft.</p>`}</div>
+      <label class="f breit"><span>Notiz zum Tag (optional)</span><textarea name="notiz" class="feld" placeholder="Was lief gut, was hakt, was zählt morgen?"></textarea></label>
+      <div class="aktionen"><button type="button" class="knopf sekundaer" data-schliessen-knopf>Abbrechen</button><button type="submit" class="knopf primaer">Abschließen</button></div>
+    </form></div></div>`;
+  document.getElementById("ta-form").addEventListener("submit", async ev => {
+    ev.preventDefault(); if(!S.db) return;
+    const btn = ev.target.querySelector('[type="submit"]'); btn.disabled = true; btn.textContent = "Speichert …";
+    const jetzt = new Date().toISOString(), h = heute(), m = morgenIso();
+    const morgen = [], zurueck = [];
+    try{
+      for(const a of offenHeute){
+        const w = ev.target.elements["w-"+a.id]?.value || "morgen";
+        if(w==="morgen"){ await S.db.doc("aufgaben/"+a.id).update({status:"offen", heute:m, aktualisiertAm:jetzt}); morgen.push(a.aufgabe); }
+        else if(w==="offen"){ await S.db.doc("aufgaben/"+a.id).update({status:"offen", heute:null, aktualisiertAm:jetzt}); zurueck.push(a.aufgabe); }
+        else if(w==="erledigt"){ await S.db.doc("aufgaben/"+a.id).update({status:"erledigt", erledigtAm:jetzt, aktualisiertAm:jetzt}); sp.erledigt.push(a); }
+        else { await S.db.doc("aufgaben/"+a.id).update({heute:m, aktualisiertAm:jetzt}); morgen.push(a.aufgabe+" (in Arbeit)"); }
+      }
+      const notiz = (ev.target.elements.notiz?.value||"").trim();
+      const z = salesZahlen();
+      const abschnitte = [{titel:"Heute erledigt", punkte:sp.erledigt.map(a=>a.aufgabe)}, {titel:"Morgen zuerst", punkte:morgen}, {titel:"Zurückgestellt", punkte:zurueck}, {titel:"Stand", punkte:[`Neuumsatz ${euro(z.pz.gewonnen)} von 140.000 €`, `${S.freigaben.filter(f=>f.status==="wartet").length} Freigaben offen`, `${z.anrufeWoche} Anrufe diese Woche`]}].filter(x=>x.punkte.length);
+      if(notiz) abschnitte.unshift({titel:"Notiz", punkte:[notiz]});
+      await S.db.doc("briefings/abend-"+h).set({datum:h, art:"abend", titel:"Tagesabschluss", zusammenfassung:`${sp.erledigt.length} erledigt, ${morgen.length} für morgen eingeplant.${notiz?" "+notiz:""}`, abschnitte, erstelltAm:jetzt, erstelltVon:"Danny"});
+      protokoll("Tag abgeschlossen", "abend-"+h, `${sp.erledigt.length} erledigt, ${morgen.length} auf morgen`);
+      schliesseSchicht(); zeigeToast("Tag abgeschlossen. Schönen Feierabend!");
+    }catch(e){ schliesseSchicht(); schreibFehler(e); }
+  });
+}
 async function setzeFokus(i, wert){
   if(!S.db) return;
   const alt = (S.system.sales||{}).wochenfokus||["","",""];
@@ -1101,7 +1281,7 @@ async function lege(form){
   const g = n => (form.elements[n]?.value||"").trim();
   const titel = g("aufgabe"); if(!titel || !S.db) return null;
   const id = naechsteId(), jetzt = new Date().toISOString(), jn = v => v==="ja"?true:v==="nein"?false:null;
-  const doc = {aufgabe:titel, partner:g("partner")?[g("partner")]:[], bereich:g("bereich")||null, wichtig:jn(g("wichtig")), dringend:jn(g("dringend")), umsatzhebel:g("umsatzhebel")||null, faelligAm:g("faelligAm")||null, zustaendig:g("zustaendig")||"Danny", status:"offen", wartetAuf:null, naechsterSchritt:g("naechsterSchritt")||null, quelle:"Cockpit", projekt:null, erstelltAm:jetzt.slice(0,10), aktualisiertAm:jetzt};
+  const doc = {aufgabe:titel, partner:g("partner")?[g("partner")]:[], bereich:g("bereich")||null, wichtig:jn(g("wichtig")), dringend:jn(g("dringend")), umsatzhebel:g("umsatzhebel")||null, faelligAm:g("faelligAm")||null, zustaendig:g("zustaendig")||"Danny", status:"offen", wartetAuf:null, naechsterSchritt:g("naechsterSchritt")||null, quelle:"Cockpit", projekt:null, heute:form.dataset.heute||null, erstelltAm:jetzt.slice(0,10), aktualisiertAm:jetzt};
   try{ await S.db.doc("aufgaben/"+id).set(doc); protokoll("Aufgabe angelegt", id, titel); return id; }
   catch(e){ schreibFehler(e); return null; }
 }
@@ -1230,7 +1410,7 @@ function oeffneNeu(vor={}){
   const opt = (n,l,o,std) => `<label class="f"><span>${l}</span><select id="neu-${n}" name="${n}" class="feld"><option value="">–</option>${o.map(x=>`<option ${x===std?"selected":""}>${esc(x)}</option>`).join("")}</select></label>`;
   schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt" role="dialog" aria-modal="true" aria-labelledby="neu-titel">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 id="neu-titel" class="t-t2">${vor.titel?esc(vor.titel):"Neue Aufgabe"}</h2><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
-    <form id="neu-form">
+    <form id="neu-form" ${vor.heute?`data-heute="${esc(vor.heute)}"`:""}>
       <label class="f breit"><span>Aufgabe</span><input id="neu-aufgabe" name="aufgabe" class="feld" required placeholder="Was ist zu tun?" value="${esc(vor.aufgabe||"")}"></label>
       ${opt("partner","Partner",[...S.partner.map(p=>p.name).sort(),"C&E intern","Alle Partner"],vor.partner)}
       ${opt("bereich","Bereich",BEREICHE,vor.bereich)}
@@ -1317,7 +1497,7 @@ function zugStart(){
   zug.aktiv = true; S.ziehen = true;
   const r = zug.k.getBoundingClientRect();
   zug.dx = zug.x - r.left; zug.dy = zug.y - r.top;
-  const g = zug.k.cloneNode(true); g.className = "pk pk-geist"; g.removeAttribute("data-pkarte"); g.style.width = r.width+"px";
+  const g = zug.k.cloneNode(true); g.className = zug.k.className+" pk-geist"; g.removeAttribute("data-pkarte"); g.removeAttribute("data-aufgabe"); g.style.width = r.width+"px";
   document.body.appendChild(g); zug.geist = g; zug.k.classList.add("pk-weg"); document.body.classList.add("zieht");
   zugBewegen(zug.x, zug.y);
   if(navigator.vibrate) try{ navigator.vibrate(10); }catch(e){}
@@ -1337,8 +1517,9 @@ function zugBewegen(x, y){
 }
 function zugZielNeu(){ if(!zug?.aktiv) return; const ziel = document.elementFromPoint(zug.x, zug.y)?.closest(".spalte"); document.querySelectorAll(".spalte.ziel").forEach(s=>{ if(s!==ziel) s.classList.remove("ziel"); }); if(ziel) ziel.classList.add("ziel"); zug.ziel = ziel||null; }
 seite.addEventListener("pointerdown", e => {
-  const k = e.target.closest(".pk[data-pkarte]"); if(!k || S.nurLesen || (e.pointerType==="mouse" && e.button!==0)) return;
-  zug = {k, id:k.dataset.pkarte, x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, aktiv:false, touch:e.pointerType!=="mouse"};
+  const k = e.target.closest(".pk[data-pkarte], .ak[data-aufgabe]"); if(!k || S.nurLesen || (e.pointerType==="mouse" && e.button!==0)) return;
+  if(e.target.closest("[data-aknopf]")) return;
+  zug = {k, id:k.dataset.pkarte||k.dataset.aufgabe, typ:k.dataset.pkarte?"pipe":"task", x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, aktiv:false, touch:e.pointerType!=="mouse"};
   if(zug.touch) zug.timer = setTimeout(zugStart, 280);
 });
 window.addEventListener("pointermove", e => {
@@ -1354,9 +1535,10 @@ window.addEventListener("touchmove", e => { if(zug?.aktiv) e.preventDefault(); }
 window.addEventListener("pointerup", () => {
   if(!zug) return;
   if(!zug.aktiv){ clearTimeout(zug.timer); zug = null; return; }
-  const id = zug.id, stufe = zug.ziel?.dataset.stufe;
+  const id = zug.id, stufe = zug.ziel?.dataset.stufe, tziel = zug.ziel?.dataset.tziel, typ = zug.typ;
   S.zugEnde = Date.now();
   zugAufraeumen();
+  if(typ==="task"){ if(tziel) aufgabeVerschieben(id, tziel); return; }
   const c = S.pipeline.find(x=>x.id===id);
   if(c && stufe && stufe!==(c.stufe||"Lead")){ aenderePipe(id, "stufe", stufe); zeigeToast(`${c.partner||c.titel} → ${stufe}`); }
 });
@@ -1395,6 +1577,13 @@ async function freigabeAktion(fid, was){
 seite.addEventListener("click", e => {
   const pj = e.target.closest("[data-pjahr]"); if(pj){ S.pJahr = pj.dataset.pjahr; render(); return; }
   if(e.target.closest("[data-pneu]")){ oeffneChance(); return; }
+  const akn = e.target.closest("[data-aknopf]"); if(akn){ const k = akn.closest("[data-aufgabe]"); if(k) aufgabeVerschieben(k.dataset.aufgabe, akn.dataset.aknopf); return; }
+  const akk = e.target.closest(".ak[data-aufgabe]"); if(akk){ if(Date.now()-(S.zugEnde||0)<350) return; S.ansicht="alle"; S.offen.add(akk.dataset.aufgabe); location.hash = akk.dataset.aufgabe; return; }
+  const fa = e.target.closest("[data-fantwort]"); if(fa){ const li = fa.closest("[data-frage]"); if(li){ fa.disabled = true; frageBeantworten(li.dataset.frage, fa.dataset.fantwort, fa); } return; }
+  if(e.target.closest("[data-kneu]")){ oeffneKampagne(); return; }
+  const ta = e.target.closest("[data-talle]"); if(ta){ S.tAlle = ta.dataset.talle==="1"; render(); return; }
+  if(e.target.closest("[data-tneu]")){ oeffneNeu({titel:"Aufgabe für heute", heute:heute(), bleiben:true}); return; }
+  if(e.target.closest("[data-tagab]")){ oeffneTagAbschluss(); return; }
   const fo = e.target.closest("[data-freioffen]"); if(fo){ oeffneFreigabe(fo.dataset.freioffen); return; }
   const pk = e.target.closest("[data-pkarte]"); if(pk){ if(Date.now()-(S.zugEnde||0)<350) return; oeffneChanceDetail(pk.dataset.pkarte); return; }
   if(e.target.closest("[data-lneu]")){ oeffneLead(); return; }
@@ -1414,6 +1603,7 @@ seite.addEventListener("click", e => {
   else if(akt==="haken"){ const a = S.aufgaben.find(x=>x.id===li.dataset.id); if(a) aendere(a.id,"status",a.status==="erledigt"?"offen":"erledigt"); }
   else if(akt==="ziel-bearb"){ const k="ziel:"+el.dataset.id; S.offen.has(k)?S.offen.delete(k):S.offen.add(k); render(); document.getElementById("ziel-"+el.dataset.id)?.focus(); }
 });
+seite.addEventListener("keydown", e => { if((e.key==="Enter"||e.key===" ") && e.target.matches && e.target.matches(".ak[data-aufgabe]")){ e.preventDefault(); e.target.click(); } });
 seite.addEventListener("change", e => {
   const t = e.target;
   if(t.id==="f-partner"){ S.fPartner = t.value; render(); return; }
@@ -1471,6 +1661,8 @@ render();
   abo("freigaben", v => S.freigaben = v);
   abo("pipeline", v => S.pipeline = v);
   abo("leads", v => S.leads = v);
+  abo("fragen", v => S.fragen = v);
+  abo("kampagnen", v => S.kampagnen = v);
   abo("system", v => { S.system = Object.fromEntries(v.map(d=>[d.id,d])); });
   abo("gespraeche", v => S.gespraeche = v, db.collection("gespraeche").orderBy("datum","desc").limit(5));
   const v = ansichtAus(); if(v.aufgabe){ S.ansicht="alle"; S.offen.add(v.aufgabe); }
