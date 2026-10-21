@@ -14,3 +14,4 @@
 - Version 11: Reiter „Sales“ mit Ziel-Übersicht (Neuumsatz, kurz vor Abschluss, laufender Umsatz, Klumpenrisiko), Pipeline als Board mit Detail-Dialog, Umsatz pro Monat/Jahr, Wochenfokus, Aktivität und Trichter, Anrufliste, Bestandskunden, Verkaufsleitfaden (`system/sales`). Reiter „Pipeline“ ist darin aufgegangen.
 - Version 12: Pipeline-Kacheln per Ziehen und Ablegen zwischen den Stufen verschieben (Maus direkt, Touch nach kurzem Halten).
 - Version 13: „Wartet auf deine Freigabe“ als kompakte Liste, Text zum Aufklappen.
+- Version 14: Startseite als Desktop-Übersicht: 6 Mini-Kennzahlen, Briefing und Top 3, „Wer macht was“ (Danny und Agenten mit Aufgaben, Freigaben, letzter Aktion), Anrufen, Freigaben (Dialog), Pipeline, Wochenfokus, Gespräche, Zuletzt passiert.

@@ -180,6 +180,71 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .chance .oben{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .chance-felder{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .chance-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.kpi{display:flex;flex-direction:column;gap:2px;padding:14px 16px;text-decoration:none;color:inherit;min-height:112px;transition:box-shadow .15s ease}
+.kpi:hover{box-shadow:var(--shadow-hover)}
+.kpi-label{text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.kpi-wert{font-size:1.5rem;line-height:1.2;font-weight:700;letter-spacing:.003em}
+.mini-balken{height:6px;border-radius:3px;background:var(--fill);overflow:hidden;margin-top:auto}
+.mini-balken div{height:100%;border-radius:3px}
+.seg-balken{display:flex;gap:2px;height:6px;margin-top:auto;border-radius:3px;overflow:hidden;background:var(--fill)}
+.spark{display:flex;gap:3px;align-items:flex-end;height:22px;margin-top:auto}
+.spark div{flex:1;background:var(--green);border-radius:2px 2px 0 0;min-height:2px}
+.dash{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px;align-items:start}
+.tile{grid-column:span 4;padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.tile-5{grid-column:span 5}.tile-7{grid-column:span 7}
+.tile-kopf{display:flex;align-items:center;gap:8px}
+.tile-kopf h2{flex:1;min-width:0;display:flex;align-items:center;gap:6px}
+.ico-mini{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+.ico-mini svg{width:14px;height:14px}
+.tile-link{font-weight:600;text-decoration:none;min-height:32px;display:flex;align-items:center}
+.tile-sub{font-weight:600;color:var(--label-2);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.zahl-badge{font-size:.75rem;font-weight:700;background:var(--fill);color:var(--label-2);border-radius:999px;padding:1px 8px}
+.mini-liste{display:flex;flex-direction:column}
+.mini-liste>li{display:flex;gap:10px;align-items:center;padding:6px 0;min-height:40px}
+.mini-liste>li+li{border-top:.5px solid var(--sep)}
+.mini-titel{display:flex;flex-direction:column;flex:1;min-width:0;text-align:left;text-decoration:none;color:inherit;min-height:36px;justify-content:center}
+.mini-titel .t-sub{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button.mini-titel:hover .t-sub,a.mini-titel:hover .t-sub{color:var(--blue-text)}
+details.mini-titel summary{display:flex;flex-direction:column;cursor:pointer;list-style:none}
+details.mini-titel summary::-webkit-details-marker{display:none}
+.platz-mini{width:22px;height:22px;border-radius:50%;background:var(--fill);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex:none}
+.knopf.mini{min-height:36px;min-width:36px;padding:0;border-radius:10px}
+.knopf.mini svg{width:16px;height:16px}
+.clamp4{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.brief-mehr summary{color:var(--blue-text);font-weight:600;cursor:pointer;min-height:32px;display:flex;align-items:center}
+.brief-mehr ul{padding-left:16px;list-style:disc}
+table.wer{width:100%;border-collapse:collapse}
+table.wer th,table.wer td{text-align:left;padding:7px 6px;border-top:.5px solid var(--sep);vertical-align:middle;font-size:.875rem}
+table.wer thead th{border-top:0;font-size:.75rem;color:var(--label-2);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+table.wer td.num,table.wer th.num{text-align:right;width:76px}
+table.wer tbody th{font-weight:400;white-space:nowrap}
+.wer-name{font-weight:600;display:block}
+table.wer{table-layout:fixed}
+table.wer th,table.wer td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wer-zuletzt{display:table-cell}
+.wer-zuletzt .wer-text{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wer-zuletzt .t-c1{display:block}
+.wer-name{overflow:hidden;text-overflow:ellipsis}
+.tile-6{grid-column:span 6}.tile-12{grid-column:span 12}
+.mini-liste.zwei{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
+.mini-liste.zwei>li+li{border-top:0}
+.mini-liste.zwei>li{border-bottom:.5px solid var(--sep)}
+details.mini-titel summary{align-items:flex-start;text-align:left;min-width:0}
+details.mini-titel summary .t-sub{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini-anruf .lead.kompakt{padding:5px 0}
+.mini-anruf .lead-aktion select.feld{min-width:120px;min-height:36px;font-size:.875rem}
+.mini-anruf .lead-aktion .knopf{min-height:36px;font-size:.8125rem;padding:0 10px}
+.mini-anruf .lead-name .pille{display:none}
+.pipe-mini{display:flex;flex-direction:column;gap:7px}
+.pipe-mini li{display:grid;grid-template-columns:8px 90px 1fr 22px 84px;gap:8px;align-items:center}
+.pipe-mini .tb{height:8px;background:var(--fill);border-radius:4px;overflow:hidden}
+.pipe-mini .tb div{height:100%;border-radius:4px}
+.pm-s{text-align:right}
+@media (max-width:1280px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.tile,.tile-5,.tile-6,.tile-7{grid-column:span 6}.tile-7,.tile-12{grid-column:span 12}}
+@media (max-width:1100px){.tile-6{grid-column:span 12}}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.tile,.tile-5,.tile-6,.tile-7,.tile-12{grid-column:span 12}table.wer col:nth-child(2),table.wer td:nth-child(2),table.wer th:nth-child(2){display:none}.mini-liste.zwei{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.kpi{transition:none}}
 .gruppe.frei-liste{display:block}
 .frei-zeile{padding:6px 12px 6px 6px}
 .frei-kopf{display:flex;align-items:center;gap:10px;min-height:52px}
@@ -514,27 +579,130 @@ function gespraecheHtml(){
   return `<section class="card box" aria-labelledby="h-ges"><h2 id="h-ges" class="t-hl"><span style="color:var(--blue-text);display:flex">${ic("bot")}</span>Gespräche mit Alex</h2>${g.length?`<ul class="liste-klein">${g.map(x=>`<li><details><summary class="t-sub"><span class="c2 num">${esc(datumDe(x.datum))}</span> · ${esc(x.titel||"Gespräch")}</summary><p class="t-fn c2" style="margin-top:6px;white-space:pre-wrap">${esc(x.zusammenfassung||"")}</p></details></li>`).join("")}</ul>`:`<p class="t-sub c2">Noch keine Gespräche im Gehirn. Sie kommen jeden Morgen aus dem Alex-Sheet dazu.</p>`}</section>`;
 }
 
+function vorZeit(iso){
+  if(!iso) return "";
+  const t = new Date(iso).getTime(); if(isNaN(t)) return "";
+  const min = Math.round((Date.now()-t)/60000);
+  if(min<1) return "gerade eben"; if(min<60) return `vor ${min} Min.`;
+  const std = Math.round(min/60); if(std<24) return `vor ${std} Std.`;
+  const tg = Math.round(std/24); if(tg===1) return "gestern"; if(tg<7) return `vor ${tg} Tagen`;
+  return datumDe(String(iso).slice(0,10));
+}
+function kachelKopf(titel, ico, farbe, link, linkText){
+  return `<header class="tile-kopf"><span class="ico-mini" style="background:${farbe}">${ic(ico)}</span><h2 class="t-hl">${titel}</h2>${link?`<a class="t-fn tile-link" href="${link}">${linkText||"Alle"} ›</a>`:""}</header>`;
+}
+function miniBalken(wert, farbe="var(--green)"){ return `<div class="mini-balken" role="presentation"><div style="width:${Math.max(0,Math.min(100,wert*100))}%;background:${farbe}"></div></div>`; }
+function anrufeProTag(){
+  const ver = S.leads.flatMap(l=>(l.verlauf||[]));
+  const tage = []; const d = new Date(heute()+"T12:00:00");
+  for(let k=6;k>=0;k--){ const x = new Date(d); x.setDate(d.getDate()-k); const iso = x.toISOString().slice(0,10); tage.push({iso, n:ver.filter(v=>v.datum===iso).length, wt:["So","Mo","Di","Mi","Do","Fr","Sa"][x.getDay()]}); }
+  return tage;
+}
+function wermachtwasHtml(){
+  const offenAuf = S.aufgaben.filter(a=>a.status!=="erledigt"&&a.status!=="später");
+  const fr = S.freigaben.filter(f=>f.status==="wartet");
+  const ST = {aktiv:["var(--green)","aktiv"],test:["var(--blue)","Test"],pausiert:["var(--orange)","pausiert"],geplant:["var(--gray)","geplant"]};
+  const zeilen = [];
+  const danny = offenAuf.filter(a=>(a.zustaendig||"Danny")==="Danny");
+  const dTop = [...danny].sort(vergleich)[0];
+  zeilen.push({name:"Danny", rolle:"du", farbe:"var(--blue)", status:["var(--green)","dran"], auf:danny.length, fr:fr.length, text: dTop?`Als Nächstes: ${dTop.aufgabe}`:"Nichts offen", zeit:""});
+  const ag = [...S.agenten].sort((x,y)=>(x.ebene-y.ebene)||((x.reihe??0)-(y.reihe??0)));
+  ag.forEach(a=>{
+    const zName = a.id.startsWith("partner-") ? null : a.name;
+    const auf = offenAuf.filter(t=>t.zustaendig===a.name || (a.id==="akquise"&&t.zustaendig==="Akquise-Agent")).length;
+    const nf = fr.filter(f=>f.agent===a.name).length;
+    const aktiv = a.status==="aktiv"||a.status==="test"||auf||nf||a.letzteAktion;
+    if(!aktiv) return;
+    zeilen.push({name:a.name.replace("Partner-Agent ",""), rolle:a.rolle, farbe:"var(--gray)", status:ST[a.status]||ST.geplant, auf, fr:nf, text:a.letzteAktion||(a.status==="aktiv"?"bereit":"noch nicht aktiv"), zeit:vorZeit(a.letzteAktionAm), link:a.link});
+  });
+  const ruhend = ag.length - (zeilen.length-1);
+  return `<section class="card tile tile-7" aria-labelledby="h-wer">${kachelKopf(`<span id="h-wer">Wer macht was</span>`,"bot","var(--red)","#agenten","Agenten")}
+    <table class="wer"><colgroup><col style="width:28%"><col style="width:13%"><col style="width:11%"><col style="width:11%"><col></colgroup><thead><tr><th scope="col">Wer</th><th scope="col">Status</th><th scope="col" class="num">Aufg.</th><th scope="col" class="num">Freig.</th><th scope="col">Zuletzt</th></tr></thead><tbody>
+    ${zeilen.map(z=>`<tr><th scope="row"><span class="wer-name">${esc(z.name)}</span><span class="t-c1 c2">${esc(z.rolle||"")}</span></th><td><span class="ampel t-fn"><i style="background:${z.status[0]}"></i>${z.status[1]}</span></td><td class="num">${z.auf||"–"}</td><td class="num">${z.fr||"–"}</td><td class="wer-zuletzt" title="${esc(z.text)}"><span class="wer-text">${esc(z.text)}</span>${z.zeit?`<span class="t-c1 c2">${esc(z.zeit)}</span>`:""}</td></tr>`).join("")}
+    </tbody></table>
+    ${ruhend>0?`<p class="t-c1 c2">${ruhend} weitere Agenten noch nicht aktiv.</p>`:""}
+  </section>`;
+}
+function freigabenMiniHtml(){
+  const offen = S.freigaben.filter(f=>f.status==="wartet").sort((a,b)=>String(a.erstelltAm).localeCompare(String(b.erstelltAm)));
+  const FARBE = {Nachricht:"var(--blue)",Mail:"var(--blue)",Angebot:"var(--orange)",Dokument:"var(--purple)",Dateiaktion:"var(--gray)"};
+  return `<section class="card tile tile-6" aria-labelledby="h-frei">${kachelKopf(`<span id="h-frei">Wartet auf Freigabe</span>${offen.length?` <span class="zahl-badge">${offen.length}</span>`:""}`,"schild","var(--purple)","#content","Alle Entwürfe")}
+    ${offen.length?`<ul class="mini-liste">${offen.slice(0,7).map(f=>`<li data-fid="${esc(f.id)}"><span class="punkt-s" style="background:${FARBE[f.art]||"var(--purple)"}" title="${esc(f.art||"")}"></span><button class="mini-titel" data-freioffen="${esc(f.id)}"><span class="t-sub">${esc(f.titel)}</span><span class="t-c1 c2">${esc([f.art, f.agent].filter(Boolean).join(" · "))}</span></button><button class="knopf primaer mini" data-frei="freigeben" aria-label="${esc(f.titel)} freigeben" ${S.nurLesen?"disabled":""}>${ic("haken")}</button></li>`).join("")}</ul>${offen.length>7?`<p class="t-c1 c2">${offen.length-7} weitere im Content-Studio.</p>`:""}`:`<p class="t-sub c2">Nichts offen.</p>`}
+  </section>`;
+}
+function oeffneFreigabe(fid, edit=false){
+  const f = S.freigaben.find(x=>x.id===fid); if(!f) return;
+  if(!schicht.innerHTML) vorherFokus = document.activeElement;
+  const link = (String(f.inhalt||"").match(/https:\/\/docs\.google\.com\/[^\s]+/)||[])[0];
+  schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt frei-dialog" role="dialog" aria-modal="true" aria-labelledby="fd-titel" data-fid="${esc(f.id)}">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px"><div><p class="t-fn c2">${esc([f.art, f.agent, f.empfaenger&&("an "+f.empfaenger), f.bezug].filter(Boolean).join(" · "))}</p><h2 id="fd-titel" class="t-t2">${esc(f.titel)}</h2></div><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
+    ${edit?`<label class="f"><span>Text bearbeiten</span><textarea id="fe-${esc(f.id)}" class="feld frei-edit" style="min-height:280px">${esc(f.inhalt||"")}</textarea></label>`:`<div class="frei-inhalt t-sub" style="max-height:52vh;overflow:auto">${linkify(f.inhalt)}</div>`}
+    ${f.hinweis?`<p class="t-fn c2" style="margin-top:10px">${esc(f.hinweis)}</p>`:""}
+    <div class="frei-knoepfe" style="margin-top:14px">${edit?`<button class="knopf primaer" data-frei="speichern">Speichern</button><button class="knopf sekundaer" data-frei="abbrechen">Abbrechen</button>`:`${link?`<a class="knopf sekundaer" href="${esc(link)}" target="_blank" rel="noopener">Dokument öffnen</a>`:""}<button class="knopf primaer" data-frei="freigeben" ${S.nurLesen?"disabled":""}>Freigeben</button><button class="knopf sekundaer" data-frei="bearbeiten" ${S.nurLesen?"disabled":""}>Bearbeiten</button><button class="knopf sekundaer" data-frei="verwerfen" style="color:var(--red-text)" ${S.nurLesen?"disabled":""}>Verwerfen</button>`}</div>
+  </div></div>`;
+  (edit ? document.getElementById("fe-"+f.id) : schicht.querySelector('[data-frei="freigeben"]'))?.focus();
+}
 function seiteHeute(){
   const d = new Date();
   const std = Number(new Intl.DateTimeFormat("de-DE",{hour:"numeric",hour12:false,timeZone:"Europe/Luxembourg"}).format(d));
   const gruss = std<11?"Guten Morgen, Danny":std<18?"Hallo Danny":"Guten Abend, Danny";
   const datum = new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"numeric",month:"long",timeZone:"Europe/Luxembourg"}).format(d);
-  const wartet = S.aufgaben.filter(a=>a.status==="wartet");
+  const z = salesZahlen(), ziel = (S.ziele.find(x=>x.id==="z1")||{}).soll||140000;
+  const offenNeu = S.pipeline.filter(c=>c.stufe!=="Gewonnen"&&c.stufe!=="Verloren"&&c.art!=="bestand");
+  const offenSumme = offenNeu.reduce((x,c)=>x+(Number(c.betrag)||0),0);
+  const anrufeOffen = S.leads.filter(leadOffen);
+  const tage = anrufeProTag(), maxT = Math.max(1,...tage.map(t=>t.n));
+  const fr = S.freigaben.filter(f=>f.status==="wartet");
+  const aeltesteFr = fr.map(f=>f.erstelltAm).sort()[0];
+  const meine = S.aufgaben.filter(a=>a.status!=="erledigt"&&(a.zustaendig||"Danny")==="Danny");
+  const sofort = meine.filter(a=>prio(a)===1&&(a.status==="offen"||a.status==="in Arbeit")).length;
+  const ueber = S.aufgaben.filter(ueberfaellig).length;
   const pruefen = S.aufgaben.filter(a=>a.status==="prüfen").length;
-  const ziele = S.ziele.filter(z=>!String(z.ziel).startsWith("Bestand"));
+  const agAktiv = S.agenten.filter(a=>a.status==="aktiv"||a.status==="test").length;
+  const org = S.agenten.find(a=>a.id==="organisator");
+  const b = [...S.briefings].sort((x,y)=>String(y.erstelltAm).localeCompare(String(x.erstelltAm)))[0];
+  const top = topDrei();
+  const fokus = ((S.system.sales||{}).wochenfokus||[]).filter(Boolean);
+  const stufen = BOARD.map(st=>{ const l = S.pipeline.filter(c=>(c.stufe||"Lead")===st); return {st, n:l.length, s:l.reduce((x,c)=>x+(Number(c.betrag)||0),0)}; });
+  const maxS = Math.max(1,...stufen.map(x=>x.s));
+  const ges = [...S.gespraeche].sort((a,b)=>String(b.datum).localeCompare(String(a.datum))).slice(0,3);
+  const kpi = (label, wert, sub, viz, link) => `<a class="card kpi" href="${link}"><span class="t-c1 c2 kpi-label">${label}</span><span class="kpi-wert num">${wert}</span><span class="t-c1 c2">${sub}</span>${viz||""}</a>`;
   return `${kopf(gruss, esc(datum))}
   ${verbindungsHinweis()}
-  ${briefingHtml(pruefen)}
-  ${anruflisteHtml()}
-  ${freigabenHtml()}
-  <section aria-labelledby="h-top"><div class="zeile-titel"><h2 id="h-top" class="t-t2">Top 3 heute</h2><a class="t-sub" style="font-weight:600;text-decoration:none" href="#aufgaben">Alle Aufgaben</a></div>${top3Html()}</section>
-  <div class="grid3">
-    <section class="card box" aria-labelledby="h-ter"><h2 id="h-ter" class="t-hl"><span style="color:var(--red-text);display:flex">${ic("kal")}</span>Termine</h2><p class="t-sub c2">Noch kein Kalender verbunden. Verbinde Google Kalender in Claude unter Einstellungen → Connectoren, dann stehen die Termine im Briefing.</p></section>
-    ${gespraecheHtml()}
-    <section class="card box" aria-labelledby="h-wart"><h2 id="h-wart" class="t-hl"><span style="color:var(--orange-text);display:flex">${ic("sanduhr")}</span>Du wartest auf</h2>${wartet.length?`<ul class="liste-klein">${wartet.map(a=>`<li><a class="t-sub" href="#${a.id}">${esc(a.aufgabe)} <span class="c2">· ${esc(partnerVon(a).join(", "))}</span></a>${a.wartetAuf?`<div class="t-fn c2">${esc(a.wartetAuf)}</div>`:""}</li>`).join("")}</ul>`:`<p class="t-sub c2">${geladen()?"Nichts.":"…"}</p>`}</section>
+  <div class="kpis">
+    ${kpi("Neuumsatz", euro(z.pz.gewonnen), `${Math.round(z.pz.gewonnen/ziel*100)} % von ${euro(ziel)}`, miniBalken(z.pz.gewonnen/ziel), "#sales")}
+    ${kpi("Pipeline offen", euro(offenSumme), `${offenNeu.length} Chancen · ${euro(z.heissSumme)} heiß`, `<div class="seg-balken">${stufen.filter(x=>x.st!=="Gewonnen").map(x=>`<div style="flex:${x.s||0.0001};background:${STUFE_FARBE[x.st]}" title="${x.st}: ${euro(x.s)}"></div>`).join("")}</div>`, "#sales")}
+    ${kpi("Anrufe offen", anrufeOffen.length, `${tage.reduce((x,t)=>x+t.n,0)} Anrufe in 7 Tagen`, `<div class="spark">${tage.map(t=>`<div title="${t.wt}: ${t.n}" style="height:${Math.max(8,t.n/maxT*100)}%;${t.n?"":"opacity:.35"}"></div>`).join("")}</div>`, "#leads")}
+    ${kpi("Freigaben", fr.length, aeltesteFr?`älteste ${vorZeit(aeltesteFr)}`:"nichts offen", "", "#content")}
+    ${kpi("Deine Aufgaben", meine.filter(a=>a.status!=="später").length, `${sofort} sofort · ${ueber} überfällig${pruefen?` · ${pruefen} prüfen`:""}`, miniBalken(sofort/Math.max(1,meine.length),"var(--red)"), "#aufgaben")}
+    ${kpi("Agenten", `${agAktiv}/${S.agenten.length}`, org?.letzteAktionAm?`Organisator ${vorZeit(org.letzteAktionAm)}`:"aktiv", miniBalken(agAktiv/Math.max(1,S.agenten.length),"var(--blue)"), "#agenten")}
   </div>
-  <section aria-labelledby="h-ziele"><h2 id="h-ziele" class="t-t2">Ziele</h2>${ziele.length?`<div class="grid4">${ziele.map(zielHtml).join("")}</div>`:`<div class="card c2" style="padding:24px">${S.geladen.ziele?"Noch keine Ziele im Gehirn.":"Ziele werden geladen …"}</div>`}</section>
-  <section aria-labelledby="h-verl"><h2 id="h-verl" class="t-t2">Zuletzt im Gehirn</h2>${S.ereignisse.length?`<ul class="gruppe">${S.ereignisse.map(e=>`<li class="ereignis"><span class="t-fn c2 num">${esc(zeitDe.format(new Date(e.zeit)))}</span><span class="t-sub" style="font-weight:600">${esc(e.akteur)}</span><span class="t-sub">${esc(e.aktion)}${e.objekt?` · ${esc(e.objekt)}`:""}</span>${e.details?`<span class="t-fn c2 d">${esc(e.details)}</span>`:""}</li>`).join("")}</ul>`:`<div class="card t-sub c2" style="padding:20px">Noch keine Einträge.</div>`}</section>`;
+  <div class="dash">
+    <section class="card tile tile-5" aria-labelledby="h-brief">${kachelKopf(`<span id="h-brief">${b?(b.art==="abend"?"Tagesabschluss":"Morgen-Briefing"):"Briefing"}</span>`,"zeitung",b?.art==="abend"?"var(--purple)":"var(--orange)")}
+      ${b?`<p class="t-c1 c2">${esc(datumLang(b.erstelltAm))} · ${esc(uhrzeit(b.erstelltAm))} Uhr</p><p class="t-sub clamp4">${esc(b.zusammenfassung||"")}</p>${(b.abschnitte||[]).length?`<details class="brief-mehr"><summary class="t-fn">Ganzes Briefing</summary>${b.abschnitte.map(a=>`<h3 class="t-fn" style="font-weight:600;margin-top:8px">${esc(a.titel)}</h3><ul>${(a.punkte||[]).map(x=>`<li class="t-fn">${esc(x)}</li>`).join("")}</ul>`).join("")}</details>`:""}`:`<p class="t-sub c2">Kommt werktags um 06:15.</p>`}
+      <h3 class="t-fn tile-sub">Top 3 heute</h3>
+      ${top.length?`<ol class="mini-liste top">${top.map((a,i)=>`<li><span class="platz-mini">${i+1}</span><a class="mini-titel" href="#${a.id}"><span class="t-sub">${esc(a.aufgabe)}</span><span class="t-c1 c2">${esc([partnerVon(a).join(", "), a.faelligAm&&`fällig ${datumDe(a.faelligAm)}`].filter(Boolean).join(" · "))}</span></a></li>`).join("")}</ol>`:`<p class="t-sub c2">${geladen()?"Keine dringenden Aufgaben.":"…"}</p>`}
+      <p class="t-c1 c2">Kalender noch nicht verbunden.</p>
+    </section>
+    ${wermachtwasHtml()}
+    <section class="card tile tile-6" aria-labelledby="h-anruf">${kachelKopf(`<span id="h-anruf">Heute anrufen</span>${anrufeOffen.length?` <span class="zahl-badge">${anrufeOffen.length}</span>`:""}`,"telefon","var(--green)","#leads","Leads")}
+      ${anrufeOffen.length?`<ul class="lead-liste mini-anruf">${[...anrufeOffen].sort(leadSort).slice(0,6).map(l=>leadZeile(l,true)).join("")}</ul>`:`<p class="t-sub c2">Keine offenen Anrufe.</p>`}
+    </section>
+    ${freigabenMiniHtml()}
+    <section class="card tile" aria-labelledby="h-pipe">${kachelKopf(`<span id="h-pipe">Pipeline</span>`,"trichter","var(--indigo)","#sales","Sales")}
+      <ul class="pipe-mini">${stufen.map(x=>`<li><span class="punkt-s" style="background:${STUFE_FARBE[x.st]}"></span><span class="t-fn">${x.st}</span><div class="tb"><div style="width:${x.s/maxS*100}%;background:${STUFE_FARBE[x.st]}"></div></div><span class="t-fn num">${x.n}</span><span class="t-fn num pm-s">${x.s?euro(x.s):"–"}</span></li>`).join("")}</ul>
+      <p class="t-c1 c2">Laufend ${euro(z.laufend)}/Jahr · Klumpenrisiko <span style="color:${z.anteil>0.6?"var(--red-text)":"var(--green-text)"};font-weight:600">${Math.round(z.anteil*100)} %</span></p>
+    </section>
+    <section class="card tile" aria-labelledby="h-wf">${kachelKopf(`<span id="h-wf">Wochenfokus KW ${kw()}</span>`,"ziel","var(--red)","#sales","Ändern")}
+      ${fokus.length?`<ol class="mini-liste">${fokus.map((f,i)=>`<li><span class="platz-mini">${i+1}</span><span class="t-sub">${esc(f)}</span></li>`).join("")}</ol>`:`<p class="t-sub c2">Noch kein Fokus gesetzt.</p>`}
+    </section>
+    <section class="card tile" aria-labelledby="h-ges">${kachelKopf(`<span id="h-ges">Gespräche</span>`,"bot","var(--blue)")}
+      ${ges.length?`<ul class="mini-liste">${ges.map(g=>`<li><span class="t-c1 c2 num" style="min-width:42px">${esc(datumDe(g.datum).slice(0,6))}</span><details class="mini-titel"><summary><span class="t-sub">${esc(g.titel||"Gespräch")}</span><span class="t-c1 c2">${esc(g.agent||"")}</span></summary><p class="t-fn c2" style="white-space:pre-wrap;margin-top:4px">${esc(g.zusammenfassung||"")}</p></details></li>`).join("")}</ul>`:`<p class="t-sub c2">Noch keine Gespräche.</p>`}
+    </section>
+    <section class="card tile tile-12" aria-labelledby="h-verl">${kachelKopf(`<span id="h-verl">Zuletzt passiert</span>`,"uhr","var(--gray)")}
+      ${S.ereignisse.length?`<ul class="mini-liste zwei">${S.ereignisse.slice(0,8).map(e=>`<li><span class="t-c1 c2" style="min-width:64px">${esc(vorZeit(e.zeit))}</span><span style="min-width:0;flex:1"><span class="t-fn" style="font-weight:600">${esc(e.akteur)}</span> <span class="t-fn">${esc(e.aktion)}</span>${e.objekt?`<span class="t-c1 c2"> · ${esc(e.objekt)}</span>`:""}</span></li>`).join("")}</ul>`:`<p class="t-sub c2">Noch keine Einträge.</p>`}
+    </section>
+  </div>`;
 }
 
 function formatZ(w,einheit){ return einheit==="EUR" ? `${zahl.format(w)} €` : zahl.format(w); }
@@ -1104,6 +1272,14 @@ schicht.addEventListener("mousemove", e => { const b = e.target.closest("#pal-li
 
 schicht.addEventListener("change", e => { const t = e.target; if(t.dataset && t.dataset.pfeld){ const d = t.closest("[data-cid]"); if(d) aenderePipe(d.dataset.cid, t.dataset.pfeld, t.dataset.pfeld==="naechsterSchritt"?(t.value.trim()||null):(t.value||null)); } });
 schicht.addEventListener("click", e => { const pa = e.target.closest("[data-pauftrag]"); if(pa){ const d = pa.closest("[data-cid]"); if(d){ const id = d.dataset.cid; schliesseSchicht(); pipeAuftrag(id, pa.dataset.pauftrag); } } });
+schicht.addEventListener("click", e => {
+  const fb = e.target.closest("[data-frei]"); if(!fb) return;
+  const d = fb.closest(".frei-dialog[data-fid]"); if(!d) return;
+  const fid = d.dataset.fid, was = fb.dataset.frei;
+  if(was==="bearbeiten"){ oeffneFreigabe(fid, true); return; }
+  if(was==="abbrechen"){ oeffneFreigabe(fid, false); return; }
+  freigabeAktion(fid, was); schliesseSchicht();
+});
 /* ---------- Ereignisse der Seite ---------- */
 const seite = document.getElementById("seite");
 /* ---------- Kacheln ziehen ---------- */
@@ -1201,6 +1377,7 @@ async function freigabeAktion(fid, was){
 seite.addEventListener("click", e => {
   const pj = e.target.closest("[data-pjahr]"); if(pj){ S.pJahr = pj.dataset.pjahr; render(); return; }
   if(e.target.closest("[data-pneu]")){ oeffneChance(); return; }
+  const fo = e.target.closest("[data-freioffen]"); if(fo){ oeffneFreigabe(fo.dataset.freioffen); return; }
   const pk = e.target.closest("[data-pkarte]"); if(pk){ if(Date.now()-(S.zugEnde||0)<350) return; oeffneChanceDetail(pk.dataset.pkarte); return; }
   if(e.target.closest("[data-lneu]")){ oeffneLead(); return; }
   const lf = e.target.closest("[data-lfilter]"); if(lf){ S.lFilter = lf.dataset.lfilter; render(); return; }
