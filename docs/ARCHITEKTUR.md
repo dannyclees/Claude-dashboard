@@ -10,7 +10,7 @@ Geprüft am 21.10.2026, ausschließlich lesend.
 | Dienst | Status | Was gefunden wurde | Bedeutung für Cockpit |
 |---|---|---|---|
 | **Google Drive** | ✅ funktioniert | Ordner `Dashboard` existiert bereits (seit 04/2026) mit eigener Struktur, Kundenordnern und `TASKS/TASKS.md` | Drive-Agent baut auf der **bestehenden** Struktur auf, statt eine neue zu erzwingen |
-| **Google Docs / Sheets / Slides** | ✅ verfügbar | Docs & Sheets im Dashboard lesbar | Aufgaben-Sheet, Briefings als Docs |
+| **Google Docs / Sheets / Slides** | ✅ verfügbar | Docs & Sheets im Dashboard lesbar | Briefings als lesbare Docs; Aufgaben liegen im Gehirn |
 | **ElevenLabs** | ✅ funktioniert | 17 Agents vorhanden (u. a. „Alex“, Website-Agenten C&E/Hausman, Rezeptionisten). **Noch kein „Mark“.** | Mark wird neu angelegt; bestehende Agents bleiben unangetastet |
 | **HyperFrames (HeyGen)** | ✅ funktioniert | Letztes Projekt: „Peinture de l'Est – Erklärvideo“ (19.10.) | Erklärvideo- & Motion-Agent nutzbar |
 | **Figma** | ⚠️ eingeschränkt | Account Danny Clees, Teams „Clees&Ernster“ + „newq“ – jeweils nur **View-Seat** (Starter) | Entwürfe in Figma brauchen evtl. einen Edit-Seat → Alternative: klickbare HTML-Prototypen |
@@ -63,10 +63,10 @@ Dashboard/
 ├── 04_Kunden/<Name>/  bleibt – je Partner zusätzlich eine Datei „_Steckbrief“
 ├── 11_Content/        NEU – Texte, Skripte, Videos, Motion (Unterordner nach Status)
 ├── 12_Mail/           NEU – Mail-Zusammenfassungen + Entwürfe zur Freigabe
-└── _System/           NEU – Agenten-Board (Sheet), Ereignis-Log, Übergaben
+└── _System/           NEU – nur Sicherungen (Export des Gehirns)
 ```
 
-`TASKS/TASKS.md` wird zum Master-To-do (oder in ein Sheet `_System/Aufgaben` überführt – Entscheidung offen).
+Aufgaben, Agenten-Board, Übergaben und Ereignis-Log liegen **im Gehirn** (`brain/README.md`), nicht in Drive. `TASKS/TASKS.md` bleibt als Archiv; Drive ist nur Dateiablage.
 Lose Dateien im Hauptordner sortiert der Drive-Agent erst nach Freigabe ein.
 
 ## 3. Agentenliste
@@ -75,7 +75,7 @@ Lose Dateien im Hauptordner sortiert der Drive-Agent erst nach Freigabe ein.
 |---|---|---|
 | 1 | **Mark** – Stimme & Ausführung (ElevenLabs, neu) | Backend-Tools → alle Agenten; kann an Alex übergeben |
 | 1 | **Alex** – Stratege & Sparringspartner (ElevenLabs, besteht, wird bereinigt) | Hormozi-Wissensbibliothek, C&E-Firmendaten |
-| 2 | **Organisator** | Calendar-API, Master-Aufgaben-Sheet, Agenten-Board, Wispr-Flow-Meetings, Alex-Gespräche |
+| 2 | **Organisator** | Calendar-API, Gehirn (Aufgaben, Ziele, Übergaben), Wispr-Flow-Meetings, Alex-Gespräche |
 | 2 | **Mail-Assistent** | Gmail-API (nur lesen + Entwürfe) – Zugang folgt |
 | 2 | **Drive-Agent** | Drive-API, Ordner `Dashboard` |
 | 3 | **Partner-Agent Hausmann** | `04_Kunden/Hausman`, Meta Ads (Adspirer), monday-Boards |
@@ -113,7 +113,7 @@ Details: `docs/ALEX_ANALYSE.md`, `docs/AUFGABEN_SYSTEM.md`.
 ## 4. Technische Standardentscheidungen
 
 - Monorepo: `apps/web` (Next.js App Router, TypeScript, Tailwind) + `apps/agents` (Claude Agent SDK, TypeScript) + `agents/*.md` (Agenten-Konfiguration).
-- Datenbank: SQLite über Drizzle ORM (Cache, Agenten-Board, Ereignis-Log); Drive bleibt die sichtbare Wahrheit.
+- **Gehirn:** SQLite über Drizzle ORM als einzige Quelle für Aufgaben, Ziele, Partner, Agenten, Übergaben, Freigaben, Gespräche, Ereignis-Log und Gedächtnis. Drive speichert nur Dateien; das Gehirn wird täglich nach `_System/Backup` gesichert.
 - Zeitsteuerung: Node-Scheduler im Backend (`node-cron`), Zeitzone `Europe/Luxembourg`.
 - Mark: ElevenLabs Conversational AI mit Client-Tools, die das Backend über eine gesicherte API aufrufen.
 - Hosting zunächst lokal auf deinem Rechner (läuft morgens, wenn der Rechner an ist); später optional ein kleiner Server, damit 06:30 auch bei ausgeschaltetem Rechner klappt.
@@ -139,12 +139,12 @@ Details: `docs/ALEX_ANALYSE.md`, `docs/AUFGABEN_SYSTEM.md`.
 
 - **ElevenLabs bereinigt:** 39 Dokumente gelöscht (Dubletten, Link- und Quellenlisten, Meta-Notizen, verwaiste Dokumente). Ordnerstruktur: „Alex – Hormozi-Wissen“, „C&E – Firmendaten“, „Kunden-Agenten“.
 - **Alex:** Modell `claude-sonnet-5-5`, RAG an (`multilingual_e5_large_instruct`), Zeitzone Europe/Luxembourg, Prompt neu (Tool-Name `Alex-Agent` korrigiert), Begrüßung korrigiert, Wissen von 199 auf 92 Seiten.
-- **Drive:** `Dashboard/_System/Cockpit-Aufgaben` (Master-Sheet: Aufgaben, Ziele, Listen, Anleitung) und `Dashboard/07_Ressourcen/Hormozi-Wissen/00_Übersicht Hormozi-Wissen`.
-- `TASKS.md` bleibt unverändert als Archiv bestehen; die Inhalte stehen jetzt im Master-Sheet.
+- **Drive:** `Dashboard/07_Ressourcen/Hormozi-Wissen/00_Übersicht Hormozi-Wissen`.
+- **Aufgaben:** Entscheidung von Danny: Aufgaben leben im Gehirn des Cockpits, nicht in einem Sheet. Startdaten (25 Aufgaben, Ziele, Partner) liegen in `brain/seed/`. `TASKS.md` bleibt als Archiv. Das am 21.10. angelegte Sheet `_System/Cockpit-Aufgaben` wird nicht weitergeführt.
 
 ## 7. Noch offen
 
 - Drive-Ordner „Hausman“ in „Hausmann“ umbenennen? (Domain ist hausman.lu)
 - 6 Aufgaben mit Status „prüfen“ (aus Alex-Gesprächen im Mai) entscheiden
-- Fälligkeitsdaten im Master-Sheet ergänzen
+- Fälligkeitsdaten ergänzen (im Dashboard, sobald es steht)
 - Gmail-Zugang, Adspirer-Abo

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Hausmann",
+    "drive_ordner": "04_Kunden/Hausman",
+    "web": "hausman.lu",
+    "status": "aktiv",
+    "quellen": [
+      "Meta Ads (Adspirer)",
+      "monday-Boards"
+    ]
+  },
+  {
+    "name": "Ytter Design",
+    "drive_ordner": "04_Kunden/YtterDesign",
+    "status": "aktiv"
+  },
+  {
+    "name": "Berdorfer Käse",
+    "drive_ordner": "04_Kunden/Berdorfer_Kaese",
+    "status": "aktiv"
+  },
+  {
+    "name": "Peinture de l'Est",
+    "drive_ordner": "04_Kunden/Peinture_de_lEst",
+    "status": "aktiv"
+  }
+]

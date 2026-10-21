@@ -39,7 +39,7 @@ Ich komme morgens rein, sage „Guten Morgen, Mark“, und Mark sagt mir in 60 S
 |---|---|---|
 | **Organisator** | Kennt mein Dashboard, macht To-do-Listen, erinnert mich, priorisiert nach „wirklich wichtig vs. nur dringend“ (Eisenhower), erstellt das Morgen-Briefing und den Tagesabschluss. | Kalender, Aufgaben, Agenten-Board, Wispr-Flow-Meetings |
 | **Mail-Assistent** | Sortiert den Posteingang, fasst zusammen, markiert was eine Antwort braucht, schreibt **Entwürfe** in meinem Stil. Sendet **nie** ohne meine Freigabe. Leitet Aufgaben aus Mails an den Organisator weiter. | Gmail |
-| **Drive-Agent** | Hütet den Ordner **`Dashboard`** in Google Drive: hält Struktur sauber, legt neue Dateien richtig ab, merkt sich, was wo liegt, und ist die **Kommunikationszentrale** zwischen allen Agenten (siehe „Wie die Agenten miteinander reden“). | Google Drive, Docs, Sheets, Slides |
+| **Drive-Agent** | Hütet den Ordner **`Dashboard`** in Google Drive: hält Struktur sauber, legt neue Dateien richtig ab, merkt sich, was wo liegt, und meldet neue Dateien an das Gehirn. | Google Drive, Docs, Sheets, Slides |
 
 ### Ebene 3 – Fach-Agenten (Marketing)
 | Agent | Aufgabe | Werkzeuge |
@@ -57,19 +57,18 @@ Ich komme morgens rein, sage „Guten Morgen, Mark“, und Mark sagt mir in 60 S
 
 ## Wie die Agenten miteinander reden
 
-- Zentrale ist der Ordner **`Dashboard`** in Google Drive, verwaltet vom Drive-Agenten. Vorschlag für die Struktur (in Phase 0 mit mir abstimmen):
+- Zentrale ist **das Gehirn** im Cockpit. Für Dateien gibt es den Ordner **`Dashboard`** in Google Drive, verwaltet vom Drive-Agenten:
   ```
   Dashboard/
   ├── 00_Heute/            ← Morgen-Briefing, Tagesplan (wird jede Nacht neu erzeugt)
-  ├── 01_Aufgaben/         ← Master-To-do (Sheet) inkl. Priorität, Fälligkeit, Agent
   ├── 02_Partner/<Name>/   ← je Partner: Steckbrief, Kampagnen, Assets, Protokolle
   ├── 03_Content/          ← Texte, Skripte, Videos, Motion – nach Status sortiert
   ├── 04_Mail/             ← Zusammenfassungen, Antwortentwürfe zur Freigabe
   ├── 05_Wissen/           ← Brand-Guidelines, Stilvorgaben, Vorlagen
-  └── _System/             ← Agenten-Board, Ereignis-Log, Übergaben zwischen Agenten
+  └── _System/             ← Sicherungen des Gehirns
   ```
-- **Agenten-Board** (`_System`): Jede Aufgabe hat Besitzer-Agent, Status (offen / in Arbeit / wartet auf Freigabe / erledigt), Quelle (Mail, Sprache, Termin) und Verlauf. Übergaben laufen über dieses Board, nicht „im Kopf“ eines Agenten.
-- Zusätzlich eine lokale Datenbank (SQLite) im Backend als schneller Cache und für das Dashboard; Drive bleibt die für mich sichtbare „Wahrheit“.
+- **Das Gehirn** (Datenbank im Cockpit, siehe `brain/README.md`) ist die einzige Quelle für Aufgaben, Ziele, Partner, Übergaben, Freigaben, Gespräche und das Ereignis-Log. Jede Aufgabe hat Besitzer-Agent, Status (offen / in Arbeit / wartet auf Freigabe / erledigt), Quelle (Mail, Sprache, Termin) und Verlauf. Übergaben laufen über das Gehirn, nicht „im Kopf“ eines Agenten.
+- Google Drive speichert nur Dateien.
 
 ---
 
@@ -115,7 +114,7 @@ Das Dashboard soll aussehen und sich anfühlen wie eine native Apple-App (macOS/
 - **Anbindungen (MCP/APIs):** Gmail, Google Calendar, Google Drive/Docs/Sheets/Slides, ElevenLabs, HyperFrames (HeyGen), Figma, Adspirer, Wispr Flow, optional monday.com.
 - **Stimme:** ElevenLabs Conversational AI für Mark (Agent + Client-Tools, die das Backend aufrufen), Widget im Frontend.
 - **Zeitsteuerung:** Geplante Jobs für Morgen-Briefing und Tagesabschluss.
-- **Daten:** SQLite (Cache/Board) + Google Drive `Dashboard` (sichtbare Ablage).
+- **Daten:** das Gehirn (SQLite) als einzige Quelle; Google Drive `Dashboard` nur für Dateien und Sicherungen.
 - **Geheimnisse:** Alle Schlüssel in `.env`, nie im Code oder im Repo. `.env.example` mit Platzhaltern pflegen.
 
 ## Freigaberegeln (nicht verhandelbar)

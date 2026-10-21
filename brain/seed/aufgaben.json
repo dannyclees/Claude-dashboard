@@ -1,0 +1,480 @@
+[
+  {
+    "id": "AUF-0001",
+    "aufgabe": "Video-Testimonial drehen",
+    "partner": [
+      "Hausmann"
+    ],
+    "bereich": "Kunde",
+    "wichtig": true,
+    "dringend": true,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Fragen vorbereiten, auf konkrete Zahlen und Vorher/Nachher achten",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0002",
+    "aufgabe": "Ergebniszahlen dokumentieren",
+    "partner": [
+      "Hausmann"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": true,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Anfragen vorher/nachher, Kosten pro Anfrage und Umsatz-Effekt erheben",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0003",
+    "aufgabe": "Empfehlungen aktiv anfragen (je 2–3 Namen)",
+    "partner": [
+      "Alle Partner"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": true,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Hausmann, Ytter Design, Peinture de l'Est und Berdorfer Käse nach je 2–3 konkreten Betrieben fragen",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0004",
+    "aufgabe": "Förderablauf Websites klären",
+    "partner": [
+      "Hausmann",
+      "Ytter Design"
+    ],
+    "bereich": "Finanzen",
+    "wichtig": true,
+    "dringend": true,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Klären, ob der Kunde vorab zahlt oder ob wir auf die Förderung warten",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0005",
+    "aufgabe": "Beziehung zum neuen Inhaber aufbauen",
+    "partner": [
+      "Ytter Design"
+    ],
+    "bereich": "Kunde",
+    "wichtig": true,
+    "dringend": true,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Termin vereinbaren, Ergebnisse zeigen, Website-Projekt absichern",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0006",
+    "aufgabe": "Google-Bewertungen einsammeln",
+    "partner": [
+      "Hausmann",
+      "Peinture de l'Est",
+      "Berdorfer Käse"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Direkten Bewertungslink schicken: Hausmann und Peinture de l'Est jetzt, Berdorfer Käse später",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0007",
+    "aufgabe": "Marketing-Testabo definieren",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Laufzeit, Testpreis, regulärer Preis sichtbar auf der Rechnung, Erfolgskennzahlen, fester Termin für das Übergangsgespräch zum Jahresvertrag",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0008",
+    "aufgabe": "Förder-Rechner: Förderquoten offiziell verifizieren",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Website 80 % von bis zu 25.000 €, Marketing 15 % von bis zu 25.000 € mit offizieller Quelle belegen",
+    "quelle": "TASKS.md",
+    "projekt": "Förder-Rechner",
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0009",
+    "aufgabe": "Förder-Rechner bauen (Lead-Magnet)",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Claude Code",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Nutzer wählt Website und/oder Marketing, Rechner zeigt Förderung, Ergebnis gegen Kontaktdaten",
+    "quelle": "TASKS.md",
+    "projekt": "Förder-Rechner",
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0010",
+    "aufgabe": "Förder-Rechner: Qualifizierungsfragen einbauen",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Claude Code",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Branche, Mitarbeiterzahl, Werbebudget abfragen",
+    "quelle": "TASKS.md",
+    "projekt": "Förder-Rechner",
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0011",
+    "aufgabe": "Förder-Rechner: Übergang Website → Jahresvertrag im Vorgespräch einplanen",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Gesprächsleitfaden für das Vorgespräch erstellen",
+    "quelle": "TASKS.md",
+    "projekt": "Förder-Rechner",
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0012",
+    "aufgabe": "E-Mail-Liste sauber aufsetzen",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Nur Firmen-Info-Adressen, persönlich, wenig Volumen, Abmeldeoption, Herkunft dokumentieren",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0013",
+    "aufgabe": "LinkedIn-Profil neu aufstellen",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "offen",
+    "wartet_auf": null,
+    "naechster_schritt": "Headline, Banner, Info-Text, Testimonials, Cases verlinken",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0014",
+    "aufgabe": "Motion-Graphics-Erklärvideo (Wärmepumpe/Gasheizung)",
+    "partner": [
+      "Hausmann"
+    ],
+    "bereich": "Content",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "wartet",
+    "wartet_auf": "seit 13.10.2026",
+    "naechster_schritt": "Sprechertext und Animation; Wartegrund ergänzen",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0015",
+    "aufgabe": "Neue Website (gefördert, ca. 25.000 €)",
+    "partner": [
+      "Hausmann"
+    ],
+    "bereich": "Kunde",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "wartet",
+    "wartet_auf": "Förderablauf (AUF-0004), seit 13.10.2026",
+    "naechster_schritt": "Start nach Klärung der Förderung",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0016",
+    "aufgabe": "Neue Website (gefördert, ca. 25.000 €)",
+    "partner": [
+      "Ytter Design"
+    ],
+    "bereich": "Kunde",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "wartet",
+    "wartet_auf": "Übergabe an neuen Inhaber, seit 13.10.2026",
+    "naechster_schritt": "Start voraussichtlich in 1–2 Monaten",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0017",
+    "aufgabe": "Nische entscheiden: Handwerk/Immo/Dienstleister oder neue Nische",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Strategie",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "später",
+    "wartet_auf": null,
+    "naechster_schritt": "Mit Alex durchsprechen",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0018",
+    "aufgabe": "Ansprechpartner und Betreuungsbeginn je Kunde dokumentieren",
+    "partner": [
+      "Alle Partner"
+    ],
+    "bereich": "System",
+    "wichtig": true,
+    "dringend": false,
+    "umsatzhebel": "niedrig",
+    "faellig_am": null,
+    "zustaendig": "Drive-Agent",
+    "status": "später",
+    "wartet_auf": null,
+    "naechster_schritt": "Wird für die Partner-Agenten gebraucht (Steckbrief je Partner)",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0019",
+    "aufgabe": "Domain-Problem bei Strato lösen",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "System",
+    "wichtig": true,
+    "dringend": true,
+    "umsatzhebel": "niedrig",
+    "faellig_am": "2026-10-13",
+    "zustaendig": "Danny",
+    "status": "erledigt",
+    "wartet_auf": null,
+    "naechster_schritt": "Lief noch über den Bruder",
+    "quelle": "TASKS.md",
+    "projekt": null,
+    "erstellt_am": "2026-10-13"
+  },
+  {
+    "id": "AUF-0020",
+    "aufgabe": "Zielgruppe Handwerker für Voice-Agenten-Kampagne bestätigen",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": null,
+    "dringend": null,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "prüfen",
+    "wartet_auf": null,
+    "naechster_schritt": "Noch aktuell? Entscheiden oder streichen",
+    "quelle": "Alex-Gespräch",
+    "projekt": null,
+    "erstellt_am": "2026-05-17"
+  },
+  {
+    "id": "AUF-0021",
+    "aufgabe": "Cold-Email-Hook (max. 3 Sätze, schmerzorientiert) entwerfen",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Content",
+    "wichtig": null,
+    "dringend": null,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Text-Agent",
+    "status": "prüfen",
+    "wartet_auf": null,
+    "naechster_schritt": "Noch aktuell? Hängt an AUF-0020",
+    "quelle": "Alex-Gespräch",
+    "projekt": null,
+    "erstellt_am": "2026-05-17"
+  },
+  {
+    "id": "AUF-0022",
+    "aufgabe": "Instantly-Kampagne mit 100 Kontakten pro Tag vorbereiten",
+    "partner": [
+      "C&E intern"
+    ],
+    "bereich": "Akquise",
+    "wichtig": null,
+    "dringend": null,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "prüfen",
+    "wartet_auf": null,
+    "naechster_schritt": "Noch aktuell? Erst nach Zielgruppe und Hook",
+    "quelle": "Alex-Gespräch",
+    "projekt": null,
+    "erstellt_am": "2026-05-17"
+  },
+  {
+    "id": "AUF-0023",
+    "aufgabe": "DFY-Wachstumspaket (8.000 €/Monat) pitchen",
+    "partner": [
+      "Hausmann"
+    ],
+    "bereich": "Akquise",
+    "wichtig": null,
+    "dringend": null,
+    "umsatzhebel": "hoch",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "prüfen",
+    "wartet_auf": null,
+    "naechster_schritt": "Wurde der Pitch gemacht? Ergebnis eintragen oder streichen",
+    "quelle": "Alex-Gespräch",
+    "projekt": null,
+    "erstellt_am": "2026-05-18"
+  },
+  {
+    "id": "AUF-0024",
+    "aufgabe": "Badezimmerkampagne: E-Mail-Liste und Follow-up vorbereiten",
+    "partner": [
+      "Hausmann"
+    ],
+    "bereich": "Kunde",
+    "wichtig": null,
+    "dringend": null,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "prüfen",
+    "wartet_auf": null,
+    "naechster_schritt": "Noch aktuell? Zielgruppe und vorhandene Kontakte prüfen",
+    "quelle": "Alex-Gespräch",
+    "projekt": null,
+    "erstellt_am": "2026-05-21"
+  },
+  {
+    "id": "AUF-0025",
+    "aufgabe": "Malerbetrieb-Pitch auf Conversion und Lead-Sicherung umstellen",
+    "partner": [
+      "Peinture de l'Est"
+    ],
+    "bereich": "Akquise",
+    "wichtig": null,
+    "dringend": null,
+    "umsatzhebel": "mittel",
+    "faellig_am": null,
+    "zustaendig": "Danny",
+    "status": "prüfen",
+    "wartet_auf": null,
+    "naechster_schritt": "Noch aktuell? Partner bestätigen (laut Alex-Gespräch ein Malerbetrieb)",
+    "quelle": "Alex-Gespräch",
+    "projekt": null,
+    "erstellt_am": "2026-05-21"
+  }
+]

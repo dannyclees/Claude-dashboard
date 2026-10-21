@@ -1,0 +1,42 @@
+[
+  {
+    "ziel": "Neuumsatz",
+    "einheit": "EUR",
+    "soll": 140000,
+    "ist": null,
+    "zeitraum": "12 Monate ab 10/2026",
+    "quelle": "TASKS.md, 13.10.2026"
+  },
+  {
+    "ziel": "Website-Projekte",
+    "einheit": "Abschlüsse",
+    "soll": 4,
+    "ist": null,
+    "zeitraum": "12 Monate ab 10/2026",
+    "quelle": "TASKS.md, 13.10.2026"
+  },
+  {
+    "ziel": "Jahresverträge Marketing",
+    "einheit": "Abschlüsse",
+    "soll": 4,
+    "ist": null,
+    "zeitraum": "12 Monate ab 10/2026",
+    "quelle": "TASKS.md, 13.10.2026"
+  },
+  {
+    "ziel": "Pipeline",
+    "einheit": "Qualifizierte Gespräche pro Monat",
+    "soll": 5,
+    "ist": null,
+    "zeitraum": "pro Monat",
+    "quelle": "TASKS.md, 13.10.2026 (Ziel 5–6)"
+  },
+  {
+    "ziel": "Bestand (zum Vergleich)",
+    "einheit": "EUR",
+    "soll": 140000,
+    "ist": null,
+    "zeitraum": "laufend",
+    "quelle": "TASKS.md, 13.10.2026 (ca.)"
+  }
+]
