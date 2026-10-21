@@ -15,3 +15,4 @@
 - Version 12: Pipeline-Kacheln per Ziehen und Ablegen zwischen den Stufen verschieben (Maus direkt, Touch nach kurzem Halten).
 - Version 13: „Wartet auf deine Freigabe“ als kompakte Liste, Text zum Aufklappen.
 - Version 14: Startseite als Desktop-Übersicht: 6 Mini-Kennzahlen, Briefing und Top 3, „Wer macht was“ (Danny und Agenten mit Aufgaben, Freigaben, letzter Aktion), Anrufen, Freigaben (Dialog), Pipeline, Wochenfokus, Gespräche, Zuletzt passiert.
+- Version 15: Anrufliste zeigt den Zweck jedes Anrufs als farbiges Etikett mit Farbstreifen (Empfehlung anfragen, Empfehlung, Termin fixieren/vorbereiten, Rückruf, Nachfassen, Unterlagen, Erstanruf).

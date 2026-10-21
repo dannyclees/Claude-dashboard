@@ -5,32 +5,32 @@
    Farben = Apple-Systemfarben, Typo = iOS-Skala „Large“, Systemschrift (SF auf Apple-Geräten). */
 :root{
   --blue:#007aff;--blue-text:#0066cc;--green:#34c759;--green-text:#1f8a3a;--orange:#ff9500;--orange-text:#b25e00;
-  --red:#ff3b30;--red-text:#d70015;--purple:#af52de;--indigo:#5856d6;--purple-text:#8944ab;--teal:#30b0c7;--gray:#8e8e93;
+  --red:#ff3b30;--red-text:#d70015;--purple:#af52de;--indigo:#5856d6;--purple-text:#8944ab;--teal-text:#0a6f82;--teal:#30b0c7;--gray:#8e8e93;
   --label:#000;--label-2:#6e6e73;--label-3:#8e8e93;--bg:#f2f2f7;--surface:#fff;--surface-2:#f7f7fa;
   --fill:rgba(120,120,128,.12);--fill-2:rgba(120,120,128,.2);--sep:rgba(60,60,67,.18);
   --glass:rgba(246,246,248,.78);--glass-dicht:rgba(252,252,253,.96);--glass-border:rgba(0,0,0,.06);
   --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);--shadow-hover:0 2px 4px rgba(0,0,0,.05),0 12px 32px rgba(0,0,0,.1);
-  --t-red:rgba(255,59,48,.12);--t-blue:rgba(0,122,255,.12);--t-orange:rgba(255,149,0,.14);--t-green:rgba(52,199,89,.14);--t-purple:rgba(175,82,222,.12);--t-gray:rgba(142,142,147,.14);
+  --t-red:rgba(255,59,48,.12);--t-blue:rgba(0,122,255,.12);--t-teal:rgba(48,176,199,.16);--t-orange:rgba(255,149,0,.14);--t-green:rgba(52,199,89,.14);--t-purple:rgba(175,82,222,.12);--t-gray:rgba(142,142,147,.14);
   --font:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
   --r-card:20px;--r-ctl:12px;--side:256px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --blue:#0a84ff;--blue-text:#409cff;--green:#30d158;--green-text:#30d158;--orange:#ff9f0a;--orange-text:#ffb340;
-  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--indigo:#5e5ce6;--purple-text:#da8fff;--teal:#40c8e0;
+  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--indigo:#5e5ce6;--purple-text:#da8fff;--teal-text:#6fdcee;--teal:#40c8e0;
   --label:#fff;--label-2:#aeaeb2;--label-3:#8e8e93;--bg:#000;--surface:#1c1c1e;--surface-2:#232325;
   --fill:rgba(120,120,128,.24);--fill-2:rgba(120,120,128,.36);--sep:rgba(84,84,88,.6);
   --glass:rgba(28,28,30,.78);--glass-dicht:rgba(36,36,38,.96);--glass-border:rgba(255,255,255,.08);
   --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);--shadow-hover:0 2px 4px rgba(0,0,0,.5),0 12px 32px rgba(0,0,0,.5);
-  --t-red:rgba(255,69,58,.2);--t-blue:rgba(10,132,255,.22);--t-orange:rgba(255,159,10,.2);--t-green:rgba(48,209,88,.2);--t-purple:rgba(191,90,242,.22);--t-gray:rgba(142,142,147,.24);
+  --t-red:rgba(255,69,58,.2);--t-blue:rgba(10,132,255,.22);--t-teal:rgba(64,200,224,.22);--t-orange:rgba(255,159,10,.2);--t-green:rgba(48,209,88,.2);--t-purple:rgba(191,90,242,.22);--t-gray:rgba(142,142,147,.24);
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --blue:#0a84ff;--blue-text:#409cff;--green:#30d158;--green-text:#30d158;--orange:#ff9f0a;--orange-text:#ffb340;
-  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--indigo:#5e5ce6;--purple-text:#da8fff;--teal:#40c8e0;
+  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--indigo:#5e5ce6;--purple-text:#da8fff;--teal-text:#6fdcee;--teal:#40c8e0;
   --label:#fff;--label-2:#aeaeb2;--label-3:#8e8e93;--bg:#000;--surface:#1c1c1e;--surface-2:#232325;
   --fill:rgba(120,120,128,.24);--fill-2:rgba(120,120,128,.36);--sep:rgba(84,84,88,.6);
   --glass:rgba(28,28,30,.78);--glass-dicht:rgba(36,36,38,.96);--glass-border:rgba(255,255,255,.08);
   --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);--shadow-hover:0 2px 4px rgba(0,0,0,.5),0 12px 32px rgba(0,0,0,.5);
-  --t-red:rgba(255,69,58,.2);--t-blue:rgba(10,132,255,.22);--t-orange:rgba(255,159,10,.2);--t-green:rgba(48,209,88,.2);--t-purple:rgba(191,90,242,.22);--t-gray:rgba(142,142,147,.24);
+  --t-red:rgba(255,69,58,.2);--t-blue:rgba(10,132,255,.22);--t-teal:rgba(64,200,224,.22);--t-orange:rgba(255,159,10,.2);--t-green:rgba(48,209,88,.2);--t-purple:rgba(191,90,242,.22);--t-gray:rgba(142,142,147,.24);
   color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -235,7 +235,7 @@ details.mini-titel summary .t-sub{display:block;max-width:100%;overflow:hidden;t
 .mini-anruf .lead.kompakt{padding:5px 0}
 .mini-anruf .lead-aktion select.feld{min-width:120px;min-height:36px;font-size:.875rem}
 .mini-anruf .lead-aktion .knopf{min-height:36px;font-size:.8125rem;padding:0 10px}
-.mini-anruf .lead-name .pille{display:none}
+
 .pipe-mini{display:flex;flex-direction:column;gap:7px}
 .pipe-mini li{display:grid;grid-template-columns:8px 90px 1fr 22px 84px;gap:8px;align-items:center}
 .pipe-mini .tb{height:8px;background:var(--fill);border-radius:4px;overflow:hidden}
@@ -306,6 +306,10 @@ body.zieht, body.zieht *{cursor:grabbing !important}
 .lead-aktion .knopf{min-height:44px;font-size:.9375rem;padding:0 12px}
 .lead-aktion select.feld{width:auto;min-width:150px;font-size:.9375rem}
 .lead.kompakt{padding:6px 16px;align-items:center}
+.lead{position:relative}
+.lead::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:2px;background:var(--akzent,transparent)}
+.mini-anruf .lead::before{left:-8px}
+.pille.zweck{font-size:.75rem;letter-spacing:.01em}
 .lead.kompakt .lead-haupt{gap:0}
 .lead-mehr ul{padding-left:18px;list-style:disc;margin:4px 0}
 .lead-mehr summary{min-height:32px;display:flex;align-items:center;cursor:pointer}
@@ -873,15 +877,29 @@ const istAnfrage = l => l.typ==="anfrage";
 const leadOffen = l => istAnfrage(l) ? l.stufe==="Offen" : !["Gewonnen","Kein Interesse"].includes(l.stufe);
 function leadRang(l){ if(istAnfrage(l)) return 0; if(l.prioritaet==="A") return 1; if(/sofort|termin|uhr|handy|chef/i.test(l.naechsterSchritt||"")) return 2; return 3; }
 const leadSort = (a,b) => leadRang(a)-leadRang(b) || String(a.letzterKontakt||"").localeCompare(String(b.letzterKontakt||"")) || a.betrieb.localeCompare(b.betrieb);
+function zweck(l){
+  const ns = String(l.naechsterSchritt||"").toLowerCase();
+  if(istAnfrage(l)) return ["Empfehlung anfragen","var(--t-purple)","var(--purple-text)","var(--purple)"];
+  if(l.stufe==="Vorgespräch") return ["Termin vorbereiten","var(--t-blue)","var(--blue-text)","var(--blue)"];
+  if(/termin/.test(ns)) return ["Termin fixieren","var(--t-blue)","var(--blue-text)","var(--blue)"];
+  if(l.prioritaet==="A") return ["Empfehlung","var(--t-green)","var(--green-text)","var(--green)"];
+  if(/rückruf|zurückrufen|uhr/.test(ns)) return ["Rückruf","var(--t-orange)","var(--orange-text)","var(--orange)"];
+  if(/follow|nachfass|nachholen/.test(ns)) return ["Nachfassen","var(--t-orange)","var(--orange-text)","var(--orange)"];
+  if(/unterlagen|mail/.test(ns)) return ["Unterlagen","var(--t-teal)","var(--teal-text)","var(--teal)"];
+  if(l.stufe==="Neu"||/erstanruf/.test(ns)) return ["Erstanruf","var(--t-gray)","var(--label-2)","var(--gray)"];
+  return ["Anruf","var(--t-gray)","var(--label-2)","var(--gray)"];
+}
 function leadZeile(l, kompakt){
+  const [zw, zbg, zfg, zakz] = zweck(l);
+  const zPille = `<span class="pille zweck" style="background:${zbg};color:${zfg}">${zw}</span>`;
   const opts = istAnfrage(l) ? ERGEBNIS_ANFRAGE : ERGEBNIS_LEAD;
   const letzte = (l.verlauf||[]).slice(-1)[0];
-  return `<li class="lead${kompakt?" kompakt":""}" data-lid="${esc(l.id)}">
+  return `<li class="lead${kompakt?" kompakt":""}" data-lid="${esc(l.id)}" style="--akzent:${zakz}">
     <div class="lead-haupt">
-      ${kompakt?`<div class="lead-name"><span class="t-sub" style="font-weight:600">${esc(istAnfrage(l)?l.partner+": Empfehlung anfragen":l.betrieb)}</span>${l.prioritaet==="A"&&!istAnfrage(l)?pille("var(--t-green)","var(--green-text)","Empfehlung"):""}</div>
+      ${kompakt?`<div class="lead-name"><span class="t-sub" style="font-weight:600">${esc(istAnfrage(l)?l.partner:l.betrieb)}</span>${zPille}</div>
       <div class="t-fn c2">${esc([l.ansprechpartner, istAnfrage(l)?null:l.naechsterSchritt].filter(Boolean).join(" · "))}${letzte?` · zuletzt ${esc(datumDe(letzte.datum))}: ${esc(letzte.ergebnis)}`:""}${l.leitfaden?` · <a href="#leads" class="t-fn" style="font-weight:600">Stichpunkte</a>`:""}</div>
     </div>`:`
-      <div class="lead-name"><span class="t-hl">${esc(l.betrieb)}</span>${l.prioritaet==="A"&&!istAnfrage(l)?pille("var(--t-green)","var(--green-text)","Empfehlung"):""}${!kompakt&&l.stufe&&l.stufe!=="Empfehlung"?`<span class="t-fn c2">${esc(l.stufe)}</span>`:""}</div>
+      <div class="lead-name"><span class="t-hl">${esc(istAnfrage(l)?l.partner:l.betrieb)}</span>${zPille}${!kompakt&&l.stufe&&l.stufe!=="Empfehlung"?`<span class="t-fn c2">${esc(l.stufe)}</span>`:""}</div>
       <div class="t-fn c2">${esc([l.ansprechpartner, l.branche, l.ort].filter(Boolean).join(" · "))}</div>
       ${l.naechsterSchritt?`<div class="t-fn">→ ${esc(l.naechsterSchritt)}</div>`:""}
       ${letzte?`<div class="t-fn c2">Zuletzt ${esc(datumDe(letzte.datum))}: ${esc(letzte.ergebnis)}${letzte.notiz?` · ${esc(letzte.notiz)}`:""}</div>`:""}
