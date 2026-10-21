@@ -972,6 +972,7 @@ const leadSort = (a,b) => leadRang(a)-leadRang(b) || String(a.letzterKontakt||""
 function zweck(l){
   const ns = String(l.naechsterSchritt||"").toLowerCase();
   if(istAnfrage(l)) return ["Empfehlung anfragen","var(--t-purple)","var(--purple-text)","var(--purple)"];
+  if(l.vorschlag && l.stufe==="Neu" && !(l.verlauf||[]).length) return ["Neuer Vorschlag","var(--t-teal)","var(--teal-text)","var(--teal)"];
   if(l.stufe==="Vorgespräch") return ["Termin vorbereiten","var(--t-blue)","var(--blue-text)","var(--blue)"];
   if(/termin/.test(ns)) return ["Termin fixieren","var(--t-blue)","var(--blue-text)","var(--blue)"];
   if(l.prioritaet==="A") return ["Empfehlung","var(--t-green)","var(--green-text)","var(--green)"];
