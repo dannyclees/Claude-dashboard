@@ -196,12 +196,18 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .punkt-s{width:8px;height:8px;border-radius:50%;flex:none}
 .pk{display:flex;flex-direction:column;align-items:stretch;gap:2px;text-align:left;width:100%;padding:10px 12px;border-radius:12px;background:var(--surface);box-shadow:var(--shadow);min-height:44px;transition:transform .15s ease, box-shadow .15s ease}
 .pk:hover{box-shadow:var(--shadow-hover)}
+.pk{cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+.pk-weg{opacity:.35}
+.pk-geist{position:fixed;left:0;top:0;z-index:80;pointer-events:none;transition:none !important;box-shadow:0 12px 32px rgba(0,0,0,.22);cursor:grabbing}
+body.zieht, body.zieht *{cursor:grabbing !important}
+.spalte.ziel{background:var(--t-blue);outline:2px solid var(--blue);outline-offset:-2px}
+.spalte{transition:background .12s ease}
 .pk:active{transform:scale(.98)}
 .pk-titel{font-weight:600;line-height:1.3}
 .pk-fuss{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:4px}
 @media (max-width:760px){.hero{grid-template-columns:1fr}.hero-werte{border-left:0;padding-left:0;border-top:.5px solid var(--sep);padding-top:16px;grid-template-columns:repeat(3,minmax(0,1fr))}.hero-zahl{font-size:2.125rem}}
 @media (max-width:480px){.hero-werte{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){.pk{transition:none}.pk:active{transform:none}}
+@media (prefers-reduced-motion:reduce){.pk{transition:none}.pk:active{transform:none}.spalte{transition:none}}
 .fokus{display:flex;flex-direction:column;gap:8px}
 .fokus li{display:flex;gap:10px;align-items:center}
 .fokus li .num{width:20px;color:var(--label-2)}
@@ -786,9 +792,9 @@ const STUFE_FARBE = {Lead:"var(--gray)","Gespräch":"var(--teal)",Angebot:"var(-
 function boardHtml(){
   const spalten = BOARD.map(st=>[st, S.pipeline.filter(c=>(c.stufe||"Lead")===st).sort((a,b)=>(Number(b.betrag)||0)-(Number(a.betrag)||0))]);
   const verloren = S.pipeline.filter(c=>c.stufe==="Verloren").length;
-  return `<section aria-labelledby="h-board"><div class="zeile-titel"><h2 id="h-board" class="t-t2">Pipeline</h2><button class="knopf primaer" data-pneu ${S.nurLesen?"disabled":""}>${ic("plus")}Neue Chance</button></div>
-  <div class="board" role="list">${spalten.map(([st,l])=>`<section class="spalte" role="listitem" aria-label="${st}"><header><span class="punkt-s" style="background:${STUFE_FARBE[st]}"></span><span class="t-sub" style="font-weight:600">${st}</span><span class="t-fn c2 num" style="margin-left:auto">${l.length?euro(l.reduce((x,c)=>x+(Number(c.betrag)||0),0)):""}</span></header>
-    ${l.length?l.map(c=>`<button class="pk" data-pkarte="${esc(c.id)}"><span class="t-fn c2">${esc(c.partner||"Neukunde")}</span><span class="t-sub pk-titel">${esc(c.titel)}</span><span class="pk-fuss"><span class="t-hl num">${c.betrag!=null?euro(c.betrag):"–"}</span>${c.art==="bestand"?`<span class="t-c1 c2">Bestand</span>`:!c.art&&c.stufe==="Gewonnen"?`<span class="t-c1" style="color:var(--orange-text)">zuordnen</span>`:""}</span></button>`).join(""):`<p class="t-fn c2" style="padding:8px 4px">–</p>`}</section>`).join("")}</div>
+  return `<section aria-labelledby="h-board"><div class="zeile-titel"><div><h2 id="h-board" class="t-t2">Pipeline</h2><p class="t-fn c2">Kacheln ziehen, um die Stufe zu ändern (am Handy: kurz halten, dann ziehen)</p></div><button class="knopf primaer" data-pneu ${S.nurLesen?"disabled":""}>${ic("plus")}Neue Chance</button></div>
+  <div class="board" role="list">${spalten.map(([st,l])=>`<section class="spalte" role="listitem" aria-label="${st}" data-stufe="${st}"><header><span class="punkt-s" style="background:${STUFE_FARBE[st]}"></span><span class="t-sub" style="font-weight:600">${st}</span><span class="t-fn c2 num" style="margin-left:auto">${l.length?euro(l.reduce((x,c)=>x+(Number(c.betrag)||0),0)):""}</span></header>
+    ${l.length?l.map(c=>`<button class="pk" data-pkarte="${esc(c.id)}" aria-label="${esc((c.partner||"Neukunde")+": "+c.titel)}, ${c.betrag!=null?euro(c.betrag):"ohne Betrag"}. Öffnen oder in eine andere Spalte ziehen"><span class="t-fn c2">${esc(c.partner||"Neukunde")}</span><span class="t-sub pk-titel">${esc(c.titel)}</span><span class="pk-fuss"><span class="t-hl num">${c.betrag!=null?euro(c.betrag):"–"}</span>${c.art==="bestand"?`<span class="t-c1 c2">Bestand</span>`:!c.art&&c.stufe==="Gewonnen"?`<span class="t-c1" style="color:var(--orange-text)">zuordnen</span>`:""}</span></button>`).join(""):`<p class="t-fn c2" style="padding:8px 4px">–</p>`}</section>`).join("")}</div>
   ${verloren?`<p class="t-fn c2" style="margin-top:8px">${verloren} verloren (nicht angezeigt).</p>`:""}</section>`;
 }
 function oeffneChanceDetail(id){
@@ -849,6 +855,7 @@ function seiteEinstellungen(){
 function render(){
   const ae = document.activeElement;
   if(ae && ae.matches && ae.matches("main textarea, main input[data-text], main input#f-suche, main input#l-suche, main form input")){ S.renderOffen = true; return; }
+  if(S.ziehen){ S.renderOffen = true; return; }
   S.renderOffen = false;
   renderNav();
   const {seite} = ansichtAus();
@@ -1076,6 +1083,69 @@ schicht.addEventListener("change", e => { const t = e.target; if(t.dataset && t.
 schicht.addEventListener("click", e => { const pa = e.target.closest("[data-pauftrag]"); if(pa){ const d = pa.closest("[data-cid]"); if(d){ const id = d.dataset.cid; schliesseSchicht(); pipeAuftrag(id, pa.dataset.pauftrag); } } });
 /* ---------- Ereignisse der Seite ---------- */
 const seite = document.getElementById("seite");
+/* ---------- Kacheln ziehen ---------- */
+let zug = null;
+function zugAufraeumen(){
+  if(!zug) return;
+  clearTimeout(zug.timer);
+  zug.geist?.remove(); zug.k.classList.remove("pk-weg");
+  document.querySelectorAll(".spalte.ziel").forEach(x=>x.classList.remove("ziel"));
+  document.body.classList.remove("zieht");
+  cancelAnimationFrame(zug.raf);
+  zug = null; S.ziehen = false;
+  if(S.renderOffen) render();
+}
+function zugStart(){
+  if(!zug || zug.aktiv) return;
+  zug.aktiv = true; S.ziehen = true;
+  const r = zug.k.getBoundingClientRect();
+  zug.dx = zug.x - r.left; zug.dy = zug.y - r.top;
+  const g = zug.k.cloneNode(true); g.className = "pk pk-geist"; g.removeAttribute("data-pkarte"); g.style.width = r.width+"px";
+  document.body.appendChild(g); zug.geist = g; zug.k.classList.add("pk-weg"); document.body.classList.add("zieht");
+  zugBewegen(zug.x, zug.y);
+  if(navigator.vibrate) try{ navigator.vibrate(10); }catch(e){}
+}
+function zugBewegen(x, y){
+  if(!zug?.aktiv) return;
+  zug.x = x; zug.y = y;
+  zug.geist.style.transform = `translate(${x-zug.dx}px,${y-zug.dy}px) rotate(2deg)`;
+  const ziel = document.elementFromPoint(x, y)?.closest(".spalte");
+  document.querySelectorAll(".spalte.ziel").forEach(s=>{ if(s!==ziel) s.classList.remove("ziel"); });
+  if(ziel) ziel.classList.add("ziel");
+  zug.ziel = ziel || null;
+  const board = zug.k.closest(".board");
+  cancelAnimationFrame(zug.raf);
+  if(board){ const br = board.getBoundingClientRect(); const rand = 48; const v = x < br.left+rand ? -12 : x > br.right-rand ? 12 : 0;
+    if(v){ const schritt = () => { if(!zug?.aktiv) return; board.scrollLeft += v; zugZielNeu(); zug.raf = requestAnimationFrame(schritt); }; zug.raf = requestAnimationFrame(schritt); } }
+}
+function zugZielNeu(){ if(!zug?.aktiv) return; const ziel = document.elementFromPoint(zug.x, zug.y)?.closest(".spalte"); document.querySelectorAll(".spalte.ziel").forEach(s=>{ if(s!==ziel) s.classList.remove("ziel"); }); if(ziel) ziel.classList.add("ziel"); zug.ziel = ziel||null; }
+seite.addEventListener("pointerdown", e => {
+  const k = e.target.closest(".pk[data-pkarte]"); if(!k || S.nurLesen || (e.pointerType==="mouse" && e.button!==0)) return;
+  zug = {k, id:k.dataset.pkarte, x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, aktiv:false, touch:e.pointerType!=="mouse"};
+  if(zug.touch) zug.timer = setTimeout(zugStart, 280);
+});
+window.addEventListener("pointermove", e => {
+  if(!zug) return;
+  const weg = Math.hypot(e.clientX-zug.x0, e.clientY-zug.y0);
+  if(!zug.aktiv){
+    if(zug.touch){ if(weg>8){ clearTimeout(zug.timer); zug = null; } return; }
+    if(weg>6){ zug.x = e.clientX; zug.y = e.clientY; zugStart(); } else return;
+  }
+  e.preventDefault(); zugBewegen(e.clientX, e.clientY);
+});
+window.addEventListener("touchmove", e => { if(zug?.aktiv) e.preventDefault(); }, {passive:false});
+window.addEventListener("pointerup", () => {
+  if(!zug) return;
+  if(!zug.aktiv){ clearTimeout(zug.timer); zug = null; return; }
+  const id = zug.id, stufe = zug.ziel?.dataset.stufe;
+  S.zugEnde = Date.now();
+  zugAufraeumen();
+  const c = S.pipeline.find(x=>x.id===id);
+  if(c && stufe && stufe!==(c.stufe||"Lead")){ aenderePipe(id, "stufe", stufe); zeigeToast(`${c.partner||c.titel} → ${stufe}`); }
+});
+window.addEventListener("pointercancel", () => { if(zug){ S.zugEnde = Date.now(); zugAufraeumen(); } });
+window.addEventListener("keydown", e => { if(e.key==="Escape" && zug?.aktiv){ S.zugEnde = Date.now(); zugAufraeumen(); } });
+
 async function freigabeAktion(fid, was){
   const f = S.freigaben.find(x=>x.id===fid); if(!f || !S.db) return;
   const jetzt = new Date().toISOString();
@@ -1107,7 +1177,7 @@ async function freigabeAktion(fid, was){
 seite.addEventListener("click", e => {
   const pj = e.target.closest("[data-pjahr]"); if(pj){ S.pJahr = pj.dataset.pjahr; render(); return; }
   if(e.target.closest("[data-pneu]")){ oeffneChance(); return; }
-  const pk = e.target.closest("[data-pkarte]"); if(pk){ oeffneChanceDetail(pk.dataset.pkarte); return; }
+  const pk = e.target.closest("[data-pkarte]"); if(pk){ if(Date.now()-(S.zugEnde||0)<350) return; oeffneChanceDetail(pk.dataset.pkarte); return; }
   if(e.target.closest("[data-lneu]")){ oeffneLead(); return; }
   const lf = e.target.closest("[data-lfilter]"); if(lf){ S.lFilter = lf.dataset.lfilter; render(); return; }
   const pa = e.target.closest("[data-pauftrag]"); if(pa){ const k = pa.closest("[data-cid]"); if(k) pipeAuftrag(k.dataset.cid, pa.dataset.pauftrag); return; }

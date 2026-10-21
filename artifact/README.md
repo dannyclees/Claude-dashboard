@@ -12,3 +12,4 @@
 - Version 9: Pipeline zählt jeden Abschluss fürs Ziel, außer er ist als Bestand markiert; „In Arbeit“, „Gewichtet“ und Wahrscheinlichkeit entfernt, dafür „Angebot vom“ änderbar.
 - Version 10: Seite „Leads“ (33 Akquise-Ziele aus dem C&E Cockpit, Anruf-Ergebnis mit Verlauf), kompakte Anrufliste „Heute anrufen“ statt großer Empfehlungs-Entwürfe, Vertragsdaten und Bewertungen je Partner.
 - Version 11: Reiter „Sales“ mit Ziel-Übersicht (Neuumsatz, kurz vor Abschluss, laufender Umsatz, Klumpenrisiko), Pipeline als Board mit Detail-Dialog, Umsatz pro Monat/Jahr, Wochenfokus, Aktivität und Trichter, Anrufliste, Bestandskunden, Verkaufsleitfaden (`system/sales`). Reiter „Pipeline“ ist darin aufgegangen.
+- Version 12: Pipeline-Kacheln per Ziehen und Ablegen zwischen den Stufen verschieben (Maus direkt, Touch nach kurzem Halten).
