@@ -1,6 +1,6 @@
 # Cockpit – Architektur (Phase 0, ENTWURF)
 
-> Status: **Entwurf.** Wird nach Dannys Antworten auf die offenen Fragen (unten) finalisiert.
+> Status: **Entwurf, weitgehend abgestimmt.** Offene Punkte siehe Abschnitt 6.
 > Stand: 21.10.2026
 
 ## 1. Bestandsaufnahme der Verbindungen
@@ -69,25 +69,46 @@ Dashboard/
 `TASKS/TASKS.md` wird zum Master-To-do (oder in ein Sheet `_System/Aufgaben` überführt – Entscheidung offen).
 Lose Dateien im Hauptordner sortiert der Drive-Agent erst nach Freigabe ein.
 
-## 3. Agentenliste (Entwurf)
+## 3. Agentenliste
 
 | Ebene | Agent | Datenquellen |
 |---|---|---|
-| 1 | **Mark** (Stimme, ElevenLabs) | Backend-Tools → alle Agenten |
-| 2 | **Organisator** | Calendar-API, TASKS, Agenten-Board, Wispr-Flow-Meetings |
-| 2 | **Mail-Assistent** | Gmail-API (nur lesen + Entwürfe) |
+| 1 | **Mark** – Stimme & Ausführung (ElevenLabs, neu) | Backend-Tools → alle Agenten; kann an Alex übergeben |
+| 1 | **Alex** – Stratege & Sparringspartner (ElevenLabs, besteht, wird bereinigt) | Hormozi-Wissensbibliothek, C&E-Firmendaten |
+| 2 | **Organisator** | Calendar-API, Master-Aufgaben-Sheet, Agenten-Board, Wispr-Flow-Meetings, Alex-Gespräche |
+| 2 | **Mail-Assistent** | Gmail-API (nur lesen + Entwürfe) – Zugang folgt |
 | 2 | **Drive-Agent** | Drive-API, Ordner `Dashboard` |
-| 3 | **Partner-Agent Hausman** | `04_Kunden/Hausman`, Meta Ads (Adspirer), monday-Boards |
-| 3 | **Partner-Agent Peinture de l'Est** | `04_Kunden/Peinture_de_lEst`, HyperFrames |
-| 3 | **Partner-Agent Berdorfer Käse** | `04_Kunden/Berdorfer_Kaese` |
+| 3 | **Partner-Agent Hausmann** | `04_Kunden/Hausman`, Meta Ads (Adspirer), monday-Boards |
 | 3 | **Partner-Agent Ytter Design** | `04_Kunden/YtterDesign` |
-| 3 | weitere Partner (offen) | Agence Foyer Leick, Karrenbrock & Partners, Source Invest, cederic |
+| 3 | **Partner-Agent Berdorfer Käse** | `04_Kunden/Berdorfer_Kaese` |
+| 3 | **Partner-Agent Peinture de l'Est** | `04_Kunden/Peinture_de_lEst`, HyperFrames |
+| 3 | **Akquise-Agent** (neu, bestätigt) | Hormozi-Wissensbibliothek, Ziele-Tab, Empfehlungen, LinkedIn, ggf. monday-CRM |
 | 3 | **Text-Agent** | Skill `copywriter-cockpit`, `Master E-Mail`, `E-Mail Funnel Handwerker` |
 | 3 | **Erklärvideo-Agent** | Skill `motion-designer-cockpit`, HyperFrames, ElevenLabs |
 | 3 | **Motion-Design-Agent** | Skill `motion-designer-cockpit`, HyperFrames |
-| 3 | **Performance-Agent** (optional) | Adspirer – aktuell nur Hausman |
-| 3 | **Design-Agent** (optional) | Figma – abhängig vom Seat |
-| 3 | **Akquise-/Vertriebs-Agent** (Vorschlag) | Ziel +140.000 €, Pipeline 5–6 Gespräche/Monat, Empfehlungen, LinkedIn |
+| 3 | **Performance-Agent** | Adspirer – nach Abo-Upgrade |
+| 3 | **Design-Agent** (optional) | Figma – nur mit Edit-Seat |
+
+Inaktiv (kein eigener Agent, Ordner bleiben): Agence Foyer Leick, Karrenbrock & Partners, Source Invest, cederic.
+
+### Hormozi-Wissen: eine Quelle, mehrere Nutzer
+
+```
+Dashboard/07_Ressourcen/Hormozi-Wissen/      ← EINE bereinigte Quelle (Markdown, ohne Dubletten)
+        │
+        ├──► Alex (ElevenLabs)      Wissensbasis + RAG, für Sprachgespräche
+        └──► Skill „hormozi-cockpit“ für Claude-Agenten
+                 ├── Akquise-Agent    (Leads, Outreach, Angebote, Follow-ups)
+                 ├── Text-Agent       (Hooks, Angebote in Texten)
+                 └── Organisator      (Priorisierung nach Umsatzhebel)
+```
+
+- Der Skill enthält die verdichteten Frameworks (Value Equation, Grand Slam Offer, Core Four, Lead Getters, Money Models, Preis/Garantie/Bonus) plus Verweise auf die Volltexte.
+- Eigene C&E-Fälle (Hausmann-Zahlen, Angebote, Preise) kommen dazu. Sie machen das Wissen erst spezifisch.
+- Rechtlicher Rahmen wie in der bestehenden Compliance-Notiz: offizielle Acquisition.com-Materialien und eigene Zusammenfassungen, keine kopierten Buch-Volltexte.
+- Rollen: **Alex denkt mit** (Sparring per Sprache), **der Akquise-Agent setzt um** (Listen, Entwürfe, Nachfassen). Mark kann dich per Sprache an Alex übergeben.
+
+Details: `docs/ALEX_ANALYSE.md`, `docs/AUFGABEN_SYSTEM.md`.
 
 ## 4. Technische Standardentscheidungen
 
@@ -97,6 +118,26 @@ Lose Dateien im Hauptordner sortiert der Drive-Agent erst nach Freigabe ein.
 - Mark: ElevenLabs Conversational AI mit Client-Tools, die das Backend über eine gesicherte API aufrufen.
 - Hosting zunächst lokal auf deinem Rechner (läuft morgens, wenn der Rechner an ist); später optional ein kleiner Server, damit 06:30 auch bei ausgeschaltetem Rechner klappt.
 
-## 5. Offene Fragen an Danny
+## 5. Entscheidungen (21.10.2026)
 
-Siehe Chat. Antworten werden hier eingearbeitet.
+| Thema | Entscheidung |
+|---|---|
+| Aktive Partner | Hausmann, Ytter Design, Berdorfer Käse, Peinture de l'Est |
+| Schreibweise | **Hausmann** (mit zwei n) |
+| Morgen-Briefing | fertig um **06:30**, Danny im Büro ab 07:00 |
+| Tagesabschluss | **18:00** |
+| Zeitzone | Europe/Luxembourg |
+| Ziel | +140.000 € Neuumsatz in 12 Monaten, Priorisierung nach Umsatzhebel |
+| Akquise-Agent | ja, mit Hormozi-Wissen |
+| Alex | bleibt und wird genutzt |
+| Adspirer | Abo-Upgrade folgt durch Danny |
+| Gmail | Zugang folgt, Danny stellt intern noch etwas um |
+| Betrieb | zunächst lokal auf Dannys Rechner |
+| Figma | Standard: klickbare HTML-Prototypen (View-Seat) |
+
+## 6. Noch offen
+
+- Freigabe Alex-Bereinigung (Wissen, RAG, Modell, Prompt)
+- Freigabe Löschung von 21 verwaisten ElevenLabs-Dokumenten
+- Freigabe Master-Aufgaben-Sheet statt `TASKS.md`
+- Drive-Ordner „Hausman“ in „Hausmann“ umbenennen? (Domain ist hausman.lu)
