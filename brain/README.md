@@ -1,6 +1,6 @@
 # Das Gehirn
 
-Das Gehirn ist die zentrale Datenbank des Cockpits. Alles, was Danny und die Agenten wissen, planen und tun, steht hier und nur hier. Das Dashboard ist die Oberfläche dafür, Mark und Alex sprechen über das Backend mit ihm, und alle Agenten lesen und schreiben ausschließlich über das Gehirn.
+Das Gehirn ist die zentrale Datenbank des Cockpits. Alles, was Danny und die Agenten wissen, planen und tun, steht hier und nur hier. Das Cockpit ist die Oberfläche dafür, und alle Agenten lesen und schreiben ausschließlich über das Gehirn.
 
 ## Was im Gehirn liegt
 
@@ -28,8 +28,12 @@ Das Gehirn ist die zentrale Datenbank des Cockpits. Alles, was Danny und die Age
 - `ziele.json`: Ziele aus `TASKS.md`
 - `partner.json`: die 4 aktiven Partnerbetriebe
 
-## Technik (Phase 1/2)
+## Wo das Gehirn liegt (Entscheidung vom 21.10.2026)
 
-- SQLite-Datei lokal auf Dannys Rechner, Zugriff über Drizzle ORM
-- Backend-API, über die Dashboard, Mark, Alex und die Agenten lesen und schreiben
-- Tägliche Sicherung als Export in `Dashboard/_System/Backup` (Google Drive)
+**Hauptgehirn ist die Datenbank des Cockpit-Artifacts:** <https://claude.ai/artifact/FgbmgqzRqJnoMXwP1VGBwa>
+
+- Sammlungen: `aufgaben`, `ziele`, `partner`, `agenten`, `ereignisse`; später kommen `briefings`, `freigaben`, `gespraeche` und `gedaechtnis` dazu
+- Das Cockpit im Artifact liest und schreibt dort live.
+- Claude (diese Sitzung und später die Agenten als geplante Claude-Aufgaben) liest und schreibt über das Artifact-Datenwerkzeug.
+- Die lokale App (`src/`, SQLite unter `data/gehirn.db`) bleibt als Entwicklungsstand im Repo, ist aber **nicht** die Quelle. Bei Bedarf wird sie später an das Hauptgehirn angebunden.
+- Sicherung: regelmäßiger Export nach `Dashboard/_System/Backup` (Google Drive), ab Phase 8

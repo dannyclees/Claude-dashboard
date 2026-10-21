@@ -2,6 +2,8 @@
 
 Dannys sprachgesteuertes Agenten-Dashboard für Clees & Ernster. Im Mittelpunkt steht **das Gehirn**: die eine Datenbank für Aufgaben, Ziele, Partner, Agenten, Freigaben und das Ereignis-Log (siehe [`brain/README.md`](brain/README.md)).
 
+**Benutzen:** direkt in Claude unter <https://claude.ai/artifact/FgbmgqzRqJnoMXwP1VGBwa>. Dort liegt auch das Hauptgehirn. Die lokale App unten ist der Entwicklungsstand und nicht die Quelle der Daten.
+
 Stand: **Phase 1** (Fundament, Apple-Design, Gehirn). Plan und Phasen: [`BUILD_PROMPT.md`](BUILD_PROMPT.md), Architektur: [`docs/ARCHITEKTUR.md`](docs/ARCHITEKTUR.md).
 
 ## Starten (auf deinem Mac)

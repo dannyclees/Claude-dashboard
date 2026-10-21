@@ -113,7 +113,8 @@ Details: `docs/ALEX_ANALYSE.md`, `docs/AUFGABEN_SYSTEM.md`.
 ## 4. Technische Standardentscheidungen
 
 - **Eine Next.js-App** im Repo-Hauptordner (Entscheidung in Phase 1): Oberfläche, Server-Aktionen und später die Agenten-Jobs greifen direkt auf das Gehirn zu. Agenten-Konfiguration ab Phase 2 in `agents/*.md`.
-- **Gehirn:** SQLite über Drizzle ORM als einzige Quelle für Aufgaben, Ziele, Partner, Agenten, Übergaben, Freigaben, Gespräche, Ereignis-Log und Gedächtnis. Drive speichert nur Dateien; das Gehirn wird täglich nach `_System/Backup` gesichert.
+- **Gehirn (seit 21.10.2026):** die Datenbank des Cockpit-Artifacts in Claude (<https://claude.ai/artifact/FgbmgqzRqJnoMXwP1VGBwa>). Cockpit, Claude und die Agenten lesen und schreiben dort. Die lokale SQLite-App bleibt als Entwicklungsstand. Drive speichert nur Dateien.
+- **Agenten laufen als geplante Claude-Aufgaben** (z. B. Morgen-Briefing 06:30, Tagesabschluss 18:00). Sie nutzen die Connectoren (Drive, Gmail, Kalender, ElevenLabs) und schreiben ihre Ergebnisse ins Gehirn. Dafür ist kein eigener Server und kein API-Schlüssel nötig.
 - Zeitsteuerung: Node-Scheduler im Backend (`node-cron`), Zeitzone `Europe/Luxembourg`.
 - Mark: ElevenLabs Conversational AI mit Client-Tools, die das Backend über eine gesicherte API aufrufen.
 - Hosting zunächst lokal auf deinem Rechner (läuft morgens, wenn der Rechner an ist); später optional ein kleiner Server, damit 06:30 auch bei ausgeschaltetem Rechner klappt.
