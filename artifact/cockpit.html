@@ -182,7 +182,7 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .chance-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
 .chance-knoepfe .knopf{min-height:44px;font-size:.9375rem}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
-.ums-kopf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.ums-kopf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .monate{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;align-items:end;height:170px}
 .monate li{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
 .monate .saeule{width:100%;max-width:36px;flex:1;display:flex;align-items:flex-end;background:var(--fill);border-radius:8px;overflow:hidden}
@@ -322,27 +322,25 @@ function umsatzHtml(){
   const jetztJ = heute().slice(0,4); if(!jahre.includes(jetztJ)) jahre.push(jetztJ);
   const jahr = S.pJahr && jahre.includes(S.pJahr) ? S.pJahr : jetztJ;
   const summe = l => l.reduce((x,c)=>x+(Number(c.betrag)||0),0);
-  const teil = (l,art) => summe(l.filter(c=>art==="?"?!c.art:c.art===art));
+  const teil = (l,art) => summe(l.filter(c=>art==="neu"?c.art!=="bestand":art==="?"?!c.art:c.art===art));
   const imJahr = gew.filter(c=>String(abschlussDatum(c)||"").startsWith(jahr));
   const proMonat = MONATE.map((m,i)=>{ const l = imJahr.filter(c=>Number(String(abschlussDatum(c)).slice(5,7))===i+1); return {m, l, s:summe(l)}; });
   const max = Math.max(1,...proMonat.map(x=>x.s));
   const ohneDatum = gew.filter(c=>!c.abgeschlossenAm).length;
-  const jahrTab = [...jahre].reverse().map(j=>{ const l = gew.filter(c=>String(abschlussDatum(c)||"").startsWith(j)); return `<tr><th scope="row">${j}</th><td class="num">${euro(teil(l,"neu"))}</td><td class="num">${euro(teil(l,"bestand"))}</td><td class="num">${euro(teil(l,"?"))}</td><td class="num" style="font-weight:600">${euro(summe(l))}</td></tr>`; }).join("");
+  const jahrTab = [...jahre].reverse().map(j=>{ const l = gew.filter(c=>String(abschlussDatum(c)||"").startsWith(j)); return `<tr><th scope="row">${j}</th><td class="num">${euro(teil(l,"neu"))}</td><td class="num">${euro(teil(l,"bestand"))}</td><td class="num" style="font-weight:600">${euro(summe(l))}</td></tr>`; }).join("");
   return `<section aria-labelledby="h-ums" class="card" style="padding:20px;display:flex;flex-direction:column;gap:16px">
     <div class="zeile-titel" style="margin:0"><h2 id="h-ums" class="t-t3">Abgeschlossener Umsatz</h2><div class="seg" role="group" aria-label="Jahr">${jahre.map(j=>`<button class="knopf ${j===jahr?"primaer":"sekundaer"}" data-pjahr="${j}" aria-pressed="${j===jahr}">${j}</button>`).join("")}</div></div>
-    <div class="ums-kopf"><div><div class="t-fn c2">${jahr} gesamt</div><div class="t-t1 num">${euro(summe(imJahr))}</div></div><div><div class="t-fn c2">davon Neuumsatz</div><div class="t-t3 num">${euro(teil(imJahr,"neu"))}</div></div><div><div class="t-fn c2">Bestand</div><div class="t-t3 num">${euro(teil(imJahr,"bestand"))}</div></div><div><div class="t-fn c2">noch nicht zugeordnet</div><div class="t-t3 num">${euro(teil(imJahr,"?"))}</div></div></div>
+    <div class="ums-kopf"><div><div class="t-fn c2">${jahr} gesamt</div><div class="t-title1 num">${euro(summe(imJahr))}</div></div><div><div class="t-fn c2">zählt fürs Ziel</div><div class="t-t3 num">${euro(teil(imJahr,"neu"))}</div></div><div><div class="t-fn c2">Bestand</div><div class="t-t3 num">${euro(teil(imJahr,"bestand"))}</div></div></div>
     <ol class="monate" aria-label="Umsatz pro Monat ${jahr}">${proMonat.map(x=>`<li title="${esc(x.l.map(c=>`${c.partner}: ${euro(c.betrag)}`).join(", "))}"><span class="t-c2 num c2">${x.s?zahl.format(Math.round(x.s/1000))+"k":""}</span><div class="saeule"><div style="height:${x.s/max*100}%"></div></div><span class="t-c1 c2">${x.m}</span><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">${x.m}: ${euro(x.s)}</span></li>`).join("")}</ol>
-    <div style="overflow-x:auto"><table class="jahre"><thead><tr><th scope="col">Jahr</th><th scope="col">Neuumsatz</th><th scope="col">Bestand</th><th scope="col">nicht zugeordnet</th><th scope="col">Gesamt</th></tr></thead><tbody>${jahrTab}</tbody></table></div>
+    <div style="overflow-x:auto"><table class="jahre"><thead><tr><th scope="col">Jahr</th><th scope="col">Neuumsatz</th><th scope="col">Bestand</th><th scope="col">Gesamt</th></tr></thead><tbody>${jahrTab}</tbody></table></div>
     ${ohneDatum?`<p class="t-fn c2">${ohneDatum} gewonnene ${ohneDatum===1?"Chance hat":"Chancen haben"} noch kein Abschlussdatum. Bis du eins einträgst, zählt das Angebotsdatum.</p>`:""}
   </section>`;
 }
 function pipeZahlen(){
-  const neu = S.pipeline.filter(c=>c.art==="neu");
-  const gewonnen = neu.filter(c=>c.stufe==="Gewonnen").reduce((x,c)=>x+(Number(c.betrag)||0),0);
-  const offen = neu.filter(c=>c.stufe!=="Gewonnen"&&c.stufe!=="Verloren");
-  const gewichtet = offen.reduce((x,c)=>x+(Number(c.betrag)||0)*wahrsch(c)/100,0);
-  const klaeren = S.pipeline.filter(c=>!c.art||c.stufe==null).length;
-  return {gewonnen, gewichtet, offenSumme:offen.reduce((x,c)=>x+(Number(c.betrag)||0),0), offenAnz:offen.length, klaeren};
+  const gew = S.pipeline.filter(c=>c.stufe==="Gewonnen");
+  const summe = l => l.reduce((x,c)=>x+(Number(c.betrag)||0),0);
+  const zaehlt = gew.filter(c=>c.art!=="bestand");
+  return {gesamt:summe(gew), gewonnen:summe(zaehlt), bestand:summe(gew.filter(c=>c.art==="bestand")), ohneZuordnung:gew.filter(c=>!c.art).length, anzahl:gew.length};
 }
 const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)","var(--teal)","var(--red)"];
 
@@ -466,7 +464,7 @@ function zielHtml(z){
   return `<div class="card ziel"><div class="oben"><div><div class="t-hl">${esc(z.ziel)}</div><div class="t-fn c2">${esc(z.einheit==="EUR"?z.zeitraum:`${z.einheit} · ${z.zeitraum}`)}</div></div>${ausPipe?`<a class="t-fn" href="#pipeline" style="font-weight:600;text-decoration:none">aus Pipeline</a>`:`<button class="stift" data-aktion="ziel-bearb" data-id="${esc(z.id)}" aria-label="Ist-Wert für ${esc(z.ziel)} eintragen" ${S.nurLesen?"disabled":""}>${ic("stift")}</button>`}</div>
   <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><span class="t-title1 num">${formatZ(ist,z.einheit)}</span><span class="t-sub c2">von ${formatZ(soll,z.einheit)}</span></div>
   <div class="balken" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(anteil*100)}" aria-label="${esc(z.ziel)}: ${Math.round(anteil*100)} Prozent"><div style="width:${anteil*100}%"></div></div>
-  ${ausPipe?`<p class="t-fn c2">Gewichtet in Arbeit: ${euro(pipeZahlen().gewichtet)}</p>`:""}
+  ${ausPipe?`<p class="t-fn c2">Gewonnen laut Pipeline (ohne Bestand)</p>`:""}
   ${bearb?`<form data-form="ziel" data-id="${esc(z.id)}"><label style="flex:1"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Ist-Wert</span><input id="ziel-${esc(z.id)}" name="ist" class="feld" inputmode="decimal" value="${z.ist??""}"></label><button class="knopf primaer">Sichern</button></form>`:""}</div>`;
 }
 
@@ -593,7 +591,7 @@ function seitePipeline(){
     ${c.notiz?`<p class="t-sub c2">${esc(c.notiz)}</p>`:""}
     <div class="chance-felder">
       <label class="f"><span class="t-fn c2">Betrag netto (€)</span><input class="feld num" inputmode="decimal" data-pfeld="betrag" data-text value="${c.betrag!=null?zahl.format(c.betrag):""}" ${S.nurLesen?"disabled":""}></label>
-      ${c.stufe==="Gewonnen"?`<label class="f"><span class="t-fn c2">Abgeschlossen am</span><input class="feld" type="date" data-pfeld="abgeschlossenAm" value="${esc(c.abgeschlossenAm||"")}" ${S.nurLesen?"disabled":""}></label>`:`<label class="f"><span class="t-fn c2">Wahrscheinlichkeit (%)</span><input class="feld num" inputmode="numeric" data-pfeld="wahrscheinlichkeit" data-text placeholder="${STUFE_W[c.stufe]??""}" value="${c.wahrscheinlichkeit??""}" ${S.nurLesen?"disabled":""}></label>`}
+      ${c.stufe==="Gewonnen"?`<label class="f"><span class="t-fn c2">Abgeschlossen am</span><input class="feld" type="date" data-pfeld="abgeschlossenAm" value="${esc(c.abgeschlossenAm||"")}" ${S.nurLesen?"disabled":""}></label>`:`<label class="f"><span class="t-fn c2">Angebot vom</span><input class="feld" type="date" data-pfeld="datum" value="${esc(c.datum||"")}" ${S.nurLesen?"disabled":""}></label>`}
       ${sel("stufe",c.stufe,STUFEN.map(x=>[x,x]),"Stufe")}${sel("art",c.art,ARTEN,"Zählt als")}</div>
     ${c.naechsterSchritt?`<p class="t-fn"><span class="c2">Nächster Schritt:</span> ${esc(c.naechsterSchritt)}</p>`:""}
     <div class="chance-knoepfe">
@@ -606,15 +604,14 @@ function seitePipeline(){
   const gruppen = [...STUFEN, null].map(st => [st, S.pipeline.filter(c=>(c.stufe??null)===st)]).filter(([,l])=>l.length);
   return `${kopf("Pipeline", `Ziel: ${euro(ziel)} Neuumsatz in 12 Monaten`)}${verbindungsHinweis()}
   <div style="display:flex;justify-content:flex-end"><button class="knopf primaer" data-pneu ${S.nurLesen?"disabled":""}>${ic("plus")}Neue Chance</button></div>
-  <dl class="grid4">
-    <div class="card" style="padding:16px"><dt class="t-fn c2">Gewonnen (neu)</dt><dd class="t-t2 num">${euro(z.gewonnen)}</dd><dd class="t-fn c2">${Math.round(z.gewonnen/ziel*100)} % vom Ziel</dd></div>
-    <div class="card" style="padding:16px"><dt class="t-fn c2">In Arbeit (neu)</dt><dd class="t-t2 num">${euro(z.offenSumme)}</dd><dd class="t-fn c2">${z.offenAnz} Chancen</dd></div>
-    <div class="card" style="padding:16px"><dt class="t-fn c2">Gewichtet</dt><dd class="t-t2 num">${euro(z.gewichtet)}</dd><dd class="t-fn c2">Betrag × Wahrscheinlichkeit</dd></div>
-    <div class="card" style="padding:16px"><dt class="t-fn c2">Fehlt noch</dt><dd class="t-t2 num">${euro(Math.max(ziel-z.gewonnen,0))}</dd><dd class="t-fn c2">${z.klaeren?`${z.klaeren} Einträge klären`:"alles eingeordnet"}</dd></div>
+  <dl class="grid3">
+    <div class="card" style="padding:16px"><dt class="t-fn c2">Gewonnen gesamt</dt><dd class="t-title1 num">${euro(z.gesamt)}</dd><dd class="t-fn c2">${z.anzahl} ${z.anzahl===1?"Abschluss":"Abschlüsse"}${z.bestand?`, davon ${euro(z.bestand)} Bestand`:""}</dd></div>
+    <div class="card" style="padding:16px"><dt class="t-fn c2">Zählt fürs Ziel</dt><dd class="t-title1 num">${euro(z.gewonnen)}</dd><dd class="t-fn c2">${Math.round(z.gewonnen/ziel*100)} % von ${euro(ziel)}</dd><dd><div class="balken" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.min(100,Math.round(z.gewonnen/ziel*100))}" aria-label="Fortschritt zum Ziel" style="margin-top:8px"><div style="width:${Math.min(100,z.gewonnen/ziel*100)}%"></div></div></dd></div>
+    <div class="card" style="padding:16px"><dt class="t-fn c2">Fehlt noch</dt><dd class="t-title1 num">${euro(Math.max(ziel-z.gewonnen,0))}</dd><dd class="t-fn c2">${z.ohneZuordnung?`${z.ohneZuordnung} Abschlüsse ohne Zuordnung zählen vorerst als neu`:"alle Abschlüsse zugeordnet"}</dd></div>
   </dl>
   ${umsatzHtml()}
   ${S.pipeline.length?gruppen.map(([st,l])=>`<section class="gruppen-abschnitt"><h2 class="t-t3" style="margin:8px 0">${esc(st??"Zu klären")} <span class="t-sub c2">${l.length} · ${euro(l.reduce((x,c)=>x+(Number(c.betrag)||0),0))}</span></h2><ul class="grid2">${l.sort((a,b)=>(Number(b.betrag)||0)-(Number(a.betrag)||0)).map(karte).join("")}</ul></section>`).join(""):`<div class="card t-sub c2" style="padding:20px">${S.geladen.pipeline?"Noch keine Chancen im Gehirn.":"Pipeline wird geladen …"}</div>`}
-  <p class="t-fn c2">Neuumsatz zählt nur, was auf „Neuumsatz“ und „Gewonnen“ steht. Ohne eigene Angabe gilt je Stufe eine Wahrscheinlichkeit: Lead 10 %, Gespräch 25 %, Angebot 50 %, Verhandlung 75 %.</p>`;
+  <p class="t-fn c2">Fürs Ziel zählt alles, was auf „Gewonnen“ steht, außer es ist als „Bestand“ markiert. Den Betrag änderst du direkt im Feld.</p>`;
 }
 
 function leer(titel, unter, ico, farbe, h, text, pill){
@@ -683,7 +680,7 @@ async function lege(form){
   try{ await S.db.doc("aufgaben/"+id).set(doc); protokoll("Aufgabe angelegt", id, titel); return id; }
   catch(e){ schreibFehler(e); return null; }
 }
-const PFELD = {stufe:"Stufe",art:"Zählt als",betrag:"Betrag",abgeschlossenAm:"Abgeschlossen am",wahrscheinlichkeit:"Wahrscheinlichkeit"};
+const PFELD = {stufe:"Stufe",art:"Zählt als",betrag:"Betrag",abgeschlossenAm:"Abgeschlossen am",datum:"Angebot vom",wahrscheinlichkeit:"Wahrscheinlichkeit"};
 async function aenderePipe(id, feld, roh){
   if(!S.db) return;
   const c = S.pipeline.find(x=>x.id===id); if(!c) return;
