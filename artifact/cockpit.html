@@ -180,6 +180,20 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .chance .oben{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .chance-felder{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .chance-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
+.gruppe.frei-liste{display:block}
+.frei-zeile{padding:6px 12px 6px 6px}
+.frei-kopf{display:flex;align-items:center;gap:10px;min-height:52px}
+.frei-titel{display:flex;align-items:center;gap:6px;flex:1;min-width:0;text-align:left;min-height:44px;padding:4px 6px;border-radius:10px}
+.frei-titel:hover{background:var(--fill)}
+.frei-pfeil{display:flex;color:var(--label-3);transform:rotate(-90deg);transition:transform .15s ease}
+.frei-pfeil svg{width:16px;height:16px}
+.frei-zeile.auf .frei-pfeil{transform:none}
+.frei-knoepfe{display:flex;gap:6px;flex-wrap:wrap}
+.knopf.klein{min-height:36px;padding:0 12px;font-size:.875rem}
+.frei-detail{padding:4px 6px 10px 34px;display:flex;flex-direction:column;gap:8px}
+.frei-detail .frei-inhalt{white-space:pre-wrap;background:var(--fill);border-radius:12px;padding:12px;max-height:320px;overflow:auto}
+@media (max-width:640px){.frei-kopf{flex-wrap:wrap}.frei-art{display:none}.frei-kopf>.frei-knoepfe{width:100%;padding-left:34px;margin-bottom:4px}}
+@media (prefers-reduced-motion:reduce){.frei-pfeil{transition:none}}
 .hero{padding:24px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:center}
 .hero-haupt{display:flex;flex-direction:column;gap:8px}
 .hero-zahl{font-size:2.75rem;line-height:1.1;font-weight:700;letter-spacing:.008em}
@@ -468,21 +482,30 @@ function briefingHtml(pruefen){
 function freigabenHtml(){
   const offen = S.freigaben.filter(f=>f.status==="wartet").sort((a,b)=>String(a.erstelltAm).localeCompare(String(b.erstelltAm)));
   const kopfZeile = `<div class="zeile-titel"><h2 id="h-frei" class="t-t2">Wartet auf deine Freigabe</h2>${offen.length?`<span class="t-sub c2">${offen.length} offen</span>`:""}</div>`;
-  if(!offen.length) return `<section aria-labelledby="h-frei">${kopfZeile}<div class="card t-sub c2" style="padding:20px">Nichts offen. Hier landen Nachrichten-Entwürfe, Mails und Dateiaktionen der Agenten, bevor irgendetwas rausgeht.</div></section>`;
-  return `<section aria-labelledby="h-frei">${kopfZeile}<ul class="frei-liste">${offen.map(f=>{
-    const bearb = S.bearbeite===f.id;
-    const meta = [f.empfaenger&&`an ${f.empfaenger}`, f.kanal, f.bezug].filter(Boolean).map(esc).join(" · ");
-    return `<li class="card frei" data-fid="${esc(f.id)}">
-      <div class="frei-kopf"><span class="pille" style="background:var(--t-purple);color:var(--purple-text)">${ic("schild")}${esc(f.art||"Entwurf")}</span><span class="t-fn c2">${esc(f.agent||"Agent")}</span></div>
-      <h3 class="t-hl">${esc(f.titel)}</h3>
-      ${meta?`<p class="t-fn c2">${meta}</p>`:""}
-      ${bearb?`<label class="f"><span>Text bearbeiten</span><textarea id="fe-${esc(f.id)}" class="feld frei-edit" data-frei-text>${esc(f.inhalt||"")}</textarea></label>`:`<details class="frei-det"><summary class="t-sub" style="font-weight:600;color:var(--blue-text);min-height:44px;display:flex;align-items:center">Text anzeigen</summary><div class="frei-inhalt t-sub">${linkify(f.inhalt)}</div></details>`}
-      ${f.hinweis?`<p class="t-fn c2">${esc(f.hinweis)}</p>`:""}
-      <div class="frei-knoepfe">
-        ${bearb
-          ? `<button class="knopf primaer" data-frei="speichern">Speichern</button><button class="knopf sekundaer" data-frei="abbrechen">Abbrechen</button>`
-          : `<button class="knopf primaer" data-frei="freigeben" ${S.nurLesen?"disabled":""}>Freigeben</button><button class="knopf sekundaer" data-frei="bearbeiten" ${S.nurLesen?"disabled":""}>Bearbeiten</button><button class="knopf sekundaer" data-frei="verwerfen" style="color:var(--red-text)" ${S.nurLesen?"disabled":""}>Verwerfen</button>`}
+  if(!offen.length) return `<section aria-labelledby="h-frei">${kopfZeile}<div class="card t-sub c2" style="padding:16px 20px">Nichts offen.</div></section>`;
+  const FARBE = {Nachricht:["var(--t-blue)","var(--blue-text)"],Mail:["var(--t-blue)","var(--blue-text)"],Angebot:["var(--t-orange)","var(--orange-text)"],Dokument:["var(--t-purple)","var(--purple-text)"],Dateiaktion:["var(--t-gray)","var(--label-2)"]};
+  return `<section aria-labelledby="h-frei">${kopfZeile}<ul class="gruppe frei-liste">${offen.map(f=>{
+    const bearb = S.bearbeite===f.id, auf = bearb || S.offen.has("frei:"+f.id);
+    const link = (String(f.inhalt||"").match(/https:\/\/docs\.google\.com\/[^\s]+/)||[])[0];
+    const [bg,fg] = FARBE[f.art]||FARBE.Dokument;
+    return `<li class="frei-zeile${auf?" auf":""}" data-fid="${esc(f.id)}">
+      <div class="frei-kopf">
+        <button class="frei-titel" data-frei="aufklappen" aria-expanded="${auf}" aria-controls="fd-${esc(f.id)}">
+          <span class="frei-pfeil" aria-hidden="true">${ic("pfeil")}</span>
+          <span style="min-width:0;flex:1"><span class="t-sub" style="font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.titel)}</span><span class="t-fn c2">${esc([f.agent, f.empfaenger&&("an "+f.empfaenger), f.bezug].filter(Boolean).join(" · "))}</span></span>
+        </button>
+        <span class="pille frei-art" style="background:${bg};color:${fg}">${esc(f.art||"Entwurf")}</span>
+        <div class="frei-knoepfe">
+          ${link?`<a class="knopf sekundaer klein" href="${esc(link)}" target="_blank" rel="noopener">Öffnen</a>`:""}
+          <button class="knopf primaer klein" data-frei="freigeben" ${S.nurLesen?"disabled":""}>Freigeben</button>
+          <button class="knopf sekundaer klein" data-frei="verwerfen" style="color:var(--red-text)" aria-label="${esc(f.titel)} verwerfen" ${S.nurLesen?"disabled":""}>Verwerfen</button>
+        </div>
       </div>
+      ${auf?`<div class="frei-detail" id="fd-${esc(f.id)}">
+        ${bearb?`<label class="f"><span>Text bearbeiten</span><textarea id="fe-${esc(f.id)}" class="feld frei-edit" data-frei-text>${esc(f.inhalt||"")}</textarea></label>`:`<div class="frei-inhalt t-sub">${linkify(f.inhalt)}</div>`}
+        ${f.hinweis?`<p class="t-fn c2">${esc(f.hinweis)}</p>`:""}
+        <div class="frei-knoepfe">${bearb?`<button class="knopf primaer klein" data-frei="speichern">Speichern</button><button class="knopf sekundaer klein" data-frei="abbrechen">Abbrechen</button>`:`<button class="knopf sekundaer klein" data-frei="bearbeiten" ${S.nurLesen?"disabled":""}>Bearbeiten</button>`}</div>
+      </div>`:""}
     </li>`; }).join("")}</ul><p class="t-fn c2" style="margin-top:8px">„Freigeben“ kopiert Nachrichten in die Zwischenablage, damit du sie selbst verschickst. Dateiaktionen führt der Drive-Agent beim nächsten Lauf aus.</p></section>`;
 }
 
@@ -1150,6 +1173,7 @@ async function freigabeAktion(fid, was){
   const f = S.freigaben.find(x=>x.id===fid); if(!f || !S.db) return;
   const jetzt = new Date().toISOString();
   try{
+    if(was==="aufklappen"){ const k="frei:"+fid; S.offen.has(k)?S.offen.delete(k):S.offen.add(k); if(S.bearbeite===fid && !S.offen.has(k)) S.bearbeite=null; render(); return; }
     if(was==="bearbeiten"){ S.bearbeite = fid; render(); document.getElementById("fe-"+fid)?.focus(); return; }
     if(was==="abbrechen"){ S.bearbeite = null; render(); return; }
     if(was==="speichern"){
