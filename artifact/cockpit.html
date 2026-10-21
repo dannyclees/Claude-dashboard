@@ -150,6 +150,23 @@ label.f>span{font-size:.8125rem;line-height:18px;color:var(--label-2)}
 .briefing .ico{width:48px;height:48px;border-radius:14px}
 .briefing .ico svg{width:24px;height:24px}
 .briefing>div{flex:1;min-width:0}
+.brief-voll{padding:24px;display:flex;flex-direction:column;gap:16px}
+.brief-kopf{display:flex;align-items:center;gap:16px}
+.brief-kopf .ico{width:48px;height:48px;border-radius:14px}.brief-kopf .ico svg{width:24px;height:24px}
+.brief-text{max-width:72ch}
+.brief-abschnitte{display:grid;gap:16px 24px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.brief-abschnitte ul{list-style:disc;padding-left:18px;margin-top:4px;display:flex;flex-direction:column;gap:4px}
+.frei-liste{display:flex;flex-direction:column;gap:16px}
+.frei{padding:20px;display:flex;flex-direction:column;gap:10px}
+.frei-kopf{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.frei-inhalt{white-space:pre-wrap;background:var(--surface-2);border-radius:14px;padding:14px 16px;max-width:72ch}
+.frei-edit{min-height:180px}
+.frei-knoepfe{display:flex;flex-wrap:wrap;gap:12px}
+details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;gap:4px}
+.steckbrief{display:flex;flex-direction:column;gap:10px;padding-top:4px}
+.steckbrief dl{display:grid;grid-template-columns:120px minmax(0,1fr);gap:6px 12px}
+.steckbrief ul{list-style:disc;padding-left:18px;display:flex;flex-direction:column;gap:2px}
+@media (max-width:560px){.steckbrief dl{grid-template-columns:minmax(0,1fr)}}
 .ereignis{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding:12px 16px}
 .ereignis .d{flex-basis:100%}
 
@@ -271,7 +288,7 @@ const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)",
 
 const S = {
   db:null, verbunden:false, geladen:{aufgaben:false,ziele:false,partner:false,agenten:false},
-  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[],
+  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], bearbeite:null,
   ansicht:"aktiv", fPartner:"", fZust:"", suche:"", offen:new Set(), fehler:null, nurLesen:false, renderOffen:false
 };
 
@@ -316,6 +333,49 @@ function top3Html(){
 }
 const geladen = () => S.geladen.aufgaben;
 
+const datumLang = iso => { try{ return new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"numeric",month:"long",timeZone:"Europe/Luxembourg"}).format(new Date(iso)); }catch(e){ return ""; } };
+const uhrzeit = iso => { try{ return new Intl.DateTimeFormat("de-DE",{hour:"2-digit",minute:"2-digit",timeZone:"Europe/Luxembourg"}).format(new Date(iso)); }catch(e){ return ""; } };
+
+function briefingHtml(pruefen){
+  const b = [...S.briefings].sort((x,y)=>String(y.erstelltAm).localeCompare(String(x.erstelltAm)))[0];
+  if(!b){
+    return `<section class="card briefing" aria-labelledby="h-brief"><span class="ico" style="background:var(--orange)">${ic("zeitung")}</span><div><h2 id="h-brief" class="t-hl">Morgen-Briefing</h2><p class="t-sub c2">Der Organisator schreibt es werktags um 06:30 hierher, den Tagesabschluss um 18:00.${pruefen?` ${pruefen} alte Aufgaben warten auf deine Entscheidung.`:""}</p></div>${pruefen?`<a class="knopf sekundaer" href="#aufgaben" data-ansicht="pruefen">Prüfen</a>`:""}</section>`;
+  }
+  const art = b.art==="abend" ? "Tagesabschluss" : "Morgen-Briefing";
+  const abschn = Array.isArray(b.abschnitte) ? b.abschnitte : [];
+  return `<section class="card brief-voll ein" aria-labelledby="h-brief">
+    <div class="brief-kopf"><span class="ico" style="background:${b.art==="abend"?"var(--purple)":"var(--orange)"}">${ic("zeitung")}</span><div style="flex:1;min-width:0"><h2 id="h-brief" class="t-t3">${art}</h2><p class="t-fn c2">${esc(datumLang(b.erstelltAm))} · ${esc(uhrzeit(b.erstelltAm))} Uhr · ${esc(b.erstelltVon||"Organisator")}</p></div></div>
+    ${b.zusammenfassung?`<p class="brief-text">${esc(b.zusammenfassung)}</p>`:""}
+    ${abschn.length?`<div class="brief-abschnitte">${abschn.map(a=>`<div><h3 class="t-hl">${esc(a.titel)}</h3><ul>${(a.punkte||[]).map(p=>`<li class="t-sub">${esc(p)}</li>`).join("")}</ul></div>`).join("")}</div>`:""}
+  </section>`;
+}
+
+function freigabenHtml(){
+  const offen = S.freigaben.filter(f=>f.status==="wartet").sort((a,b)=>String(a.erstelltAm).localeCompare(String(b.erstelltAm)));
+  const kopfZeile = `<div class="zeile-titel"><h2 id="h-frei" class="t-t2">Wartet auf deine Freigabe</h2>${offen.length?`<span class="t-sub c2">${offen.length} offen</span>`:""}</div>`;
+  if(!offen.length) return `<section aria-labelledby="h-frei">${kopfZeile}<div class="card t-sub c2" style="padding:20px">Nichts offen. Hier landen Nachrichten-Entwürfe, Mails und Dateiaktionen der Agenten, bevor irgendetwas rausgeht.</div></section>`;
+  return `<section aria-labelledby="h-frei">${kopfZeile}<ul class="frei-liste">${offen.map(f=>{
+    const bearb = S.bearbeite===f.id;
+    const meta = [f.empfaenger&&`an ${f.empfaenger}`, f.kanal, f.bezug].filter(Boolean).map(esc).join(" · ");
+    return `<li class="card frei" data-fid="${esc(f.id)}">
+      <div class="frei-kopf"><span class="pille" style="background:var(--t-purple);color:var(--purple-text)">${ic("schild")}${esc(f.art||"Entwurf")}</span><span class="t-fn c2">${esc(f.agent||"Agent")}</span></div>
+      <h3 class="t-hl">${esc(f.titel)}</h3>
+      ${meta?`<p class="t-fn c2">${meta}</p>`:""}
+      ${bearb?`<label class="f"><span>Text bearbeiten</span><textarea id="fe-${esc(f.id)}" class="feld frei-edit" data-frei-text>${esc(f.inhalt||"")}</textarea></label>`:`<div class="frei-inhalt t-sub">${esc(f.inhalt||"")}</div>`}
+      ${f.hinweis?`<p class="t-fn c2">${esc(f.hinweis)}</p>`:""}
+      <div class="frei-knoepfe">
+        ${bearb
+          ? `<button class="knopf primaer" data-frei="speichern">Speichern</button><button class="knopf sekundaer" data-frei="abbrechen">Abbrechen</button>`
+          : `<button class="knopf primaer" data-frei="freigeben" ${S.nurLesen?"disabled":""}>Freigeben</button><button class="knopf sekundaer" data-frei="bearbeiten" ${S.nurLesen?"disabled":""}>Bearbeiten</button><button class="knopf sekundaer" data-frei="verwerfen" style="color:var(--red-text)" ${S.nurLesen?"disabled":""}>Verwerfen</button>`}
+      </div>
+    </li>`; }).join("")}</ul><p class="t-fn c2" style="margin-top:8px">„Freigeben“ kopiert Nachrichten in die Zwischenablage, damit du sie selbst verschickst. Dateiaktionen führt der Drive-Agent beim nächsten Lauf aus.</p></section>`;
+}
+
+function gespraecheHtml(){
+  const g = [...S.gespraeche].sort((a,b)=>String(b.datum).localeCompare(String(a.datum))).slice(0,3);
+  return `<section class="card box" aria-labelledby="h-ges"><h2 id="h-ges" class="t-hl"><span style="color:var(--blue-text);display:flex">${ic("bot")}</span>Gespräche mit Alex</h2>${g.length?`<ul class="liste-klein">${g.map(x=>`<li><details><summary class="t-sub"><span class="c2 num">${esc(datumDe(x.datum))}</span> · ${esc(x.titel||"Gespräch")}</summary><p class="t-fn c2" style="margin-top:6px;white-space:pre-wrap">${esc(x.zusammenfassung||"")}</p></details></li>`).join("")}</ul>`:`<p class="t-sub c2">Noch keine Gespräche im Gehirn. Sie kommen jeden Morgen aus dem Alex-Sheet dazu.</p>`}</section>`;
+}
+
 function seiteHeute(){
   const d = new Date();
   const std = Number(new Intl.DateTimeFormat("de-DE",{hour:"numeric",hour12:false,timeZone:"Europe/Luxembourg"}).format(d));
@@ -326,11 +386,12 @@ function seiteHeute(){
   const ziele = S.ziele.filter(z=>!String(z.ziel).startsWith("Bestand"));
   return `${kopf(gruss, esc(datum))}
   ${verbindungsHinweis()}
-  <section class="card briefing" aria-labelledby="h-brief"><span class="ico" style="background:var(--orange)">${ic("zeitung")}</span><div><h2 id="h-brief" class="t-hl">Morgen-Briefing</h2><p class="t-sub c2">Ab Phase 3 schreibt der Organisator hier jeden Morgen um 06:30 dein Briefing; ab Phase 5 liest Mark es dir vor.${pruefen?` Bis dahin: ${pruefen} alte Aufgaben warten auf deine Entscheidung.`:""}</p></div>${pruefen?`<a class="knopf sekundaer" href="#aufgaben" data-ansicht="pruefen">Prüfen</a>`:""}</section>
+  ${briefingHtml(pruefen)}
+  ${freigabenHtml()}
   <section aria-labelledby="h-top"><div class="zeile-titel"><h2 id="h-top" class="t-t2">Top 3 heute</h2><a class="t-sub" style="font-weight:600;text-decoration:none" href="#aufgaben">Alle Aufgaben</a></div>${top3Html()}</section>
   <div class="grid3">
-    <section class="card box" aria-labelledby="h-ter"><h2 id="h-ter" class="t-hl"><span style="color:var(--red-text);display:flex">${ic("kal")}</span>Termine</h2><p class="t-sub c2">Der Kalender wird in Phase 3 angebunden.</p></section>
-    <section class="card box" aria-labelledby="h-frei"><h2 id="h-frei" class="t-hl"><span style="color:var(--purple-text);display:flex">${ic("schild")}</span>Wartet auf deine Freigabe</h2><p class="t-sub c2">Nichts offen. Hier landen später Mail-Entwürfe, Posts und Dateiaktionen der Agenten.</p></section>
+    <section class="card box" aria-labelledby="h-ter"><h2 id="h-ter" class="t-hl"><span style="color:var(--red-text);display:flex">${ic("kal")}</span>Termine</h2><p class="t-sub c2">Noch kein Kalender verbunden. Verbinde Google Kalender in Claude unter Einstellungen → Connectoren, dann stehen die Termine im Briefing.</p></section>
+    ${gespraecheHtml()}
     <section class="card box" aria-labelledby="h-wart"><h2 id="h-wart" class="t-hl"><span style="color:var(--orange-text);display:flex">${ic("sanduhr")}</span>Du wartest auf</h2>${wartet.length?`<ul class="liste-klein">${wartet.map(a=>`<li><a class="t-sub" href="#${a.id}">${esc(a.aufgabe)} <span class="c2">· ${esc(partnerVon(a).join(", "))}</span></a>${a.wartetAuf?`<div class="t-fn c2">${esc(a.wartetAuf)}</div>`:""}</li>`).join("")}</ul>`:`<p class="t-sub c2">${geladen()?"Nichts.":"…"}</p>`}</section>
   </div>
   <section aria-labelledby="h-ziele"><h2 id="h-ziele" class="t-t2">Ziele</h2>${ziele.length?`<div class="grid4">${ziele.map(zielHtml).join("")}</div>`:`<div class="card c2" style="padding:24px">${S.geladen.ziele?"Noch keine Ziele im Gehirn.":"Ziele werden geladen …"}</div>`}</section>
@@ -431,15 +492,34 @@ function seitePartner(){
     return `<li class="card partner ein" style="animation-delay:${i*50}ms"><div class="oben"><span class="av" style="background:${AV_FARBEN[i%AV_FARBEN.length]}">${esc(p.name.slice(0,1))}</span><div style="min-width:0"><h2 class="t-t3">${esc(p.name)}</h2><p class="t-fn c2">Partner-Agent folgt in Phase 6</p></div></div>
     <dl class="zahlen"><div><dt class="t-c1 c2">offen</dt><dd class="t-t3 num">${eig.length}</dd></div><div><dt class="t-c1 c2">sofort</dt><dd class="t-t3 num" ${sof?'style="color:var(--red-text)"':""}>${sof}</dd></div><div><dt class="t-c1 c2">wartet</dt><dd class="t-t3 num">${wa}</dd></div></dl>
     ${eig.length?`<ul class="liste-klein">${eig.sort(vergleich).slice(0,3).map(a=>`<li><a class="t-sub" href="#${a.id}">${esc(a.aufgabe)}</a></li>`).join("")}</ul>`:""}
+    ${steckbriefHtml(p)}
     <p class="t-fn c2" style="margin-top:auto">${p.driveOrdner?`Drive: ${esc(p.driveOrdner)}`:""}${p.web?` · ${esc(p.web)}`:""}</p></li>`; }).join("")}</ul>`;
+}
+
+function steckbriefHtml(p){
+  const s = p.steckbrief; if(!s) return `<p class="t-fn c2">Steckbrief folgt.</p>`;
+  const liste = a => Array.isArray(a)&&a.length ? `<ul>${a.map(x=>`<li class="t-sub">${esc(typeof x==="string"?x:[x.titel,x.betrag,x.datum,x.status].filter(Boolean).join(" · "))}</li>`).join("")}</ul>` : `<span class="t-sub c2">–</span>`;
+  const leute = Array.isArray(s.ansprechpartner)&&s.ansprechpartner.length ? s.ansprechpartner.map(a=>esc([a.name,a.rolle].filter(Boolean).join(", "))).join("<br>") : "–";
+  return `<details class="steckbrief"><summary class="t-sub" style="font-weight:600;color:var(--blue-text)">Steckbrief</summary>
+    ${s.positionierung?`<p class="t-sub">${esc(s.positionierung)}</p>`:""}
+    <dl>
+      <dt class="t-fn c2">Branche</dt><dd class="t-sub">${esc(s.branche||"–")}${s.ort?` · ${esc(s.ort)}`:""}</dd>
+      <dt class="t-fn c2">Ansprechpartner</dt><dd class="t-sub">${leute}</dd>
+      <dt class="t-fn c2">Zielgruppe</dt><dd class="t-sub">${esc(s.zielgruppe||"–")}</dd>
+      <dt class="t-fn c2">Leistungen C&amp;E</dt><dd>${liste(s.leistungenCE)}</dd>
+      <dt class="t-fn c2">Projekte</dt><dd>${liste(s.laufendeProjekte)}</dd>
+      <dt class="t-fn c2">Angebote</dt><dd>${liste(s.angebote)}</dd>
+      <dt class="t-fn c2">Fakten</dt><dd>${liste(s.wichtigeFakten)}</dd>
+      <dt class="t-fn c2">Offene Fragen</dt><dd>${liste(s.offeneFragen)}</dd>
+    </dl></details>`;
 }
 
 function seiteAgenten(){
   const EB = {1:["Stimme","Mit ihnen sprichst du."],2:["Kern-Team","Halten den Alltag zusammen."],3:["Fach-Agenten","Partnerbetriebe, Akquise und Content."]};
-  const ST = {aktiv:["var(--green)","aktiv"],pausiert:["var(--orange)","pausiert"],geplant:["var(--gray)","geplant"]};
+  const ST = {aktiv:["var(--green)","aktiv"],test:["var(--blue)","Test"],pausiert:["var(--orange)","pausiert"],geplant:["var(--gray)","geplant"]};
   const ag = [...S.agenten].sort((x,y)=>(x.ebene-y.ebene)||((x.reihe??0)-(y.reihe??0)));
   return `${kopf("Agenten", `${ag.length} Agenten · ${ag.filter(a=>a.status==="aktiv").length} aktiv`)}${verbindungsHinweis()}
-  ${[1,2,3].map(e=>`<section aria-labelledby="eb-${e}"><h2 id="eb-${e}" class="t-t2" style="margin-bottom:2px">Ebene ${e}: ${EB[e][0]}</h2><p class="t-sub c2" style="margin-bottom:12px">${EB[e][1]}</p><ul class="grid3">${ag.filter(a=>a.ebene===e).map(a=>{ const [f,t]=ST[a.status]||ST.geplant; return `<li class="card agent"><div class="oben"><span class="kreis">${esc(a.name.replace("Partner-Agent ","").slice(0,1))}</span><div style="flex:1;min-width:0"><h3 class="t-hl">${esc(a.name)}</h3><p class="t-fn c2">${esc(a.rolle)}</p></div><span class="ampel t-fn"><i style="background:${f}"></i>${t}</span></div><p class="t-sub c2">${esc(a.beschreibung)}</p><div class="werkz">${(a.werkzeuge||[]).map(w=>`<span class="pille meta">${esc(w)}</span>`).join("")}</div><p class="t-fn c2">${a.status==="aktiv"?"Läuft in ElevenLabs":a.phase?`Wird in Phase ${a.phase} gebaut`:"Wartet auf Freischaltung"}</p></li>`; }).join("")}</ul></section>`).join("")}`;
+  ${[1,2,3].map(e=>`<section aria-labelledby="eb-${e}"><h2 id="eb-${e}" class="t-t2" style="margin-bottom:2px">Ebene ${e}: ${EB[e][0]}</h2><p class="t-sub c2" style="margin-bottom:12px">${EB[e][1]}</p><ul class="grid3">${ag.filter(a=>a.ebene===e).map(a=>{ const [f,t]=ST[a.status]||ST.geplant; return `<li class="card agent"><div class="oben"><span class="kreis">${esc(a.name.replace("Partner-Agent ","").slice(0,1))}</span><div style="flex:1;min-width:0"><h3 class="t-hl">${esc(a.name)}</h3><p class="t-fn c2">${esc(a.rolle)}</p></div><span class="ampel t-fn"><i style="background:${f}"></i>${t}</span></div><p class="t-sub c2">${esc(a.beschreibung)}</p><div class="werkz">${(a.werkzeuge||[]).map(w=>`<span class="pille meta">${esc(w)}</span>`).join("")}</div><p class="t-fn c2">${a.letzteAktion?`Zuletzt: ${esc(a.letzteAktion)}`:a.status==="aktiv"?"Läuft in ElevenLabs":a.phase?`Wird in Phase ${a.phase} gebaut`:"Wartet auf Freischaltung"}${a.link?` · <a href="${esc(a.link)}" target="_blank" rel="noopener">Gespräch starten</a>`:""}</p></li>`; }).join("")}</ul></section>`).join("")}`;
 }
 
 function leer(titel, unter, ico, farbe, h, text, pill){
@@ -586,7 +666,36 @@ schicht.addEventListener("mousemove", e => { const b = e.target.closest("#pal-li
 
 /* ---------- Ereignisse der Seite ---------- */
 const seite = document.getElementById("seite");
+async function freigabeAktion(fid, was){
+  const f = S.freigaben.find(x=>x.id===fid); if(!f || !S.db) return;
+  const jetzt = new Date().toISOString();
+  try{
+    if(was==="bearbeiten"){ S.bearbeite = fid; render(); document.getElementById("fe-"+fid)?.focus(); return; }
+    if(was==="abbrechen"){ S.bearbeite = null; render(); return; }
+    if(was==="speichern"){
+      const t = document.getElementById("fe-"+fid)?.value ?? f.inhalt;
+      S.bearbeite = null; document.activeElement?.blur();
+      await S.db.doc("freigaben/"+fid).update({inhalt:t, bearbeitetAm:jetzt});
+      protokoll("Entwurf bearbeitet", fid, f.titel); zeigeToast("Entwurf gespeichert"); render(); return;
+    }
+    if(was==="freigeben"){
+      let kopiert = false;
+      if(f.inhalt && f.art!=="Dateiaktion"){ try{ await navigator.clipboard.writeText(f.inhalt); kopiert = true; }catch(e){} }
+      await S.db.doc("freigaben/"+fid).update({status:"freigegeben", entschiedenAm:jetzt});
+      protokoll("Freigegeben", fid, f.titel);
+      zeigeToast(kopiert ? "Freigegeben und kopiert. Jetzt einfügen und selbst senden." : "Freigegeben");
+      return;
+    }
+    if(was==="verwerfen"){
+      await S.db.doc("freigaben/"+fid).update({status:"verworfen", entschiedenAm:jetzt});
+      protokoll("Verworfen", fid, f.titel); zeigeToast("Verworfen"); return;
+    }
+  }catch(e){ schreibFehler(e); }
+}
+
 seite.addEventListener("click", e => {
+  const fb = e.target.closest("[data-frei]");
+  if(fb){ const li = fb.closest("[data-fid]"); if(li) freigabeAktion(li.dataset.fid, fb.dataset.frei); return; }
   const el = e.target.closest("[data-aktion]");
   const ans = e.target.closest("[data-ansicht]"); if(ans){ S.ansicht = ans.dataset.ansicht; }
   if(!el) return;
@@ -647,6 +756,9 @@ render();
   abo("partner", v => S.partner = v);
   abo("agenten", v => S.agenten = v);
   abo("ereignisse", v => S.ereignisse = v, db.collection("ereignisse").orderBy("zeit","desc").limit(8));
+  abo("briefings", v => S.briefings = v, db.collection("briefings").orderBy("erstelltAm","desc").limit(2));
+  abo("freigaben", v => S.freigaben = v, db.collection("freigaben").where("status","==","wartet"));
+  abo("gespraeche", v => S.gespraeche = v, db.collection("gespraeche").orderBy("datum","desc").limit(5));
   const v = ansichtAus(); if(v.aufgabe){ S.ansicht="alle"; S.offen.add(v.aufgabe); }
   render();
 })();

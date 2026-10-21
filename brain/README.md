@@ -32,7 +32,7 @@ Das Gehirn ist die zentrale Datenbank des Cockpits. Alles, was Danny und die Age
 
 **Hauptgehirn ist die Datenbank des Cockpit-Artifacts:** <https://claude.ai/artifact/FgbmgqzRqJnoMXwP1VGBwa>
 
-- Sammlungen: `aufgaben`, `ziele`, `partner`, `agenten`, `ereignisse`; später kommen `briefings`, `freigaben`, `gespraeche` und `gedaechtnis` dazu
+- Sammlungen: `aufgaben`, `ziele`, `partner` (mit `steckbrief`), `agenten`, `ereignisse`, `briefings`, `freigaben`, `gespraeche`, `system` (z. B. Stand des Alex-Imports); später kommt `gedaechtnis` dazu
 - Das Cockpit im Artifact liest und schreibt dort live.
 - Claude (diese Sitzung und später die Agenten als geplante Claude-Aufgaben) liest und schreibt über das Artifact-Datenwerkzeug.
 - Die lokale App (`src/`, SQLite unter `data/gehirn.db`) bleibt als Entwicklungsstand im Repo, ist aber **nicht** die Quelle. Bei Bedarf wird sie später an das Hauptgehirn angebunden.
