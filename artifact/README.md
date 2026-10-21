@@ -10,3 +10,4 @@
 - Version 3 (21.10.2026): Briefing, Freigaben und Alex-Gespräche auf „Heute“, Steckbriefe bei den Partnern, letzte Aktion bei den Agenten.
 - Version 8 (21.10.2026): Pipeline mit abgeschlossenem Umsatz pro Monat und Jahr, Beträge und Wahrscheinlichkeit änderbar, Abschlussdatum, „Neue Chance“, Auftrags-Knöpfe je Chance und je Agent; Aufträge an Agenten arbeitet der Morgenlauf ab.
 - Version 9: Pipeline zählt jeden Abschluss fürs Ziel, außer er ist als Bestand markiert; „In Arbeit“, „Gewichtet“ und Wahrscheinlichkeit entfernt, dafür „Angebot vom“ änderbar.
+- Version 10: Seite „Leads“ (33 Akquise-Ziele aus dem C&E Cockpit, Anruf-Ergebnis mit Verlauf), kompakte Anrufliste „Heute anrufen“ statt großer Empfehlungs-Entwürfe, Vertragsdaten und Bewertungen je Partner.

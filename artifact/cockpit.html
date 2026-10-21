@@ -180,6 +180,20 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .chance .oben{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .chance-felder{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .chance-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
+.lead{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:8px 16px;min-height:56px}
+.lead-haupt{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.lead-name{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.lead-aktion{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.lead-aktion .knopf{min-height:44px;font-size:.9375rem;padding:0 12px}
+.lead-aktion select.feld{width:auto;min-width:150px;font-size:.9375rem}
+.lead.kompakt{padding:6px 16px;align-items:center}
+.lead.kompakt .lead-haupt{gap:0}
+.lead-mehr ul{padding-left:18px;list-style:disc;margin:4px 0}
+.lead-mehr summary{min-height:32px;display:flex;align-items:center;cursor:pointer}
+.lead-werkzeug{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.vertrag{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vertrag dd{font-weight:600}
+@media (max-width:640px){.lead{flex-direction:column}.lead-aktion{justify-content:flex-start;width:100%}.vertrag{grid-template-columns:1fr 1fr}}
 .chance-knoepfe .knopf{min-height:44px;font-size:.9375rem}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
 .ums-kopf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -284,6 +298,7 @@ const I = {
   plus:'<path d="M12 5v14M5 12h14"/>',
   lupe:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
   trichter:'<path d="M3 4h18l-7 9v6l-4 2v-8z"/>',
+  telefon:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
   punkt:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/>'
 };
 const ic = (n, extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${I[n]}</svg>`;
@@ -294,6 +309,7 @@ const NAV = [
   {id:"heute",titel:"Heute",ico:"sonne",farbe:"var(--orange)"},
   {id:"aufgaben",titel:"Aufgaben",ico:"liste",farbe:"var(--blue)"},
   {id:"pipeline",titel:"Pipeline",ico:"trichter",farbe:"var(--indigo)"},
+  {id:"leads",titel:"Leads",ico:"telefon",farbe:"var(--green)"},
   {id:"mails",titel:"Mails",ico:"mail",farbe:"var(--teal)"},
   {id:"partner",titel:"Partner",ico:"haus",farbe:"var(--green)"},
   {id:"content",titel:"Content",ico:"klappe",farbe:"var(--purple)"},
@@ -346,7 +362,7 @@ const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)",
 
 const S = {
   db:null, verbunden:false, geladen:{aufgaben:false,ziele:false,partner:false,agenten:false},
-  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], pJahr:null, bearbeite:null,
+  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], leads:[], lFilter:"alle", lSuche:"", pJahr:null, bearbeite:null,
   ansicht:"aktiv", fPartner:"", fZust:"", suche:"", offen:new Set(), fehler:null, nurLesen:false, renderOffen:false
 };
 
@@ -445,6 +461,7 @@ function seiteHeute(){
   return `${kopf(gruss, esc(datum))}
   ${verbindungsHinweis()}
   ${briefingHtml(pruefen)}
+  ${anruflisteHtml()}
   ${freigabenHtml()}
   <section aria-labelledby="h-top"><div class="zeile-titel"><h2 id="h-top" class="t-t2">Top 3 heute</h2><a class="t-sub" style="font-weight:600;text-decoration:none" href="#aufgaben">Alle Aufgaben</a></div>${top3Html()}</section>
   <div class="grid3">
@@ -549,7 +566,8 @@ function seitePartner(){
   const pa = [...S.partner].sort((x,y)=>x.name.localeCompare(y.name));
   return `${kopf("Partner", `${pa.length} aktive Partnerbetriebe`)}${verbindungsHinweis()}
   <ul class="grid2">${pa.map((p,i)=>{ const eig = offen.filter(a=>partnerVon(a).includes(p.name)||partnerVon(a).includes("Alle Partner")); const sof = eig.filter(a=>prio(a)===1).length; const wa = eig.filter(a=>a.status==="wartet").length;
-    return `<li class="card partner ein" style="animation-delay:${i*50}ms"><div class="oben"><span class="av" style="background:${AV_FARBEN[i%AV_FARBEN.length]}">${esc(p.name.slice(0,1))}</span><div style="min-width:0"><h2 class="t-t3">${esc(p.name)}</h2><p class="t-fn c2">Partner-Agent folgt in Phase 6</p></div></div>
+    return `<li class="card partner ein" style="animation-delay:${i*50}ms"><div class="oben"><span class="av" style="background:${AV_FARBEN[i%AV_FARBEN.length]}">${esc(p.name.slice(0,1))}</span><div style="min-width:0"><h2 class="t-t3">${esc(p.name)}</h2><p class="t-fn c2">${p.vertrag?esc([p.vertrag.volumenJahr?euro(p.vertrag.volumenJahr)+"/Jahr":null, p.vertrag.umfang, p.vertrag.status].filter(Boolean).join(" · ")):"Partner-Agent folgt in Phase 6"}</p></div></div>
+    ${p.vertrag?`<dl class="vertrag t-fn"><div><dt class="c2">Ansprechpartner</dt><dd>${esc(p.vertrag.ansprechpartner||"–")}</dd></div><div><dt class="c2">Vertragsende</dt><dd>${esc(p.vertrag.vertragsende||"–")}</dd></div><div><dt class="c2">Sprache</dt><dd>${esc(p.vertrag.sprache||"–")}</dd></div></dl>${p.vertrag.notiz?`<p class="t-fn c2">${esc(p.vertrag.notiz)}</p>`:""}`:""}
     <dl class="zahlen"><div><dt class="t-c1 c2">offen</dt><dd class="t-t3 num">${eig.length}</dd></div><div><dt class="t-c1 c2">sofort</dt><dd class="t-t3 num" ${sof?'style="color:var(--red-text)"':""}>${sof}</dd></div><div><dt class="t-c1 c2">wartet</dt><dd class="t-t3 num">${wa}</dd></div></dl>
     ${eig.length?`<ul class="liste-klein">${eig.sort(vergleich).slice(0,3).map(a=>`<li><a class="t-sub" href="#${a.id}">${esc(a.aufgabe)}</a></li>`).join("")}</ul>`:""}
     ${steckbriefHtml(p)}
@@ -570,6 +588,7 @@ function steckbriefHtml(p){
       <dt class="t-fn c2">Projekte</dt><dd>${liste(s.laufendeProjekte)}</dd>
       <dt class="t-fn c2">Angebote</dt><dd>${liste(s.angebote)}</dd>
       <dt class="t-fn c2">Fakten</dt><dd>${liste(s.wichtigeFakten)}</dd>
+      <dt class="t-fn c2">Bewertungen &amp; Empfehlungen</dt><dd>${liste((p.bewertungen||[]).map(b=>`${b.was}: ${b.stand}`))}</dd>
       <dt class="t-fn c2">Offene Fragen</dt><dd>${liste(s.offeneFragen)}</dd>
     </dl></details>`;
 }
@@ -614,12 +633,63 @@ function seitePipeline(){
   <p class="t-fn c2">Fürs Ziel zählt alles, was auf „Gewonnen“ steht, außer es ist als „Bestand“ markiert. Den Betrag änderst du direkt im Feld.</p>`;
 }
 
+const LSTUFEN = ["Empfehlung","Neu","Angesprochen","Vorgespräch","Angebot","Gewonnen","Kein Interesse"];
+const ERGEBNIS_LEAD = ["Nicht erreicht","Rückruf vereinbart","Termin vereinbart","Unterlagen schicken","Kein Interesse"];
+const ERGEBNIS_ANFRAGE = ["Nicht erreicht","Rückruf vereinbart","Empfehlung erhalten","Keine Empfehlung"];
+const telHref = t => "tel:"+String(t||"").split(/[,(]/)[0].replace(/[^\d+]/g,"").replace(/^(?!\+|00)/,"+352");
+const istAnfrage = l => l.typ==="anfrage";
+const leadOffen = l => istAnfrage(l) ? l.stufe==="Offen" : !["Gewonnen","Kein Interesse"].includes(l.stufe);
+function leadRang(l){ if(istAnfrage(l)) return 0; if(l.prioritaet==="A") return 1; if(/sofort|termin|uhr|handy|chef/i.test(l.naechsterSchritt||"")) return 2; return 3; }
+const leadSort = (a,b) => leadRang(a)-leadRang(b) || String(a.letzterKontakt||"").localeCompare(String(b.letzterKontakt||"")) || a.betrieb.localeCompare(b.betrieb);
+function leadZeile(l, kompakt){
+  const opts = istAnfrage(l) ? ERGEBNIS_ANFRAGE : ERGEBNIS_LEAD;
+  const letzte = (l.verlauf||[]).slice(-1)[0];
+  return `<li class="lead${kompakt?" kompakt":""}" data-lid="${esc(l.id)}">
+    <div class="lead-haupt">
+      ${kompakt?`<div class="lead-name"><span class="t-sub" style="font-weight:600">${esc(istAnfrage(l)?l.partner+": Empfehlung anfragen":l.betrieb)}</span>${l.prioritaet==="A"&&!istAnfrage(l)?pille("var(--t-green)","var(--green-text)","Empfehlung"):""}</div>
+      <div class="t-fn c2">${esc([l.ansprechpartner, istAnfrage(l)?null:l.naechsterSchritt].filter(Boolean).join(" · "))}${letzte?` · zuletzt ${esc(datumDe(letzte.datum))}: ${esc(letzte.ergebnis)}`:""}${l.leitfaden?` · <a href="#leads" class="t-fn" style="font-weight:600">Stichpunkte</a>`:""}</div>
+    </div>`:`
+      <div class="lead-name"><span class="t-hl">${esc(l.betrieb)}</span>${l.prioritaet==="A"&&!istAnfrage(l)?pille("var(--t-green)","var(--green-text)","Empfehlung"):""}${!kompakt&&l.stufe&&l.stufe!=="Empfehlung"?`<span class="t-fn c2">${esc(l.stufe)}</span>`:""}</div>
+      <div class="t-fn c2">${esc([l.ansprechpartner, l.branche, l.ort].filter(Boolean).join(" · "))}</div>
+      ${l.naechsterSchritt?`<div class="t-fn">→ ${esc(l.naechsterSchritt)}</div>`:""}
+      ${letzte?`<div class="t-fn c2">Zuletzt ${esc(datumDe(letzte.datum))}: ${esc(letzte.ergebnis)}${letzte.notiz?` · ${esc(letzte.notiz)}`:""}</div>`:""}
+      ${(l.leitfaden&&l.leitfaden.length)||l.notiz||l.website?`<details class="lead-mehr"><summary class="t-fn" style="color:var(--blue-text);font-weight:600">${istAnfrage(l)?"Stichpunkte fürs Telefonat":"Details"}</summary>${l.leitfaden?`<ul class="t-sub">${l.leitfaden.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}${l.notiz?`<p class="t-fn c2">${esc(l.notiz)}</p>`:""}${l.website?`<p class="t-fn"><a href="${esc(l.website)}" target="_blank" rel="noopener">${esc(l.website.replace(/^https?:\/\//,""))}</a></p>`:""}${l.quelle?`<p class="t-fn c2">Quelle: ${esc(l.quelle)}</p>`:""}</details>`:""}
+    </div>`}
+    <div class="lead-aktion">
+      ${l.telefon?`<a class="knopf sekundaer" href="${esc(telHref(l.telefon))}" aria-label="${esc(l.betrieb)} anrufen">${ic("telefon")}${esc(String(l.telefon).split(/[,(]/)[0].trim())}</a>`:`<span class="t-fn c2" style="min-width:44px">keine Nr.</span>`}
+      <label><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Ergebnis für ${esc(l.betrieb)}</span><select class="feld" data-lergebnis ${S.nurLesen?"disabled":""}><option value="">Ergebnis …</option>${opts.map(o=>`<option>${o}</option>`).join("")}</select></label>
+    </div>
+  </li>`;
+}
+function anruflisteHtml(){
+  const offen = S.leads.filter(leadOffen).sort(leadSort);
+  const zeigen = offen.slice(0,8);
+  const kopfZeile = `<div class="zeile-titel"><h2 id="h-anruf" class="t-t2">Heute anrufen</h2><a class="t-sub" style="font-weight:600;text-decoration:none" href="#leads">Alle Leads (${S.leads.filter(l=>!istAnfrage(l)).length})</a></div>`;
+  if(!S.leads.length) return `<section aria-labelledby="h-anruf">${kopfZeile}<div class="card t-sub c2" style="padding:20px">${S.geladen.leads?"Keine offenen Anrufe.":"Anrufliste wird geladen …"}</div></section>`;
+  return `<section aria-labelledby="h-anruf">${kopfZeile}<ul class="gruppe lead-liste">${zeigen.map(l=>leadZeile(l,true)).join("")}</ul>${offen.length>zeigen.length?`<p class="t-fn c2" style="margin-top:8px">${offen.length-zeigen.length} weitere offen unter „Leads“.</p>`:""}</section>`;
+}
+function seiteLeads(){
+  const alle = S.leads.filter(l=>!istAnfrage(l));
+  const F = [["alle","Offen",l=>leadOffen(l)],["A","Empfehlungen",l=>l.prioritaet==="A"&&leadOffen(l)],["Vorgespräch","Im Gespräch",l=>["Vorgespräch","Angebot"].includes(l.stufe)],["zu","Abgeschlossen",l=>!leadOffen(l)]];
+  const f = F.find(x=>x[0]===S.lFilter)||F[0];
+  const q = S.lSuche.trim().toLowerCase();
+  const liste = alle.filter(f[2]).filter(l=>!q||`${l.betrieb} ${l.ansprechpartner||""} ${l.branche||""} ${l.ort||""}`.toLowerCase().includes(q)).sort(leadSort);
+  const anfr = S.leads.filter(istAnfrage);
+  return `${kopf("Leads", `${alle.filter(leadOffen).length} offen · ${alle.filter(l=>l.prioritaet==="A").length} Empfehlungen`)}${verbindungsHinweis()}
+  <div class="lead-werkzeug"><div class="seg" role="group" aria-label="Filter">${F.map(([id,t,fn])=>`<button class="knopf ${id===f[0]?"primaer":"sekundaer"}" data-lfilter="${id}" aria-pressed="${id===f[0]}">${t} <span class="num" style="opacity:.75">${alle.filter(fn).length}</span></button>`).join("")}</div>
+  <label style="flex:1;min-width:200px"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Leads durchsuchen</span><input id="l-suche" class="feld" placeholder="Betrieb, Name, Branche …" value="${esc(S.lSuche)}"></label>
+  <button class="knopf primaer" data-lneu ${S.nurLesen?"disabled":""}>${ic("plus")}Neuer Lead</button></div>
+  ${liste.length?`<ul class="gruppe lead-liste">${liste.map(l=>leadZeile(l,false)).join("")}</ul>`:`<div class="card t-sub c2" style="padding:20px">Keine Leads in dieser Ansicht.</div>`}
+  <section><h2 class="t-t3" style="margin:8px 0">Empfehlungen anfragen <span class="t-sub c2">${anfr.filter(leadOffen).length} offen</span></h2><ul class="gruppe lead-liste">${anfr.sort(leadSort).map(l=>leadZeile(l,false)).join("")}</ul></section>
+  <p class="t-fn c2">„Termin vereinbart“ setzt den Lead auf Vorgespräch, „Empfehlung erhalten“ öffnet direkt einen neuen Lead. Jedes Ergebnis steht im Verlauf.</p>`;
+}
+
 function leer(titel, unter, ico, farbe, h, text, pill){
   return `${kopf(titel, unter)}<div class="card leer ein"><span class="ico" style="background:${farbe}">${ic(ico)}</span><h2 class="t-t3">${h}</h2><p class="c2">${text}</p>${pill?`<span class="pille meta" style="margin-top:8px">${pill}</span>`:""}</div>`;
 }
 const seiteMails = () => leer("Mails","Zusammenfassungen und Antwortentwürfe","mail","var(--teal)","Der Mail-Assistent kommt in Phase 4","Er sortiert deinen Posteingang, fasst zusammen und schreibt Entwürfe. Jeder Entwurf landet hier mit „Freigeben, Bearbeiten, Verwerfen“; ohne dein OK geht nichts raus.","Wartet auf Gmail-Zugang");
 function seiteContent(){
-  const FST = {wartet:["var(--t-purple)","var(--purple-text)","wartet auf dich"],freigegeben:["var(--t-green)","var(--green-text)","freigegeben"],verworfen:["var(--t-gray)","var(--label-2)","verworfen"],erledigt:["var(--t-green)","var(--green-text)","erledigt"]};
+  const FST = {wartet:["var(--t-purple)","var(--purple-text)","wartet auf dich"],freigegeben:["var(--t-green)","var(--green-text)","freigegeben"],verworfen:["var(--t-gray)","var(--label-2)","verworfen"],erledigt:["var(--t-green)","var(--green-text)","erledigt"],ersetzt:["var(--t-gray)","var(--label-2)","per Telefon"]};
   const docs = S.freigaben.filter(f=>f.art!=="Dateiaktion").sort((a,b)=>String(b.erstelltAm).localeCompare(String(a.erstelltAm)));
   const link = f => (String(f.inhalt||"").match(/https:\/\/docs\.google\.com\/[^\s]+/)||[])[0];
   const gruppen = [["Dokumente und Angebote", docs.filter(f=>f.art==="Dokument"||f.art==="Angebot")],["Nachrichten", docs.filter(f=>f.art==="Nachricht"||f.art==="Mail")],["Posts", docs.filter(f=>f.art==="Post")]].filter(([,l])=>l.length);
@@ -634,16 +704,16 @@ function seiteEinstellungen(){
   return `${kopf("Einstellungen")}
   <section aria-labelledby="h-g"><h2 id="h-g" class="t-t3" style="margin-bottom:4px">Gehirn</h2><p class="t-sub c2" style="margin-bottom:12px">${S.db?"Verbunden. Die Daten liegen in der Datenbank dieses Artifacts; Claude kann sie lesen und schreiben.":"Nicht verbunden."} Hell oder Dunkel stellst du über Claude ein.</p><dl class="grid4">${z.map(([t,n])=>`<div class="card" style="padding:16px"><dt class="t-fn c2">${t}</dt><dd class="t-t2 num">${n}</dd></div>`).join("")}</dl></section>
   <section aria-labelledby="h-r"><h2 id="h-r" class="t-t3">Freigaberegeln</h2><ul class="gruppe">${REG.map(([a,b])=>`<li style="display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:48px;padding:8px 16px"><span>${a}</span><span class="t-sub c2">${b}</span></li>`).join("")}</ul><p class="t-fn c2" style="margin-top:8px">Jede Aktion eines Agenten landet im Ereignis-Log des Gehirns.</p></section>
-  <section aria-labelledby="h-t"><h2 id="h-t" class="t-t3">Tastenkürzel</h2><ul class="gruppe">${[["Suchen und Befehle","⌘K"],["Heute … Einstellungen","⌘1 … ⌘8"],["Dialog schließen","esc"]].map(([a,b])=>`<li style="display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 16px"><span>${a}</span><kbd class="t-sub c2" style="font:inherit">${b}</kbd></li>`).join("")}</ul></section>`;
+  <section aria-labelledby="h-t"><h2 id="h-t" class="t-t3">Tastenkürzel</h2><ul class="gruppe">${[["Suchen und Befehle","⌘K"],["Heute … Einstellungen","⌘1 … ⌘9"],["Dialog schließen","esc"]].map(([a,b])=>`<li style="display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 16px"><span>${a}</span><kbd class="t-sub c2" style="font:inherit">${b}</kbd></li>`).join("")}</ul></section>`;
 }
 
 function render(){
   const ae = document.activeElement;
-  if(ae && ae.matches && ae.matches("main textarea, main input[data-text], main input#f-suche, main form input")){ S.renderOffen = true; return; }
+  if(ae && ae.matches && ae.matches("main textarea, main input[data-text], main input#f-suche, main input#l-suche, main form input")){ S.renderOffen = true; return; }
   S.renderOffen = false;
   renderNav();
   const {seite} = ansichtAus();
-  const html = {heute:seiteHeute,aufgaben:seiteAufgaben,pipeline:seitePipeline,partner:seitePartner,agenten:seiteAgenten,mails:seiteMails,content:seiteContent,einstellungen:seiteEinstellungen}[seite]();
+  const html = {heute:seiteHeute,aufgaben:seiteAufgaben,pipeline:seitePipeline,leads:seiteLeads,partner:seitePartner,agenten:seiteAgenten,mails:seiteMails,content:seiteContent,einstellungen:seiteEinstellungen}[seite]();
   document.getElementById("seite").innerHTML = html;
   document.title = "Cockpit";
 }
@@ -736,6 +806,48 @@ function agentAuftrag(aid){
   const partnerName = a.id.startsWith("partner-") ? (S.partner.find(p=>"partner-"+p.id===a.id)||{}).name : "";
   const zust = a.id.startsWith("partner-") ? "Partner-Agent" : (ZUST.includes(a.name) ? a.name : "Claude Code");
   oeffneNeu({titel:`Auftrag an ${a.name}`, zustaendig:zust, partner:partnerName||"", bleiben:true});
+}
+async function leadErgebnis(id, erg){
+  if(!S.db || !erg) return;
+  const l = S.leads.find(x=>x.id===id); if(!l) return;
+  const jetzt = new Date().toISOString();
+  const verlauf = [...(l.verlauf||[]), {datum:heute(), ergebnis:erg}];
+  const upd = {verlauf, letzterKontakt:heute(), aktualisiertAm:jetzt};
+  if(istAnfrage(l)){ if(erg==="Empfehlung erhalten"||erg==="Keine Empfehlung") upd.stufe = "Erledigt"; }
+  else if(erg==="Termin vereinbart") { upd.stufe = "Vorgespräch"; upd.naechsterSchritt = "Termin vorbereiten"; }
+  else if(erg==="Kein Interesse") upd.stufe = "Kein Interesse";
+  else if(erg==="Unterlagen schicken") { upd.naechsterSchritt = "Unterlagen schicken, dann nachfassen"; if(["Neu","Empfehlung"].includes(l.stufe)) upd.stufe="Angesprochen"; }
+  else if(["Neu","Empfehlung"].includes(l.stufe)) upd.stufe = "Angesprochen";
+  try{
+    await S.db.doc("leads/"+id).update(upd); protokoll("Anruf", id, `${l.betrieb}: ${erg}`);
+    if(erg==="Empfehlung erhalten") oeffneLead({quelle:`Empfehlung ${l.partner||""}`.trim(), prioritaet:"A"});
+    else zeigeToast(`${l.betrieb}: ${erg}`);
+    if(erg==="Termin vereinbart" && !S.pipeline.some(c=>c.leadId===id)){
+      const cid = "c-"+Date.now().toString(36);
+      await S.db.doc("pipeline/"+cid).set({titel:"Erstgespräch", partner:l.betrieb, betrag:null, datum:heute(), stufe:"Gespräch", art:"neu", wahrscheinlichkeit:null, quelle:null, notiz:l.quelle||null, naechsterSchritt:"Termin vorbereiten", leadId:id, erstelltAm:jetzt, aktualisiertAm:jetzt});
+    }
+  }catch(e){ schreibFehler(e); }
+}
+function oeffneLead(vor={}){
+  vorherFokus = document.activeElement;
+  const f = (n,l,typ="text",val="") => `<label class="f"><span>${l}</span><input name="${n}" class="feld" type="${typ}" value="${esc(val)}"></label>`;
+  schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt" role="dialog" aria-modal="true" aria-labelledby="ld-titel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 id="ld-titel" class="t-t2">Neuer Lead</h2><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
+    <form id="ld-form">
+      <label class="f breit"><span>Betrieb</span><input id="ld-b" name="betrieb" class="feld" required></label>
+      ${f("ansprechpartner","Ansprechpartner")}${f("telefon","Telefon","tel")}${f("branche","Branche")}${f("ort","Ort")}${f("quelle","Quelle","text",vor.quelle||"")}
+      <label class="f"><span>Priorität</span><select name="prioritaet" class="feld"><option value="A" ${vor.prioritaet==="A"?"selected":""}>A – Empfehlung</option><option value="B" ${vor.prioritaet!=="A"?"selected":""}>B</option></select></label>
+      <label class="f breit"><span>Nächster Schritt</span><input name="naechsterSchritt" class="feld" value="Anrufen"></label>
+      <div class="aktionen"><button type="button" class="knopf sekundaer" data-schliessen-knopf>Abbrechen</button><button type="submit" class="knopf primaer">Anlegen</button></div>
+    </form></div></div>`;
+  document.getElementById("ld-b").focus();
+  document.getElementById("ld-form").addEventListener("submit", async ev => {
+    ev.preventDefault(); const g = n => (ev.target.elements[n]?.value||"").trim(); if(!g("betrieb")||!S.db) return;
+    const id = "l-"+Date.now().toString(36), jetzt = new Date().toISOString(), pr = g("prioritaet")||"B";
+    try{ await S.db.doc("leads/"+id).set({typ:"lead", betrieb:g("betrieb"), ansprechpartner:g("ansprechpartner")||null, telefon:g("telefon")||null, branche:g("branche")||null, ort:g("ort")||null, website:null, quelle:g("quelle")||null, prioritaet:pr, stufe:pr==="A"?"Empfehlung":"Neu", naechsterSchritt:g("naechsterSchritt")||null, notiz:null, letzterKontakt:null, verlauf:[], erstelltAm:jetzt, aktualisiertAm:jetzt}); protokoll("Lead angelegt", id, g("betrieb")); zeigeToast("Lead angelegt"); }
+    catch(e){ schreibFehler(e); }
+    schliesseSchicht();
+  });
 }
 async function setzeZiel(id, roh){
   if(!S.db) return;
@@ -854,6 +966,8 @@ async function freigabeAktion(fid, was){
 seite.addEventListener("click", e => {
   const pj = e.target.closest("[data-pjahr]"); if(pj){ S.pJahr = pj.dataset.pjahr; render(); return; }
   if(e.target.closest("[data-pneu]")){ oeffneChance(); return; }
+  if(e.target.closest("[data-lneu]")){ oeffneLead(); return; }
+  const lf = e.target.closest("[data-lfilter]"); if(lf){ S.lFilter = lf.dataset.lfilter; render(); return; }
   const pa = e.target.closest("[data-pauftrag]"); if(pa){ const k = pa.closest("[data-cid]"); if(k) pipeAuftrag(k.dataset.cid, pa.dataset.pauftrag); return; }
   const ag = e.target.closest("[data-agauftrag]"); if(ag){ agentAuftrag(ag.dataset.agauftrag); return; }
   const zl = e.target.closest("[data-zust]"); if(zl){ S.fZust = zl.dataset.zust; S.fPartner=""; S.suche=""; S.ansicht="alle"; }
@@ -873,13 +987,14 @@ seite.addEventListener("change", e => {
   const t = e.target;
   if(t.id==="f-partner"){ S.fPartner = t.value; render(); return; }
   if(t.id==="f-zust"){ S.fZust = t.value; render(); return; }
+  if(t.hasAttribute("data-lergebnis")){ const r = t.closest("[data-lid]"); if(r) leadErgebnis(r.dataset.lid, t.value); return; }
   if(t.dataset.pfeld){ const k = t.closest("[data-cid]"); if(k) aenderePipe(k.dataset.cid, t.dataset.pfeld, t.value||null); return; }
   const feld = t.dataset.feld; if(!feld) return;
   const li = t.closest("[data-id]"); if(!li) return;
   if(t.hasAttribute("data-text")) return; // Textfelder speichern beim Verlassen
   aendere(li.dataset.id, feld, t.value);
 });
-seite.addEventListener("input", e => { if(e.target.id==="f-suche"){ S.suche = e.target.value; clearTimeout(seite._s); seite._s = setTimeout(()=>{ const pos = e.target.selectionStart; S.renderOffen=false; const f=document.activeElement; f.blur(); render(); const n=document.getElementById("f-suche"); if(n){ n.focus(); n.setSelectionRange(pos,pos); } }, 180); } });
+seite.addEventListener("input", e => { if(e.target.id==="l-suche"){ S.lSuche = e.target.value; clearTimeout(seite._l); seite._l = setTimeout(()=>{ const pos = e.target.selectionStart; S.renderOffen=false; document.activeElement.blur(); render(); const n=document.getElementById("l-suche"); if(n){ n.focus(); n.setSelectionRange(pos,pos); } }, 180); return; } if(e.target.id==="f-suche"){ S.suche = e.target.value; clearTimeout(seite._s); seite._s = setTimeout(()=>{ const pos = e.target.selectionStart; S.renderOffen=false; const f=document.activeElement; f.blur(); render(); const n=document.getElementById("f-suche"); if(n){ n.focus(); n.setSelectionRange(pos,pos); } }, 180); } });
 seite.addEventListener("focusout", e => {
   const t = e.target;
   if(t.hasAttribute && t.hasAttribute("data-text")){ const li = t.closest("[data-id]"); if(li) aendere(li.dataset.id, t.dataset.feld, t.value); }
@@ -895,7 +1010,7 @@ document.getElementById("suche-knopf").addEventListener("click", oeffnePalette);
 window.addEventListener("keydown", e => {
   const mod = e.metaKey || e.ctrlKey;
   if(mod && e.key.toLowerCase()==="k"){ e.preventDefault(); schicht.innerHTML ? schliesseSchicht() : oeffnePalette(); return; }
-  if(mod && /^[1-8]$/.test(e.key)){ e.preventDefault(); location.hash = NAV[Number(e.key)-1].id; return; }
+  if(mod && /^[1-9]$/.test(e.key)){ e.preventDefault(); location.hash = NAV[Number(e.key)-1].id; return; }
   if(e.key==="Escape" && schicht.innerHTML){ e.preventDefault(); schliesseSchicht(); }
 });
 window.addEventListener("hashchange", () => {
@@ -923,6 +1038,7 @@ render();
   abo("briefings", v => S.briefings = v, db.collection("briefings").orderBy("erstelltAm","desc").limit(2));
   abo("freigaben", v => S.freigaben = v);
   abo("pipeline", v => S.pipeline = v);
+  abo("leads", v => S.leads = v);
   abo("gespraeche", v => S.gespraeche = v, db.collection("gespraeche").orderBy("datum","desc").limit(5));
   const v = ansichtAus(); if(v.aufgabe){ S.ansicht="alle"; S.offen.add(v.aufgabe); }
   render();
