@@ -83,6 +83,8 @@ section>h2{margin-bottom:12px}
 
 .knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:44px;padding:0 16px;border-radius:var(--r-ctl);font-size:1rem;font-weight:600;transition:transform .16s cubic-bezier(.2,.8,.2,1),filter .16s}
 a.knopf{text-decoration:none}
+.knopf svg{width:18px;height:18px;flex:none}
+.knopf{white-space:nowrap}
 .knopf:active{transform:scale(.97)}
 .primaer{background:var(--blue);color:#fff}.primaer:hover{filter:brightness(1.06)}
 .sekundaer{background:var(--fill);color:var(--blue-text)}.sekundaer:hover{background:var(--fill-2)}
@@ -177,6 +179,20 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .chance{padding:16px;display:flex;flex-direction:column;gap:10px}
 .chance .oben{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .chance-felder{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chance-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
+.chance-knoepfe .knopf{min-height:44px;font-size:.9375rem}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.ums-kopf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.monate{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;align-items:end;height:170px}
+.monate li{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.monate .saeule{width:100%;max-width:36px;flex:1;display:flex;align-items:flex-end;background:var(--fill);border-radius:8px;overflow:hidden}
+.monate .saeule div{width:100%;background:var(--indigo);border-radius:8px 8px 0 0;min-height:0}
+table.jahre{width:100%;border-collapse:collapse;font-size:.9375rem}
+table.jahre th,table.jahre td{padding:10px 8px;text-align:right;border-top:.5px solid var(--sep);white-space:nowrap}
+table.jahre th:first-child{text-align:left}
+table.jahre thead th{color:var(--label-2);font-weight:600;font-size:.8125rem;border-top:0}
+@media (max-width:760px){.ums-kopf{grid-template-columns:repeat(2,minmax(0,1fr))}.monate{gap:3px}}
+@media (max-width:560px){.monate li>span:first-child{display:none}}
 .chance-felder .f{display:flex;flex-direction:column;gap:4px}
 @media (max-width:560px){.chance-felder{grid-template-columns:1fr}}
 .zahlen{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
@@ -287,7 +303,7 @@ const NAV = [
 const STATUS = ["offen","in Arbeit","wartet","wartet auf Freigabe","prüfen","später","erledigt"];
 const BEREICHE = ["Akquise","Kunde","Content","Finanzen","Strategie","System"];
 const HEBEL = ["hoch","mittel","niedrig"];
-const ZUST = ["Danny","Mark","Alex","Organisator","Mail-Assistent","Drive-Agent","Akquise-Agent","Text-Agent","Erklärvideo-Agent","Motion-Design-Agent","Partner-Agent","Claude Code"];
+const ZUST = ["Danny","Mark","Alex","Organisator","Mail-Assistent","Drive-Agent","Akquise-Agent","Text-Agent","Erklärvideo-Agent","Motion-Design-Agent","Performance-Agent","Design-Agent","Partner-Agent","Claude Code"];
 const PRIO_NAME = {1:"Sofort",2:"Planen",3:"Delegieren",4:"Später"};
 const PRIO_ERKL = {1:"wichtig und dringend",2:"wichtig, nicht dringend",3:"dringend, nicht wichtig",4:"weder wichtig noch dringend"};
 const PRIO_STIL = {1:["var(--t-red)","var(--red-text)","feuer"],2:["var(--t-blue)","var(--blue-text)","kal"],3:["var(--t-orange)","var(--orange-text)","uhr"],4:["var(--t-gray)","var(--label-2)","runter"]};
@@ -298,6 +314,28 @@ const STUFE_W = {Lead:10,"Gespräch":25,Angebot:50,Verhandlung:75,Gewonnen:100,V
 const ARTEN = [["neu","Neuumsatz"],["bestand","Bestand"]];
 const euro = n => `${zahl.format(Number(n)||0)} €`;
 const wahrsch = c => c.wahrscheinlichkeit ?? STUFE_W[c.stufe] ?? 0;
+const abschlussDatum = c => c.abgeschlossenAm || c.datum || null;
+const MONATE = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+function umsatzHtml(){
+  const gew = S.pipeline.filter(c=>c.stufe==="Gewonnen");
+  const jahre = [...new Set(gew.map(c=>String(abschlussDatum(c)||"").slice(0,4)).filter(Boolean))].sort();
+  const jetztJ = heute().slice(0,4); if(!jahre.includes(jetztJ)) jahre.push(jetztJ);
+  const jahr = S.pJahr && jahre.includes(S.pJahr) ? S.pJahr : jetztJ;
+  const summe = l => l.reduce((x,c)=>x+(Number(c.betrag)||0),0);
+  const teil = (l,art) => summe(l.filter(c=>art==="?"?!c.art:c.art===art));
+  const imJahr = gew.filter(c=>String(abschlussDatum(c)||"").startsWith(jahr));
+  const proMonat = MONATE.map((m,i)=>{ const l = imJahr.filter(c=>Number(String(abschlussDatum(c)).slice(5,7))===i+1); return {m, l, s:summe(l)}; });
+  const max = Math.max(1,...proMonat.map(x=>x.s));
+  const ohneDatum = gew.filter(c=>!c.abgeschlossenAm).length;
+  const jahrTab = [...jahre].reverse().map(j=>{ const l = gew.filter(c=>String(abschlussDatum(c)||"").startsWith(j)); return `<tr><th scope="row">${j}</th><td class="num">${euro(teil(l,"neu"))}</td><td class="num">${euro(teil(l,"bestand"))}</td><td class="num">${euro(teil(l,"?"))}</td><td class="num" style="font-weight:600">${euro(summe(l))}</td></tr>`; }).join("");
+  return `<section aria-labelledby="h-ums" class="card" style="padding:20px;display:flex;flex-direction:column;gap:16px">
+    <div class="zeile-titel" style="margin:0"><h2 id="h-ums" class="t-t3">Abgeschlossener Umsatz</h2><div class="seg" role="group" aria-label="Jahr">${jahre.map(j=>`<button class="knopf ${j===jahr?"primaer":"sekundaer"}" data-pjahr="${j}" aria-pressed="${j===jahr}">${j}</button>`).join("")}</div></div>
+    <div class="ums-kopf"><div><div class="t-fn c2">${jahr} gesamt</div><div class="t-t1 num">${euro(summe(imJahr))}</div></div><div><div class="t-fn c2">davon Neuumsatz</div><div class="t-t3 num">${euro(teil(imJahr,"neu"))}</div></div><div><div class="t-fn c2">Bestand</div><div class="t-t3 num">${euro(teil(imJahr,"bestand"))}</div></div><div><div class="t-fn c2">noch nicht zugeordnet</div><div class="t-t3 num">${euro(teil(imJahr,"?"))}</div></div></div>
+    <ol class="monate" aria-label="Umsatz pro Monat ${jahr}">${proMonat.map(x=>`<li title="${esc(x.l.map(c=>`${c.partner}: ${euro(c.betrag)}`).join(", "))}"><span class="t-c2 num c2">${x.s?zahl.format(Math.round(x.s/1000))+"k":""}</span><div class="saeule"><div style="height:${x.s/max*100}%"></div></div><span class="t-c1 c2">${x.m}</span><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">${x.m}: ${euro(x.s)}</span></li>`).join("")}</ol>
+    <div style="overflow-x:auto"><table class="jahre"><thead><tr><th scope="col">Jahr</th><th scope="col">Neuumsatz</th><th scope="col">Bestand</th><th scope="col">nicht zugeordnet</th><th scope="col">Gesamt</th></tr></thead><tbody>${jahrTab}</tbody></table></div>
+    ${ohneDatum?`<p class="t-fn c2">${ohneDatum} gewonnene ${ohneDatum===1?"Chance hat":"Chancen haben"} noch kein Abschlussdatum. Bis du eins einträgst, zählt das Angebotsdatum.</p>`:""}
+  </section>`;
+}
 function pipeZahlen(){
   const neu = S.pipeline.filter(c=>c.art==="neu");
   const gewonnen = neu.filter(c=>c.stufe==="Gewonnen").reduce((x,c)=>x+(Number(c.betrag)||0),0);
@@ -310,7 +348,7 @@ const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)",
 
 const S = {
   db:null, verbunden:false, geladen:{aufgaben:false,ziele:false,partner:false,agenten:false},
-  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], bearbeite:null,
+  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], pJahr:null, bearbeite:null,
   ansicht:"aktiv", fPartner:"", fZust:"", suche:"", offen:new Set(), fehler:null, nurLesen:false, renderOffen:false
 };
 
@@ -543,27 +581,38 @@ function seiteAgenten(){
   const ST = {aktiv:["var(--green)","aktiv"],test:["var(--blue)","Test"],pausiert:["var(--orange)","pausiert"],geplant:["var(--gray)","geplant"]};
   const ag = [...S.agenten].sort((x,y)=>(x.ebene-y.ebene)||((x.reihe??0)-(y.reihe??0)));
   return `${kopf("Agenten", `${ag.length} Agenten · ${ag.filter(a=>a.status==="aktiv").length} aktiv`)}${verbindungsHinweis()}
-  ${[1,2,3].map(e=>`<section aria-labelledby="eb-${e}"><h2 id="eb-${e}" class="t-t2" style="margin-bottom:2px">Ebene ${e}: ${EB[e][0]}</h2><p class="t-sub c2" style="margin-bottom:12px">${EB[e][1]}</p><ul class="grid3">${ag.filter(a=>a.ebene===e).map(a=>{ const [f,t]=ST[a.status]||ST.geplant; return `<li class="card agent"><div class="oben"><span class="kreis">${esc(a.name.replace("Partner-Agent ","").slice(0,1))}</span><div style="flex:1;min-width:0"><h3 class="t-hl">${esc(a.name)}</h3><p class="t-fn c2">${esc(a.rolle)}</p></div><span class="ampel t-fn"><i style="background:${f}"></i>${t}</span></div><p class="t-sub c2">${esc(a.beschreibung)}</p><div class="werkz">${(a.werkzeuge||[]).map(w=>`<span class="pille meta">${esc(w)}</span>`).join("")}</div><p class="t-fn c2">${a.letzteAktion?`Zuletzt: ${esc(a.letzteAktion)}`:a.status==="aktiv"?"Läuft in ElevenLabs":a.phase?`Wird in Phase ${a.phase} gebaut`:"Wartet auf Freischaltung"}${a.link?` · <a href="${esc(a.link)}" target="_blank" rel="noopener">Gespräch starten</a>`:""}</p></li>`; }).join("")}</ul></section>`).join("")}`;
+  ${[1,2,3].map(e=>`<section aria-labelledby="eb-${e}"><h2 id="eb-${e}" class="t-t2" style="margin-bottom:2px">Ebene ${e}: ${EB[e][0]}</h2><p class="t-sub c2" style="margin-bottom:12px">${EB[e][1]}</p><ul class="grid3">${ag.filter(a=>a.ebene===e).map(a=>{ const [f,t]=ST[a.status]||ST.geplant; return `<li class="card agent"><div class="oben"><span class="kreis">${esc(a.name.replace("Partner-Agent ","").slice(0,1))}</span><div style="flex:1;min-width:0"><h3 class="t-hl">${esc(a.name)}</h3><p class="t-fn c2">${esc(a.rolle)}</p></div><span class="ampel t-fn"><i style="background:${f}"></i>${t}</span></div><p class="t-sub c2">${esc(a.beschreibung)}</p><div class="werkz">${(a.werkzeuge||[]).map(w=>`<span class="pille meta">${esc(w)}</span>`).join("")}</div><p class="t-fn c2">${a.letzteAktion?`Zuletzt: ${esc(a.letzteAktion)}`:a.status==="aktiv"?"Läuft in ElevenLabs":a.phase?`Wird in Phase ${a.phase} gebaut`:"Wartet auf Freischaltung"}</p>
+      <div class="chance-knoepfe" style="margin-top:auto">${a.link?`<a class="knopf primaer" href="${esc(a.link)}" target="_blank" rel="noopener">${ic("bot")}Gespräch starten</a>`:""}${a.id!=="alex"&&a.id!=="mark"?`<button class="knopf ${a.link?"sekundaer":"primaer"}" data-agauftrag="${esc(a.id)}" ${S.nurLesen?"disabled":""}>${ic("plus")}Auftrag geben</button>`:""}${(()=>{ const n = S.aufgaben.filter(t=>t.status!=="erledigt"&&(t.zustaendig===a.name||(a.id.startsWith("partner-")&&t.zustaendig==="Partner-Agent"))).length; return n?`<a class="knopf sekundaer" href="#aufgaben" data-zust="${esc(a.id.startsWith("partner-")?"Partner-Agent":a.name)}">${n} offen</a>`:""; })()}</div></li>`; }).join("")}</ul></section>`).join("")}`;
 }
 
 function seitePipeline(){
   const z = pipeZahlen(), ziel = (S.ziele.find(x=>x.id==="z1")||{}).soll||140000;
   const sel = (feld,wert,opts,label) => `<label class="f"><span class="t-fn c2">${label}</span><select class="feld" data-pfeld="${feld}" ${S.nurLesen?"disabled":""}><option value="">Klären</option>${opts.map(([v,t])=>`<option value="${esc(v)}" ${wert===v?"selected":""}>${esc(t)}</option>`).join("")}</select></label>`;
   const karte = c => `<li class="card chance" data-cid="${esc(c.id)}">
-    <div class="oben"><div style="min-width:0"><h3 class="t-hl">${esc(c.titel)}</h3><p class="t-fn c2">${esc(c.partner||"Neukunde")}${c.datum?` · ${esc(datumDe(c.datum))}`:""}</p></div><span class="t-t3 num">${c.betrag!=null?euro(c.betrag):"–"}</span></div>
+    <div class="oben"><div style="min-width:0"><h3 class="t-hl">${esc(c.titel)}</h3><p class="t-fn c2">${esc(c.partner||"Neukunde")}${c.datum?` · Angebot vom ${esc(datumDe(c.datum))}`:""}</p></div><span class="t-t3 num">${c.betrag!=null?euro(c.betrag):"–"}</span></div>
     ${c.notiz?`<p class="t-sub c2">${esc(c.notiz)}</p>`:""}
-    <div class="chance-felder">${sel("stufe",c.stufe,STUFEN.map(x=>[x,x]),"Stufe")}${sel("art",c.art,ARTEN,"Zählt als")}</div>
+    <div class="chance-felder">
+      <label class="f"><span class="t-fn c2">Betrag netto (€)</span><input class="feld num" inputmode="decimal" data-pfeld="betrag" data-text value="${c.betrag!=null?zahl.format(c.betrag):""}" ${S.nurLesen?"disabled":""}></label>
+      ${c.stufe==="Gewonnen"?`<label class="f"><span class="t-fn c2">Abgeschlossen am</span><input class="feld" type="date" data-pfeld="abgeschlossenAm" value="${esc(c.abgeschlossenAm||"")}" ${S.nurLesen?"disabled":""}></label>`:`<label class="f"><span class="t-fn c2">Wahrscheinlichkeit (%)</span><input class="feld num" inputmode="numeric" data-pfeld="wahrscheinlichkeit" data-text placeholder="${STUFE_W[c.stufe]??""}" value="${c.wahrscheinlichkeit??""}" ${S.nurLesen?"disabled":""}></label>`}
+      ${sel("stufe",c.stufe,STUFEN.map(x=>[x,x]),"Stufe")}${sel("art",c.art,ARTEN,"Zählt als")}</div>
     ${c.naechsterSchritt?`<p class="t-fn"><span class="c2">Nächster Schritt:</span> ${esc(c.naechsterSchritt)}</p>`:""}
-    ${c.quelle?`<p class="t-fn c2">${/^[\w-]{20,}$/.test(c.quelle)?`<a href="https://docs.google.com/document/d/${esc(c.quelle)}" target="_blank" rel="noopener">Angebot in Drive öffnen</a>`:esc(c.quelle)}</p>`:""}
+    <div class="chance-knoepfe">
+      ${c.quelle&&/^[\w-]{20,}$/.test(c.quelle)?`<a class="knopf sekundaer" href="https://docs.google.com/document/d/${esc(c.quelle)}" target="_blank" rel="noopener">Angebot öffnen</a>`:""}
+      <button class="knopf sekundaer" data-pauftrag="followup" ${S.nurLesen?"disabled":""}>Akquise-Agent: Follow-up</button>
+      <button class="knopf sekundaer" data-pauftrag="angebot" ${S.nurLesen?"disabled":""}>Angebot überarbeiten</button>
+      <button class="knopf sekundaer" data-pauftrag="alex" ${S.nurLesen?"disabled":""}>Mit Alex besprechen</button>
+    </div>
   </li>`;
   const gruppen = [...STUFEN, null].map(st => [st, S.pipeline.filter(c=>(c.stufe??null)===st)]).filter(([,l])=>l.length);
   return `${kopf("Pipeline", `Ziel: ${euro(ziel)} Neuumsatz in 12 Monaten`)}${verbindungsHinweis()}
+  <div style="display:flex;justify-content:flex-end"><button class="knopf primaer" data-pneu ${S.nurLesen?"disabled":""}>${ic("plus")}Neue Chance</button></div>
   <dl class="grid4">
     <div class="card" style="padding:16px"><dt class="t-fn c2">Gewonnen (neu)</dt><dd class="t-t2 num">${euro(z.gewonnen)}</dd><dd class="t-fn c2">${Math.round(z.gewonnen/ziel*100)} % vom Ziel</dd></div>
     <div class="card" style="padding:16px"><dt class="t-fn c2">In Arbeit (neu)</dt><dd class="t-t2 num">${euro(z.offenSumme)}</dd><dd class="t-fn c2">${z.offenAnz} Chancen</dd></div>
     <div class="card" style="padding:16px"><dt class="t-fn c2">Gewichtet</dt><dd class="t-t2 num">${euro(z.gewichtet)}</dd><dd class="t-fn c2">Betrag × Wahrscheinlichkeit</dd></div>
     <div class="card" style="padding:16px"><dt class="t-fn c2">Fehlt noch</dt><dd class="t-t2 num">${euro(Math.max(ziel-z.gewonnen,0))}</dd><dd class="t-fn c2">${z.klaeren?`${z.klaeren} Einträge klären`:"alles eingeordnet"}</dd></div>
   </dl>
+  ${umsatzHtml()}
   ${S.pipeline.length?gruppen.map(([st,l])=>`<section class="gruppen-abschnitt"><h2 class="t-t3" style="margin:8px 0">${esc(st??"Zu klären")} <span class="t-sub c2">${l.length} · ${euro(l.reduce((x,c)=>x+(Number(c.betrag)||0),0))}</span></h2><ul class="grid2">${l.sort((a,b)=>(Number(b.betrag)||0)-(Number(a.betrag)||0)).map(karte).join("")}</ul></section>`).join(""):`<div class="card t-sub c2" style="padding:20px">${S.geladen.pipeline?"Noch keine Chancen im Gehirn.":"Pipeline wird geladen …"}</div>`}
   <p class="t-fn c2">Neuumsatz zählt nur, was auf „Neuumsatz“ und „Gewonnen“ steht. Ohne eigene Angabe gilt je Stufe eine Wahrscheinlichkeit: Lead 10 %, Gespräch 25 %, Angebot 50 %, Verhandlung 75 %.</p>`;
 }
@@ -634,11 +683,62 @@ async function lege(form){
   try{ await S.db.doc("aufgaben/"+id).set(doc); protokoll("Aufgabe angelegt", id, titel); return id; }
   catch(e){ schreibFehler(e); return null; }
 }
-async function aenderePipe(id, feld, wert){
+const PFELD = {stufe:"Stufe",art:"Zählt als",betrag:"Betrag",abgeschlossenAm:"Abgeschlossen am",wahrscheinlichkeit:"Wahrscheinlichkeit"};
+async function aenderePipe(id, feld, roh){
   if(!S.db) return;
-  const c = S.pipeline.find(x=>x.id===id); if(!c || c[feld]===wert) return;
-  try{ await S.db.doc("pipeline/"+id).update({[feld]:wert, aktualisiertAm:new Date().toISOString()}); protokoll("Pipeline geändert", id, `${feld==="art"?"Zählt als":"Stufe"}: ${wert??"klären"}`); }
+  const c = S.pipeline.find(x=>x.id===id); if(!c) return;
+  let wert = roh;
+  if(feld==="betrag"||feld==="wahrscheinlichkeit"){
+    const t = String(roh??"").trim().replace(/[€%\s]/g,"").replace(/\./g,"").replace(",",".");
+    wert = t===""?null:Number(t);
+    if(wert!==null && Number.isNaN(wert)){ zeigeToast("Bitte eine Zahl eingeben, zum Beispiel 25.000"); render(); return; }
+    if(feld==="wahrscheinlichkeit" && wert!==null) wert = Math.max(0,Math.min(100,Math.round(wert)));
+  }
+  if(c[feld]===wert) return;
+  const upd = {[feld]:wert, aktualisiertAm:new Date().toISOString()};
+  if(feld==="stufe" && wert==="Gewonnen" && !c.abgeschlossenAm) upd.abgeschlossenAm = heute();
+  try{ await S.db.doc("pipeline/"+id).update(upd); protokoll("Pipeline geändert", id, `${PFELD[feld]}: ${wert??"leer"}`); }
   catch(e){ schreibFehler(e); }
+}
+async function neueChance(form){
+  const g = n => (form.elements[n]?.value||"").trim();
+  const titel = g("titel"); if(!titel || !S.db) return;
+  const t = g("betrag").replace(/[€\s]/g,"").replace(/\./g,"").replace(",",".");
+  const id = "c-"+Date.now().toString(36), jetzt = new Date().toISOString();
+  const doc = {titel, partner:g("partner")||null, betrag:t===""?null:Number(t)||null, datum:heute(), stufe:g("stufe")||"Lead", art:g("art")||null, wahrscheinlichkeit:null, quelle:null, notiz:g("notiz")||null, naechsterSchritt:null, erstelltAm:jetzt, aktualisiertAm:jetzt};
+  try{ await S.db.doc("pipeline/"+id).set(doc); protokoll("Chance angelegt", id, titel); zeigeToast("Chance angelegt"); }catch(e){ schreibFehler(e); }
+}
+function oeffneChance(){
+  vorherFokus = document.activeElement;
+  schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt" role="dialog" aria-modal="true" aria-labelledby="ch-titel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 id="ch-titel" class="t-t2">Neue Chance</h2><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
+    <form id="ch-form">
+      <label class="f breit"><span>Titel</span><input id="ch-t" name="titel" class="feld" required placeholder="z. B. Website Schreinerei Muller"></label>
+      <label class="f"><span>Kunde</span><input name="partner" class="feld" list="ch-kunden" placeholder="Partner oder Neukunde"><datalist id="ch-kunden">${S.partner.map(p=>`<option value="${esc(p.name)}">`).join("")}</datalist></label>
+      <label class="f"><span>Betrag netto (€)</span><input name="betrag" class="feld" inputmode="decimal"></label>
+      <label class="f"><span>Stufe</span><select name="stufe" class="feld">${STUFEN.map(x=>`<option>${x}</option>`).join("")}</select></label>
+      <label class="f"><span>Zählt als</span><select name="art" class="feld"><option value="">Klären</option>${ARTEN.map(([v,t])=>`<option value="${v}" ${v==="neu"?"selected":""}>${t}</option>`).join("")}</select></label>
+      <label class="f breit"><span>Notiz</span><textarea name="notiz" class="feld"></textarea></label>
+      <div class="aktionen"><button type="button" class="knopf sekundaer" data-schliessen-knopf>Abbrechen</button><button type="submit" class="knopf primaer">Anlegen</button></div>
+    </form></div></div>`;
+  document.getElementById("ch-t").focus();
+  document.getElementById("ch-form").addEventListener("submit", async ev => { ev.preventDefault(); await neueChance(ev.target); schliesseSchicht(); });
+}
+function pipeAuftrag(id, was){
+  const c = S.pipeline.find(x=>x.id===id); if(!c) return;
+  const partner = S.partner.some(p=>p.name===c.partner) ? c.partner : "";
+  if(was==="alex"){ window.open("https://elevenlabs.io/app/talk-to?agent_id=agent_9401krkr50b3fn4bqahad1xykkmy","_blank","noopener"); return; }
+  const V = {
+    followup:{titel:"Auftrag an den Akquise-Agenten", aufgabe:`Follow-up entwerfen: ${c.titel}${c.partner?` (${c.partner})`:""}`, zustaendig:"Akquise-Agent", bereich:"Akquise", schritt:`Pipeline ${id}: Nachfass-Nachricht zum Angebot über ${euro(c.betrag)} als Entwurf zur Freigabe.`},
+    angebot:{titel:"Auftrag an den Akquise-Agenten", aufgabe:`Angebot überarbeiten: ${c.titel}${c.partner?` (${c.partner})`:""}`, zustaendig:"Akquise-Agent", bereich:"Akquise", schritt:`Pipeline ${id}: Angebot prüfen und als korrigierte Kopie (Entwurf) anlegen. Wünsche: `}
+  }[was];
+  oeffneNeu({...V, partner, bleiben:true});
+}
+function agentAuftrag(aid){
+  const a = S.agenten.find(x=>x.id===aid); if(!a) return;
+  const partnerName = a.id.startsWith("partner-") ? (S.partner.find(p=>"partner-"+p.id===a.id)||{}).name : "";
+  const zust = a.id.startsWith("partner-") ? "Partner-Agent" : (ZUST.includes(a.name) ? a.name : "Claude Code");
+  oeffneNeu({titel:`Auftrag an ${a.name}`, zustaendig:zust, partner:partnerName||"", bleiben:true});
 }
 async function setzeZiel(id, roh){
   if(!S.db) return;
@@ -661,21 +761,21 @@ const schicht = document.getElementById("schicht");
 let vorherFokus = null;
 function schliesseSchicht(){ schicht.innerHTML = ""; if(vorherFokus && vorherFokus.focus) vorherFokus.focus(); vorherFokus = null; }
 
-function oeffneNeu(){
+function oeffneNeu(vor={}){
   vorherFokus = document.activeElement;
   const opt = (n,l,o,std) => `<label class="f"><span>${l}</span><select id="neu-${n}" name="${n}" class="feld"><option value="">–</option>${o.map(x=>`<option ${x===std?"selected":""}>${esc(x)}</option>`).join("")}</select></label>`;
   schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt" role="dialog" aria-modal="true" aria-labelledby="neu-titel">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 id="neu-titel" class="t-t2">Neue Aufgabe</h2><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 id="neu-titel" class="t-t2">${vor.titel?esc(vor.titel):"Neue Aufgabe"}</h2><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
     <form id="neu-form">
-      <label class="f breit"><span>Aufgabe</span><input id="neu-aufgabe" name="aufgabe" class="feld" required placeholder="Was ist zu tun?"></label>
-      ${opt("partner","Partner",[...S.partner.map(p=>p.name).sort(),"C&E intern","Alle Partner"])}
-      ${opt("bereich","Bereich",BEREICHE)}
+      <label class="f breit"><span>Aufgabe</span><input id="neu-aufgabe" name="aufgabe" class="feld" required placeholder="Was ist zu tun?" value="${esc(vor.aufgabe||"")}"></label>
+      ${opt("partner","Partner",[...S.partner.map(p=>p.name).sort(),"C&E intern","Alle Partner"],vor.partner)}
+      ${opt("bereich","Bereich",BEREICHE,vor.bereich)}
       ${opt("wichtig","Wichtig",["ja","nein"])}
       ${opt("dringend","Dringend",["ja","nein"])}
       ${opt("umsatzhebel","Umsatzhebel",HEBEL)}
       <label class="f"><span>Fällig am</span><input id="neu-faellig" type="date" name="faelligAm" class="feld"></label>
-      ${opt("zustaendig","Zuständig",ZUST,"Danny")}
-      <label class="f breit"><span>Nächster Schritt</span><textarea id="neu-schritt" name="naechsterSchritt" class="feld"></textarea></label>
+      ${opt("zustaendig","Zuständig",ZUST,vor.zustaendig||"Danny")}
+      <label class="f breit"><span>Nächster Schritt</span><textarea id="neu-schritt" name="naechsterSchritt" class="feld">${esc(vor.schritt||"")}</textarea></label>
       <div class="aktionen"><button type="button" class="knopf sekundaer" data-schliessen-knopf>Abbrechen</button><button type="submit" class="knopf primaer">Anlegen</button></div>
     </form></div></div>`;
   document.getElementById("neu-aufgabe").focus();
@@ -684,7 +784,7 @@ function oeffneNeu(){
     const btn = ev.target.querySelector('[type="submit"]'); btn.disabled = true; btn.textContent = "Speichert …";
     const id = await lege(ev.target);
     schliesseSchicht();
-    if(id){ S.ansicht="aktiv"; S.fPartner=""; S.fZust=""; S.suche=""; S.offen.add(id); zeigeToast(`Aufgabe ${id} angelegt`); location.hash = id; }
+    if(id){ if(vor.bleiben){ zeigeToast(`Auftrag ${id} angelegt. Der Agent arbeitet ihn im nächsten Morgenlauf ab.`); return; } S.ansicht="aktiv"; S.fPartner=""; S.fZust=""; S.suche=""; S.offen.add(id); zeigeToast(`Aufgabe ${id} angelegt`); location.hash = id; }
   });
 }
 
@@ -755,6 +855,11 @@ async function freigabeAktion(fid, was){
 }
 
 seite.addEventListener("click", e => {
+  const pj = e.target.closest("[data-pjahr]"); if(pj){ S.pJahr = pj.dataset.pjahr; render(); return; }
+  if(e.target.closest("[data-pneu]")){ oeffneChance(); return; }
+  const pa = e.target.closest("[data-pauftrag]"); if(pa){ const k = pa.closest("[data-cid]"); if(k) pipeAuftrag(k.dataset.cid, pa.dataset.pauftrag); return; }
+  const ag = e.target.closest("[data-agauftrag]"); if(ag){ agentAuftrag(ag.dataset.agauftrag); return; }
+  const zl = e.target.closest("[data-zust]"); if(zl){ S.fZust = zl.dataset.zust; S.fPartner=""; S.suche=""; S.ansicht="alle"; }
   const fb = e.target.closest("[data-frei]");
   if(fb){ const li = fb.closest("[data-fid]"); if(li) freigabeAktion(li.dataset.fid, fb.dataset.frei); return; }
   const el = e.target.closest("[data-aktion]");
