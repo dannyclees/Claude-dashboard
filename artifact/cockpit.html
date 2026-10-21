@@ -5,7 +5,7 @@
    Farben = Apple-Systemfarben, Typo = iOS-Skala „Large“, Systemschrift (SF auf Apple-Geräten). */
 :root{
   --blue:#007aff;--blue-text:#0066cc;--green:#34c759;--green-text:#1f8a3a;--orange:#ff9500;--orange-text:#b25e00;
-  --red:#ff3b30;--red-text:#d70015;--purple:#af52de;--purple-text:#8944ab;--teal:#30b0c7;--gray:#8e8e93;
+  --red:#ff3b30;--red-text:#d70015;--purple:#af52de;--indigo:#5856d6;--purple-text:#8944ab;--teal:#30b0c7;--gray:#8e8e93;
   --label:#000;--label-2:#6e6e73;--label-3:#8e8e93;--bg:#f2f2f7;--surface:#fff;--surface-2:#f7f7fa;
   --fill:rgba(120,120,128,.12);--fill-2:rgba(120,120,128,.2);--sep:rgba(60,60,67,.18);
   --glass:rgba(246,246,248,.78);--glass-dicht:rgba(252,252,253,.96);--glass-border:rgba(0,0,0,.06);
@@ -16,7 +16,7 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --blue:#0a84ff;--blue-text:#409cff;--green:#30d158;--green-text:#30d158;--orange:#ff9f0a;--orange-text:#ffb340;
-  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--purple-text:#da8fff;--teal:#40c8e0;
+  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--indigo:#5e5ce6;--purple-text:#da8fff;--teal:#40c8e0;
   --label:#fff;--label-2:#aeaeb2;--label-3:#8e8e93;--bg:#000;--surface:#1c1c1e;--surface-2:#232325;
   --fill:rgba(120,120,128,.24);--fill-2:rgba(120,120,128,.36);--sep:rgba(84,84,88,.6);
   --glass:rgba(28,28,30,.78);--glass-dicht:rgba(36,36,38,.96);--glass-border:rgba(255,255,255,.08);
@@ -25,7 +25,7 @@
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --blue:#0a84ff;--blue-text:#409cff;--green:#30d158;--green-text:#30d158;--orange:#ff9f0a;--orange-text:#ffb340;
-  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--purple-text:#da8fff;--teal:#40c8e0;
+  --red:#ff453a;--red-text:#ff6961;--purple:#bf5af2;--indigo:#5e5ce6;--purple-text:#da8fff;--teal:#40c8e0;
   --label:#fff;--label-2:#aeaeb2;--label-3:#8e8e93;--bg:#000;--surface:#1c1c1e;--surface-2:#232325;
   --fill:rgba(120,120,128,.24);--fill-2:rgba(120,120,128,.36);--sep:rgba(84,84,88,.6);
   --glass:rgba(28,28,30,.78);--glass-dicht:rgba(36,36,38,.96);--glass-border:rgba(255,255,255,.08);
@@ -82,6 +82,7 @@ section>h2{margin-bottom:12px}
 .grid2{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}
 
 .knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:44px;padding:0 16px;border-radius:var(--r-ctl);font-size:1rem;font-weight:600;transition:transform .16s cubic-bezier(.2,.8,.2,1),filter .16s}
+a.knopf{text-decoration:none}
 .knopf:active{transform:scale(.97)}
 .primaer{background:var(--blue);color:#fff}.primaer:hover{filter:brightness(1.06)}
 .sekundaer{background:var(--fill);color:var(--blue-text)}.sekundaer:hover{background:var(--fill-2)}
@@ -173,6 +174,11 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .partner{padding:20px;display:flex;flex-direction:column;gap:16px}
 .partner .oben{display:flex;align-items:center;gap:12px}
 .av{width:48px;height:48px;border-radius:14px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.25rem;font-weight:600;flex-shrink:0}
+.chance{padding:16px;display:flex;flex-direction:column;gap:10px}
+.chance .oben{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.chance-felder{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chance-felder .f{display:flex;flex-direction:column;gap:4px}
+@media (max-width:560px){.chance-felder{grid-template-columns:1fr}}
 .zahlen{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
 .zahlen div{background:var(--fill);border-radius:12px;padding:8px 0}
 .agent{padding:20px;display:flex;flex-direction:column;gap:12px}
@@ -231,7 +237,7 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
     <div class="marke"><div class="t-t3">Cockpit</div><div class="t-fn c2">Clees &amp; Ernster</div></div>
     <button class="suche-knopf" id="suche-knopf" aria-label="Suchen und Befehle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="txt t-sub">Suchen</span><kbd>⌘K</kbd></button>
     <ul class="nav" id="nav"></ul>
-    <div class="mark" aria-disabled="true"><span class="rund"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></span><span><span class="t-hl" style="display:block">Mark</span><span class="t-fn c2">Stimme folgt in Phase 5</span></span></div>
+    <a class="mark" href="https://elevenlabs.io/app/talk-to?agent_id=agent_2401m5g43pe0fchr10razqyqn7hk" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><span class="rund"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></span><span><span class="t-hl" style="display:block">Mark</span><span class="t-fn c2">Mit Mark sprechen (Test)</span></span></a>
   </nav>
   <main id="inhalt"><div class="wrap" id="seite"></div></main>
 </div>
@@ -261,14 +267,17 @@ const I = {
   haken:'<path d="M20 6 9 17l-5-5"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
   lupe:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  trichter:'<path d="M3 4h18l-7 9v6l-4 2v-8z"/>',
   punkt:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/>'
 };
 const ic = (n, extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${I[n]}</svg>`;
+const linkify = s => esc(s).replace(/https:\/\/[^\s<]+/g, u => `<a href="${u}" target="_blank" rel="noopener">Dokument öffnen</a>`);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 const NAV = [
   {id:"heute",titel:"Heute",ico:"sonne",farbe:"var(--orange)"},
   {id:"aufgaben",titel:"Aufgaben",ico:"liste",farbe:"var(--blue)"},
+  {id:"pipeline",titel:"Pipeline",ico:"trichter",farbe:"var(--indigo)"},
   {id:"mails",titel:"Mails",ico:"mail",farbe:"var(--teal)"},
   {id:"partner",titel:"Partner",ico:"haus",farbe:"var(--green)"},
   {id:"content",titel:"Content",ico:"klappe",farbe:"var(--purple)"},
@@ -284,11 +293,24 @@ const PRIO_ERKL = {1:"wichtig und dringend",2:"wichtig, nicht dringend",3:"dring
 const PRIO_STIL = {1:["var(--t-red)","var(--red-text)","feuer"],2:["var(--t-blue)","var(--blue-text)","kal"],3:["var(--t-orange)","var(--orange-text)","uhr"],4:["var(--t-gray)","var(--label-2)","runter"]};
 const STATUS_STIL = {"offen":["var(--t-gray)","var(--label-2)"],"in Arbeit":["var(--t-blue)","var(--blue-text)"],"wartet":["var(--t-orange)","var(--orange-text)","sanduhr"],"wartet auf Freigabe":["var(--t-purple)","var(--purple-text)","schild"],"prüfen":["var(--t-orange)","var(--orange-text)","achtung"],"später":["var(--t-gray)","var(--label-2)"],"erledigt":["var(--t-green)","var(--green-text)"]};
 const ANSICHTEN = [["aktiv","Aktiv",["offen","in Arbeit"]],["wartet","Wartet",["wartet","wartet auf Freigabe"]],["pruefen","Prüfen",["prüfen"]],["spaeter","Später",["später"]],["erledigt","Erledigt",["erledigt"]],["alle","Alle",null]];
+const STUFEN = ["Lead","Gespräch","Angebot","Verhandlung","Gewonnen","Verloren"];
+const STUFE_W = {Lead:10,"Gespräch":25,Angebot:50,Verhandlung:75,Gewonnen:100,Verloren:0};
+const ARTEN = [["neu","Neuumsatz"],["bestand","Bestand"]];
+const euro = n => `${zahl.format(Number(n)||0)} €`;
+const wahrsch = c => c.wahrscheinlichkeit ?? STUFE_W[c.stufe] ?? 0;
+function pipeZahlen(){
+  const neu = S.pipeline.filter(c=>c.art==="neu");
+  const gewonnen = neu.filter(c=>c.stufe==="Gewonnen").reduce((x,c)=>x+(Number(c.betrag)||0),0);
+  const offen = neu.filter(c=>c.stufe!=="Gewonnen"&&c.stufe!=="Verloren");
+  const gewichtet = offen.reduce((x,c)=>x+(Number(c.betrag)||0)*wahrsch(c)/100,0);
+  const klaeren = S.pipeline.filter(c=>!c.art||c.stufe==null).length;
+  return {gewonnen, gewichtet, offenSumme:offen.reduce((x,c)=>x+(Number(c.betrag)||0),0), offenAnz:offen.length, klaeren};
+}
 const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)","var(--teal)","var(--red)"];
 
 const S = {
   db:null, verbunden:false, geladen:{aufgaben:false,ziele:false,partner:false,agenten:false},
-  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], bearbeite:null,
+  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], bearbeite:null,
   ansicht:"aktiv", fPartner:"", fZust:"", suche:"", offen:new Set(), fehler:null, nurLesen:false, renderOffen:false
 };
 
@@ -361,7 +383,7 @@ function freigabenHtml(){
       <div class="frei-kopf"><span class="pille" style="background:var(--t-purple);color:var(--purple-text)">${ic("schild")}${esc(f.art||"Entwurf")}</span><span class="t-fn c2">${esc(f.agent||"Agent")}</span></div>
       <h3 class="t-hl">${esc(f.titel)}</h3>
       ${meta?`<p class="t-fn c2">${meta}</p>`:""}
-      ${bearb?`<label class="f"><span>Text bearbeiten</span><textarea id="fe-${esc(f.id)}" class="feld frei-edit" data-frei-text>${esc(f.inhalt||"")}</textarea></label>`:`<div class="frei-inhalt t-sub">${esc(f.inhalt||"")}</div>`}
+      ${bearb?`<label class="f"><span>Text bearbeiten</span><textarea id="fe-${esc(f.id)}" class="feld frei-edit" data-frei-text>${esc(f.inhalt||"")}</textarea></label>`:`<details class="frei-det"><summary class="t-sub" style="font-weight:600;color:var(--blue-text);min-height:44px;display:flex;align-items:center">Text anzeigen</summary><div class="frei-inhalt t-sub">${linkify(f.inhalt)}</div></details>`}
       ${f.hinweis?`<p class="t-fn c2">${esc(f.hinweis)}</p>`:""}
       <div class="frei-knoepfe">
         ${bearb
@@ -400,11 +422,13 @@ function seiteHeute(){
 
 function formatZ(w,einheit){ return einheit==="EUR" ? `${zahl.format(w)} €` : zahl.format(w); }
 function zielHtml(z){
-  const ist = Number(z.ist)||0, soll = Number(z.soll)||0, anteil = soll>0 ? Math.min(ist/soll,1) : 0;
-  const bearb = S.offen.has("ziel:"+z.id);
-  return `<div class="card ziel"><div class="oben"><div><div class="t-hl">${esc(z.ziel)}</div><div class="t-fn c2">${esc(z.einheit==="EUR"?z.zeitraum:`${z.einheit} · ${z.zeitraum}`)}</div></div><button class="stift" data-aktion="ziel-bearb" data-id="${esc(z.id)}" aria-label="Ist-Wert für ${esc(z.ziel)} eintragen" ${S.nurLesen?"disabled":""}>${ic("stift")}</button></div>
+  const ausPipe = z.id==="z1" && S.pipeline.length>0;
+  const ist = ausPipe ? pipeZahlen().gewonnen : Number(z.ist)||0, soll = Number(z.soll)||0, anteil = soll>0 ? Math.min(ist/soll,1) : 0;
+  const bearb = !ausPipe && S.offen.has("ziel:"+z.id);
+  return `<div class="card ziel"><div class="oben"><div><div class="t-hl">${esc(z.ziel)}</div><div class="t-fn c2">${esc(z.einheit==="EUR"?z.zeitraum:`${z.einheit} · ${z.zeitraum}`)}</div></div>${ausPipe?`<a class="t-fn" href="#pipeline" style="font-weight:600;text-decoration:none">aus Pipeline</a>`:`<button class="stift" data-aktion="ziel-bearb" data-id="${esc(z.id)}" aria-label="Ist-Wert für ${esc(z.ziel)} eintragen" ${S.nurLesen?"disabled":""}>${ic("stift")}</button>`}</div>
   <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><span class="t-title1 num">${formatZ(ist,z.einheit)}</span><span class="t-sub c2">von ${formatZ(soll,z.einheit)}</span></div>
   <div class="balken" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(anteil*100)}" aria-label="${esc(z.ziel)}: ${Math.round(anteil*100)} Prozent"><div style="width:${anteil*100}%"></div></div>
+  ${ausPipe?`<p class="t-fn c2">Gewichtet in Arbeit: ${euro(pipeZahlen().gewichtet)}</p>`:""}
   ${bearb?`<form data-form="ziel" data-id="${esc(z.id)}"><label style="flex:1"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Ist-Wert</span><input id="ziel-${esc(z.id)}" name="ist" class="feld" inputmode="decimal" value="${z.ist??""}"></label><button class="knopf primaer">Sichern</button></form>`:""}</div>`;
 }
 
@@ -522,11 +546,41 @@ function seiteAgenten(){
   ${[1,2,3].map(e=>`<section aria-labelledby="eb-${e}"><h2 id="eb-${e}" class="t-t2" style="margin-bottom:2px">Ebene ${e}: ${EB[e][0]}</h2><p class="t-sub c2" style="margin-bottom:12px">${EB[e][1]}</p><ul class="grid3">${ag.filter(a=>a.ebene===e).map(a=>{ const [f,t]=ST[a.status]||ST.geplant; return `<li class="card agent"><div class="oben"><span class="kreis">${esc(a.name.replace("Partner-Agent ","").slice(0,1))}</span><div style="flex:1;min-width:0"><h3 class="t-hl">${esc(a.name)}</h3><p class="t-fn c2">${esc(a.rolle)}</p></div><span class="ampel t-fn"><i style="background:${f}"></i>${t}</span></div><p class="t-sub c2">${esc(a.beschreibung)}</p><div class="werkz">${(a.werkzeuge||[]).map(w=>`<span class="pille meta">${esc(w)}</span>`).join("")}</div><p class="t-fn c2">${a.letzteAktion?`Zuletzt: ${esc(a.letzteAktion)}`:a.status==="aktiv"?"Läuft in ElevenLabs":a.phase?`Wird in Phase ${a.phase} gebaut`:"Wartet auf Freischaltung"}${a.link?` · <a href="${esc(a.link)}" target="_blank" rel="noopener">Gespräch starten</a>`:""}</p></li>`; }).join("")}</ul></section>`).join("")}`;
 }
 
+function seitePipeline(){
+  const z = pipeZahlen(), ziel = (S.ziele.find(x=>x.id==="z1")||{}).soll||140000;
+  const sel = (feld,wert,opts,label) => `<label class="f"><span class="t-fn c2">${label}</span><select class="feld" data-pfeld="${feld}" ${S.nurLesen?"disabled":""}><option value="">Klären</option>${opts.map(([v,t])=>`<option value="${esc(v)}" ${wert===v?"selected":""}>${esc(t)}</option>`).join("")}</select></label>`;
+  const karte = c => `<li class="card chance" data-cid="${esc(c.id)}">
+    <div class="oben"><div style="min-width:0"><h3 class="t-hl">${esc(c.titel)}</h3><p class="t-fn c2">${esc(c.partner||"Neukunde")}${c.datum?` · ${esc(datumDe(c.datum))}`:""}</p></div><span class="t-t3 num">${c.betrag!=null?euro(c.betrag):"–"}</span></div>
+    ${c.notiz?`<p class="t-sub c2">${esc(c.notiz)}</p>`:""}
+    <div class="chance-felder">${sel("stufe",c.stufe,STUFEN.map(x=>[x,x]),"Stufe")}${sel("art",c.art,ARTEN,"Zählt als")}</div>
+    ${c.naechsterSchritt?`<p class="t-fn"><span class="c2">Nächster Schritt:</span> ${esc(c.naechsterSchritt)}</p>`:""}
+    ${c.quelle?`<p class="t-fn c2">${/^[\w-]{20,}$/.test(c.quelle)?`<a href="https://docs.google.com/document/d/${esc(c.quelle)}" target="_blank" rel="noopener">Angebot in Drive öffnen</a>`:esc(c.quelle)}</p>`:""}
+  </li>`;
+  const gruppen = [...STUFEN, null].map(st => [st, S.pipeline.filter(c=>(c.stufe??null)===st)]).filter(([,l])=>l.length);
+  return `${kopf("Pipeline", `Ziel: ${euro(ziel)} Neuumsatz in 12 Monaten`)}${verbindungsHinweis()}
+  <dl class="grid4">
+    <div class="card" style="padding:16px"><dt class="t-fn c2">Gewonnen (neu)</dt><dd class="t-t2 num">${euro(z.gewonnen)}</dd><dd class="t-fn c2">${Math.round(z.gewonnen/ziel*100)} % vom Ziel</dd></div>
+    <div class="card" style="padding:16px"><dt class="t-fn c2">In Arbeit (neu)</dt><dd class="t-t2 num">${euro(z.offenSumme)}</dd><dd class="t-fn c2">${z.offenAnz} Chancen</dd></div>
+    <div class="card" style="padding:16px"><dt class="t-fn c2">Gewichtet</dt><dd class="t-t2 num">${euro(z.gewichtet)}</dd><dd class="t-fn c2">Betrag × Wahrscheinlichkeit</dd></div>
+    <div class="card" style="padding:16px"><dt class="t-fn c2">Fehlt noch</dt><dd class="t-t2 num">${euro(Math.max(ziel-z.gewonnen,0))}</dd><dd class="t-fn c2">${z.klaeren?`${z.klaeren} Einträge klären`:"alles eingeordnet"}</dd></div>
+  </dl>
+  ${S.pipeline.length?gruppen.map(([st,l])=>`<section class="gruppen-abschnitt"><h2 class="t-t3" style="margin:8px 0">${esc(st??"Zu klären")} <span class="t-sub c2">${l.length} · ${euro(l.reduce((x,c)=>x+(Number(c.betrag)||0),0))}</span></h2><ul class="grid2">${l.sort((a,b)=>(Number(b.betrag)||0)-(Number(a.betrag)||0)).map(karte).join("")}</ul></section>`).join(""):`<div class="card t-sub c2" style="padding:20px">${S.geladen.pipeline?"Noch keine Chancen im Gehirn.":"Pipeline wird geladen …"}</div>`}
+  <p class="t-fn c2">Neuumsatz zählt nur, was auf „Neuumsatz“ und „Gewonnen“ steht. Ohne eigene Angabe gilt je Stufe eine Wahrscheinlichkeit: Lead 10 %, Gespräch 25 %, Angebot 50 %, Verhandlung 75 %.</p>`;
+}
+
 function leer(titel, unter, ico, farbe, h, text, pill){
   return `${kopf(titel, unter)}<div class="card leer ein"><span class="ico" style="background:${farbe}">${ic(ico)}</span><h2 class="t-t3">${h}</h2><p class="c2">${text}</p>${pill?`<span class="pille meta" style="margin-top:8px">${pill}</span>`:""}</div>`;
 }
 const seiteMails = () => leer("Mails","Zusammenfassungen und Antwortentwürfe","mail","var(--teal)","Der Mail-Assistent kommt in Phase 4","Er sortiert deinen Posteingang, fasst zusammen und schreibt Entwürfe. Jeder Entwurf landet hier mit „Freigeben, Bearbeiten, Verwerfen“; ohne dein OK geht nichts raus.","Wartet auf Gmail-Zugang");
-const seiteContent = () => leer("Content-Studio","Texte, Erklärvideos und Motion Design","klappe","var(--purple)","Die Content-Agenten kommen in Phase 7","Text-Agent, Erklärvideo-Agent und Motion-Design-Agent arbeiten mit deinen Skills copywriter-cockpit und motion-designer-cockpit sowie HyperFrames. Jedes Projekt läuft durch die Stufen Idee, Skript, Produktion, Freigabe, Live.");
+function seiteContent(){
+  const FST = {wartet:["var(--t-purple)","var(--purple-text)","wartet auf dich"],freigegeben:["var(--t-green)","var(--green-text)","freigegeben"],verworfen:["var(--t-gray)","var(--label-2)","verworfen"],erledigt:["var(--t-green)","var(--green-text)","erledigt"]};
+  const docs = S.freigaben.filter(f=>f.art!=="Dateiaktion").sort((a,b)=>String(b.erstelltAm).localeCompare(String(a.erstelltAm)));
+  const link = f => (String(f.inhalt||"").match(/https:\/\/docs\.google\.com\/[^\s]+/)||[])[0];
+  const gruppen = [["Dokumente und Angebote", docs.filter(f=>f.art==="Dokument"||f.art==="Angebot")],["Nachrichten", docs.filter(f=>f.art==="Nachricht"||f.art==="Mail")],["Posts", docs.filter(f=>f.art==="Post")]].filter(([,l])=>l.length);
+  return `${kopf("Content-Studio", "Alle Entwürfe der Agenten, mit Stand der Freigabe")}${verbindungsHinweis()}
+  ${gruppen.length?gruppen.map(([t,l])=>`<section><h2 class="t-t3" style="margin-bottom:8px">${t} <span class="t-sub c2">${l.length}</span></h2><ul class="gruppe">${l.map(f=>{ const [bg,fg,txt]=FST[f.status]||FST.wartet; const u=link(f); return `<li style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;min-height:56px;padding:10px 16px"><div style="min-width:0;flex:1"><div class="t-hl">${esc(f.titel)}</div><div class="t-fn c2">${esc([f.agent,f.bezug,f.erstelltAm&&datumDe(f.erstelltAm)].filter(Boolean).join(" · "))}</div></div><div style="display:flex;gap:12px;align-items:center">${pille(bg,fg,txt)}${u?`<a class="knopf sekundaer" href="${esc(u)}" target="_blank" rel="noopener">Öffnen</a>`:`<a class="knopf sekundaer" href="#heute">Ansehen</a>`}</div></li>`; }).join("")}</ul></section>`).join(""):`<div class="card t-sub c2" style="padding:20px">Noch keine Entwürfe.</div>`}
+  <p class="t-fn c2">Freigeben, Bearbeiten oder Verwerfen geht auf der Seite „Heute“. Videos und Motion Design kommen hier dazu, sobald die Content-Agenten laufen.</p>`;
+}
 
 function seiteEinstellungen(){
   const REG = [["Mails senden","nur nach Freigabe"],["Dateien teilen oder löschen","nur nach Freigabe"],["Kampagnen ändern","nur nach Freigabe"],["Inhalte veröffentlichen","nur nach Freigabe"],["Lesen, zusammenfassen, Entwürfe schreiben","selbstständig"],["Dateien einsortieren","selbstständig"]];
@@ -534,7 +588,7 @@ function seiteEinstellungen(){
   return `${kopf("Einstellungen")}
   <section aria-labelledby="h-g"><h2 id="h-g" class="t-t3" style="margin-bottom:4px">Gehirn</h2><p class="t-sub c2" style="margin-bottom:12px">${S.db?"Verbunden. Die Daten liegen in der Datenbank dieses Artifacts; Claude kann sie lesen und schreiben.":"Nicht verbunden."} Hell oder Dunkel stellst du über Claude ein.</p><dl class="grid4">${z.map(([t,n])=>`<div class="card" style="padding:16px"><dt class="t-fn c2">${t}</dt><dd class="t-t2 num">${n}</dd></div>`).join("")}</dl></section>
   <section aria-labelledby="h-r"><h2 id="h-r" class="t-t3">Freigaberegeln</h2><ul class="gruppe">${REG.map(([a,b])=>`<li style="display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:48px;padding:8px 16px"><span>${a}</span><span class="t-sub c2">${b}</span></li>`).join("")}</ul><p class="t-fn c2" style="margin-top:8px">Jede Aktion eines Agenten landet im Ereignis-Log des Gehirns.</p></section>
-  <section aria-labelledby="h-t"><h2 id="h-t" class="t-t3">Tastenkürzel</h2><ul class="gruppe">${[["Suchen und Befehle","⌘K"],["Heute … Einstellungen","⌘1 … ⌘7"],["Dialog schließen","esc"]].map(([a,b])=>`<li style="display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 16px"><span>${a}</span><kbd class="t-sub c2" style="font:inherit">${b}</kbd></li>`).join("")}</ul></section>`;
+  <section aria-labelledby="h-t"><h2 id="h-t" class="t-t3">Tastenkürzel</h2><ul class="gruppe">${[["Suchen und Befehle","⌘K"],["Heute … Einstellungen","⌘1 … ⌘8"],["Dialog schließen","esc"]].map(([a,b])=>`<li style="display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 16px"><span>${a}</span><kbd class="t-sub c2" style="font:inherit">${b}</kbd></li>`).join("")}</ul></section>`;
 }
 
 function render(){
@@ -543,7 +597,7 @@ function render(){
   S.renderOffen = false;
   renderNav();
   const {seite} = ansichtAus();
-  const html = {heute:seiteHeute,aufgaben:seiteAufgaben,partner:seitePartner,agenten:seiteAgenten,mails:seiteMails,content:seiteContent,einstellungen:seiteEinstellungen}[seite]();
+  const html = {heute:seiteHeute,aufgaben:seiteAufgaben,pipeline:seitePipeline,partner:seitePartner,agenten:seiteAgenten,mails:seiteMails,content:seiteContent,einstellungen:seiteEinstellungen}[seite]();
   document.getElementById("seite").innerHTML = html;
   document.title = "Cockpit";
 }
@@ -579,6 +633,12 @@ async function lege(form){
   const doc = {aufgabe:titel, partner:g("partner")?[g("partner")]:[], bereich:g("bereich")||null, wichtig:jn(g("wichtig")), dringend:jn(g("dringend")), umsatzhebel:g("umsatzhebel")||null, faelligAm:g("faelligAm")||null, zustaendig:g("zustaendig")||"Danny", status:"offen", wartetAuf:null, naechsterSchritt:g("naechsterSchritt")||null, quelle:"Cockpit", projekt:null, erstelltAm:jetzt.slice(0,10), aktualisiertAm:jetzt};
   try{ await S.db.doc("aufgaben/"+id).set(doc); protokoll("Aufgabe angelegt", id, titel); return id; }
   catch(e){ schreibFehler(e); return null; }
+}
+async function aenderePipe(id, feld, wert){
+  if(!S.db) return;
+  const c = S.pipeline.find(x=>x.id===id); if(!c || c[feld]===wert) return;
+  try{ await S.db.doc("pipeline/"+id).update({[feld]:wert, aktualisiertAm:new Date().toISOString()}); protokoll("Pipeline geändert", id, `${feld==="art"?"Zählt als":"Stufe"}: ${wert??"klären"}`); }
+  catch(e){ schreibFehler(e); }
 }
 async function setzeZiel(id, roh){
   if(!S.db) return;
@@ -682,6 +742,7 @@ async function freigabeAktion(fid, was){
       let kopiert = false;
       if(f.inhalt && f.art!=="Dateiaktion"){ try{ await navigator.clipboard.writeText(f.inhalt); kopiert = true; }catch(e){} }
       await S.db.doc("freigaben/"+fid).update({status:"freigegeben", entschiedenAm:jetzt});
+      if(fid==="akquiseplan-12m"){ try{ await S.db.doc("system/akquiseplan").update({status:"freigegeben", freigegebenAm:jetzt}); }catch(e){} }
       protokoll("Freigegeben", fid, f.titel);
       zeigeToast(kopiert ? "Freigegeben und kopiert. Jetzt einfügen und selbst senden." : "Freigegeben");
       return;
@@ -710,6 +771,7 @@ seite.addEventListener("change", e => {
   const t = e.target;
   if(t.id==="f-partner"){ S.fPartner = t.value; render(); return; }
   if(t.id==="f-zust"){ S.fZust = t.value; render(); return; }
+  if(t.dataset.pfeld){ const k = t.closest("[data-cid]"); if(k) aenderePipe(k.dataset.cid, t.dataset.pfeld, t.value||null); return; }
   const feld = t.dataset.feld; if(!feld) return;
   const li = t.closest("[data-id]"); if(!li) return;
   if(t.hasAttribute("data-text")) return; // Textfelder speichern beim Verlassen
@@ -731,7 +793,7 @@ document.getElementById("suche-knopf").addEventListener("click", oeffnePalette);
 window.addEventListener("keydown", e => {
   const mod = e.metaKey || e.ctrlKey;
   if(mod && e.key.toLowerCase()==="k"){ e.preventDefault(); schicht.innerHTML ? schliesseSchicht() : oeffnePalette(); return; }
-  if(mod && /^[1-7]$/.test(e.key)){ e.preventDefault(); location.hash = NAV[Number(e.key)-1].id; return; }
+  if(mod && /^[1-8]$/.test(e.key)){ e.preventDefault(); location.hash = NAV[Number(e.key)-1].id; return; }
   if(e.key==="Escape" && schicht.innerHTML){ e.preventDefault(); schliesseSchicht(); }
 });
 window.addEventListener("hashchange", () => {
@@ -757,7 +819,8 @@ render();
   abo("agenten", v => S.agenten = v);
   abo("ereignisse", v => S.ereignisse = v, db.collection("ereignisse").orderBy("zeit","desc").limit(8));
   abo("briefings", v => S.briefings = v, db.collection("briefings").orderBy("erstelltAm","desc").limit(2));
-  abo("freigaben", v => S.freigaben = v, db.collection("freigaben").where("status","==","wartet"));
+  abo("freigaben", v => S.freigaben = v);
+  abo("pipeline", v => S.pipeline = v);
   abo("gespraeche", v => S.gespraeche = v, db.collection("gespraeche").orderBy("datum","desc").limit(5));
   const v = ansichtAus(); if(v.aufgabe){ S.ansicht="alle"; S.offen.add(v.aufgabe); }
   render();

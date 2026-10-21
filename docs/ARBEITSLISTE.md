@@ -31,3 +31,8 @@
 - **Danny:** AUF-0044 Offene Fragen aus den Steckbriefen beantworten (vor allem: welche Angebote sind unterschrieben?)
 - **Claude:** AUF-0045 ersten Morgenlauf prüfen · AUF-0046 Pipeline und Umsatz gegen das Ziel · AUF-0047 fehlerhafte Angebote korrigieren · AUF-0048 12-Monats-Akquiseplan · AUF-0049 Kalt-Akquise Handwerker · AUF-0050 Mark-Gespräche ins Gehirn · AUF-0051 Partner-Wochencheck · AUF-0052 Backup des Gehirns
 - **Claude, sobald der Zugang da ist:** AUF-0053 Mail-Assistent (Gmail) · AUF-0054 Termine im Briefing (Kalender) · AUF-0055 Performance-Bericht (Adspirer)
+
+### Stand Runde 2 (21.10.2026, spät)
+- **Erledigt:** AUF-0046 Pipeline-Seite (5 Angebote, Ziel rechnet aus „Gewonnen“ + „Neuumsatz“) · AUF-0047 korrigierte Kopien Ytter-Website und Peinture-Hauptangebot · AUF-0048 Akquiseplan (Google Doc, Wochenziele in `system/akquiseplan`) · AUF-0049 Kalt-Akquise-Paket (Google Doc) · AUF-0051 Partner-Wochencheck montags im Briefing · Vorschläge zu den 6 Prüf-Aufgaben (AUF-0039) · Angebots-Check für Hausman, Ytter-Digitalisierung und Berdorfer · Content-Seite zeigt alle Entwürfe
+- **In Arbeit:** AUF-0045 Prüfung des ersten Morgenlaufs (eingeplant 22.10., 06:40) · AUF-0050 Mark-Import (Datenfelder `auftraege` und `kurztitel` in ElevenLabs, braucht ElevenLabs-Connector in der geplanten Aufgabe) · AUF-0052 Backup (erstes Backup unter `brain/backup/`, geplante Aufgabe sonntags 20:13 braucht Google Drive)
+- **Geplante Aufgaben:** Morgen-Briefing Mo–Fr 06:15 · Tagesabschluss Mo–Fr 17:37 · Backup So 20:13

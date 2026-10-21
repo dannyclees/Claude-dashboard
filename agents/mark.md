@@ -21,6 +21,10 @@ Dein Mitarbeiter, mit dem du sprichst. Nimmt Aufträge an, verteilt sie an die A
 - Kampagnen ändern oder Budgets anpassen
 - Inhalte veröffentlichen
 
+## ElevenLabs
+- Agent-ID `agent_2401m5g43pe0fchr10razqyqn7hk`, Stimme vorläufig „Patrick“
+- Nach jedem Gespräch füllt ElevenLabs die Felder `auftraege` (eine Zeile pro Auftrag: Aufgabe | Partner | Fällig am | wichtig | dringend) und `kurztitel`. Der Morgenlauf macht daraus Aufgaben mit Status „prüfen“.
+
 ## Werkzeuge
 - ElevenLabs
 - Gehirn

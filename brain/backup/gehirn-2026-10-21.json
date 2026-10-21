@@ -1,0 +1,2345 @@
+{
+ "erstelltAm": "2026-10-21T22:40:00Z",
+ "quelle": "https://claude.ai/artifact/FgbmgqzRqJnoMXwP1VGBwa",
+ "sammlungen": {
+  "agenten": [
+   {
+    "beschreibung": "Setzt die Hormozi-Strategie um: Empfehlungen, Outreach-Entwürfe, Nachfassen, Pipeline.",
+    "ebene": 3,
+    "letzteAktion": "4 Empfehlungsanfragen entworfen",
+    "letzteAktionAm": "2026-10-21T21:15:00.000Z",
+    "name": "Akquise-Agent",
+    "phase": 7,
+    "reihe": 9,
+    "rolle": "Neukunden",
+    "status": "aktiv",
+    "werkzeuge": [
+     "Gehirn",
+     "Hormozi-Wissen"
+    ],
+    "_id": "akquise"
+   },
+   {
+    "beschreibung": "Denkt mit dir nach den Hormozi-Frameworks: Angebote, Leads, Money Models, Skripte.",
+    "ebene": 1,
+    "name": "Alex",
+    "phase": null,
+    "reihe": 1,
+    "rolle": "Stratege & Sparringspartner",
+    "status": "aktiv",
+    "werkzeuge": [
+     "ElevenLabs",
+     "Hormozi-Wissen"
+    ],
+    "_id": "alex"
+   },
+   {
+    "beschreibung": "Gestaltet Ads, Layouts, Landingpages und Präsentationen nach Apple-HIG und der Marke des Partners.",
+    "ebene": 3,
+    "name": "Design-Agent",
+    "phase": 6,
+    "reihe": 14,
+    "rolle": "Gestaltung",
+    "status": "geplant",
+    "werkzeuge": [
+     "Figma",
+     "apple-cockpit"
+    ],
+    "_id": "design"
+   },
+   {
+    "beschreibung": "Hält den Drive-Ordner Dashboard sauber, sortiert neue Dateien ein und meldet sie dem Gehirn.",
+    "ebene": 2,
+    "letzteAktion": "7 lose Dateien zum Einsortieren vorgeschlagen",
+    "letzteAktionAm": "2026-10-21T21:15:00.000Z",
+    "name": "Drive-Agent",
+    "phase": 2,
+    "reihe": 4,
+    "rolle": "Dateien",
+    "status": "aktiv",
+    "werkzeuge": [
+     "Google Drive"
+    ],
+    "_id": "drive-agent"
+   },
+   {
+    "beschreibung": "Skript, Storyboard, Voiceover, Video.",
+    "ebene": 3,
+    "name": "Erklärvideo-Agent",
+    "phase": 7,
+    "reihe": 11,
+    "rolle": "Erklärvideos",
+    "status": "geplant",
+    "werkzeuge": [
+     "motion-designer-cockpit",
+     "HyperFrames",
+     "ElevenLabs"
+    ],
+    "_id": "erklaervideo"
+   },
+   {
+    "beschreibung": "Sortiert und fasst Mails zusammen, schreibt Entwürfe in deinem Stil. Sendet nie ohne Freigabe.",
+    "ebene": 2,
+    "name": "Mail-Assistent",
+    "phase": 4,
+    "reihe": 3,
+    "rolle": "Posteingang",
+    "status": "geplant",
+    "werkzeuge": [
+     "Gmail"
+    ],
+    "_id": "mail-assistent"
+   },
+   {
+    "beschreibung": "Dein Mitarbeiter, mit dem du sprichst. Nimmt Aufträge an, verteilt sie an die Agenten und meldet zurück.",
+    "ebene": 1,
+    "elevenlabsId": "agent_2401m5g43pe0fchr10razqyqn7hk",
+    "letzteAktion": "In ElevenLabs angelegt (Stimme Patrick, vorläufig)",
+    "letzteAktionAm": "2026-10-21T21:15:00.000Z",
+    "link": "https://elevenlabs.io/app/talk-to?agent_id=agent_2401m5g43pe0fchr10razqyqn7hk",
+    "name": "Mark",
+    "phase": 5,
+    "reihe": 0,
+    "rolle": "Stimme & Ausführung",
+    "status": "test",
+    "werkzeuge": [
+     "ElevenLabs",
+     "Gehirn"
+    ],
+    "_id": "mark"
+   },
+   {
+    "beschreibung": "Animierte Ads, Reels, Bauchbinden, Overlays, Hook-Varianten.",
+    "ebene": 3,
+    "name": "Motion-Design-Agent",
+    "phase": 7,
+    "reihe": 12,
+    "rolle": "Motion Design",
+    "status": "geplant",
+    "werkzeuge": [
+     "motion-designer-cockpit",
+     "HyperFrames"
+    ],
+    "_id": "motion"
+   },
+   {
+    "beschreibung": "Pflegt deine Aufgaben, priorisiert nach Wichtigkeit und Umsatzhebel, schreibt Morgen-Briefing und Tagesabschluss.",
+    "ebene": 2,
+    "letzteAktion": "Geplante Aufgaben eingerichtet",
+    "letzteAktionAm": "2026-10-21T21:15:00.000Z",
+    "name": "Organisator",
+    "phase": 3,
+    "reihe": 2,
+    "rolle": "Aufgaben & Prioritäten",
+    "status": "aktiv",
+    "werkzeuge": [
+     "Gehirn",
+     "Kalender",
+     "Wispr Flow"
+    ],
+    "zeitplan": "Mo–Fr 06:15 Briefing, 17:37 Tagesabschluss",
+    "_id": "organisator"
+   },
+   {
+    "beschreibung": "Kennt Marke, Projekte und Ansprechpartner von Berdorfer Käse.",
+    "ebene": 3,
+    "name": "Partner-Agent Berdorfer Käse",
+    "phase": 6,
+    "reihe": 7,
+    "rolle": "Partnerbetrieb",
+    "status": "geplant",
+    "werkzeuge": [
+     "Gehirn",
+     "Drive 04_Kunden/Berdorfer_Kaese"
+    ],
+    "_id": "partner-berdorfer"
+   },
+   {
+    "beschreibung": "Kennt Marke, Kampagnen, Deadlines und Ansprechpartner von Hausman.",
+    "ebene": 3,
+    "name": "Partner-Agent Hausman",
+    "phase": 6,
+    "reihe": 5,
+    "rolle": "Partnerbetrieb",
+    "status": "geplant",
+    "werkzeuge": [
+     "Gehirn",
+     "Drive 04_Kunden/Hausman",
+     "Meta Ads",
+     "monday"
+    ],
+    "_id": "partner-hausman"
+   },
+   {
+    "beschreibung": "Kennt Marke, Projekte und Ansprechpartner von Peinture de l'Est.",
+    "ebene": 3,
+    "name": "Partner-Agent Peinture de l'Est",
+    "phase": 6,
+    "reihe": 8,
+    "rolle": "Partnerbetrieb",
+    "status": "geplant",
+    "werkzeuge": [
+     "Gehirn",
+     "Drive 04_Kunden/Peinture_de_lEst",
+     "HyperFrames"
+    ],
+    "_id": "partner-peinture"
+   },
+   {
+    "beschreibung": "Kennt Marke, Projekte und Ansprechpartner von Ytter Design.",
+    "ebene": 3,
+    "name": "Partner-Agent Ytter Design",
+    "phase": 6,
+    "reihe": 6,
+    "rolle": "Partnerbetrieb",
+    "status": "geplant",
+    "werkzeuge": [
+     "Gehirn",
+     "Drive 04_Kunden/YtterDesign"
+    ],
+    "_id": "partner-ytter"
+   },
+   {
+    "beschreibung": "Behält die Kampagnen der Partner im Blick und meldet Auffälligkeiten. Nur lesend.",
+    "ebene": 3,
+    "name": "Performance-Agent",
+    "phase": null,
+    "reihe": 13,
+    "rolle": "Kampagnen-Zahlen",
+    "status": "geplant",
+    "werkzeuge": [
+     "Adspirer"
+    ],
+    "_id": "performance"
+   },
+   {
+    "beschreibung": "Ads, Hooks, Skripte, Landingpages, E-Mails.",
+    "ebene": 3,
+    "name": "Text-Agent",
+    "phase": 7,
+    "reihe": 10,
+    "rolle": "Texte",
+    "status": "geplant",
+    "werkzeuge": [
+     "copywriter-cockpit"
+    ],
+    "_id": "text"
+   }
+  ],
+  "aufgaben": [
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Video-Testimonial drehen",
+    "bereich": "Kunde",
+    "dringend": true,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Fragen vorbereiten, auf konkrete Zahlen und Vorher/Nachher achten",
+    "partner": [
+     "Hausman"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0001"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Ergebniszahlen dokumentieren",
+    "bereich": "Akquise",
+    "dringend": true,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Anfragen vorher/nachher, Kosten pro Anfrage und Umsatz-Effekt erheben",
+    "partner": [
+     "Hausman"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0002"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Empfehlungen aktiv anfragen (je 2–3 Namen)",
+    "bereich": "Akquise",
+    "dringend": true,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Hausman, Ytter Design, Peinture de l'Est und Berdorfer Käse nach je 2–3 konkreten Betrieben fragen",
+    "partner": [
+     "Alle Partner"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0003"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Förderablauf Websites klären",
+    "bereich": "Finanzen",
+    "dringend": true,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Klären, ob der Kunde vorab zahlt oder ob wir auf die Förderung warten",
+    "partner": [
+     "Hausman",
+     "Ytter Design"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0004"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Beziehung zum neuen Inhaber aufbauen",
+    "bereich": "Kunde",
+    "dringend": true,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Termin vereinbaren, Ergebnisse zeigen, Website-Projekt absichern",
+    "partner": [
+     "Ytter Design"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0005"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Google-Bewertungen einsammeln",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Direkten Bewertungslink schicken: Hausman und Peinture de l'Est jetzt, Berdorfer Käse später",
+    "partner": [
+     "Hausman",
+     "Peinture de l'Est",
+     "Berdorfer Käse"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0006"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Marketing-Testabo definieren",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Laufzeit, Testpreis, regulärer Preis sichtbar auf der Rechnung, Erfolgskennzahlen, fester Termin für das Übergangsgespräch zum Jahresvertrag",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0007"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Förder-Rechner: Förderquoten offiziell verifizieren",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Website 80 % von bis zu 25.000 €, Marketing 15 % von bis zu 25.000 € mit offizieller Quelle belegen",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Förder-Rechner",
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0008"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Förder-Rechner bauen (Lead-Magnet)",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Nutzer wählt Website und/oder Marketing, Rechner zeigt Förderung, Ergebnis gegen Kontaktdaten",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Förder-Rechner",
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0009"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Förder-Rechner: Qualifizierungsfragen einbauen",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Branche, Mitarbeiterzahl, Werbebudget abfragen",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Förder-Rechner",
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0010"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Förder-Rechner: Übergang Website → Jahresvertrag im Vorgespräch einplanen",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Gesprächsleitfaden für das Vorgespräch erstellen",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Förder-Rechner",
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0011"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "E-Mail-Liste sauber aufsetzen",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Nur Firmen-Info-Adressen, persönlich, wenig Volumen, Abmeldeoption, Herkunft dokumentieren",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0012"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "LinkedIn-Profil neu aufstellen",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Headline, Banner, Info-Text, Testimonials, Cases verlinken",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0013"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Motion-Graphics-Erklärvideo (Wärmepumpe/Gasheizung)",
+    "bereich": "Content",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Sprechertext und Animation; Wartegrund ergänzen",
+    "partner": [
+     "Hausman"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "wartet",
+    "umsatzhebel": "mittel",
+    "wartetAuf": "seit 13.10.2026",
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0014"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Neue Website (gefördert, ca. 25.000 €)",
+    "bereich": "Kunde",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Start nach Klärung der Förderung",
+    "partner": [
+     "Hausman"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "wartet",
+    "umsatzhebel": "hoch",
+    "wartetAuf": "Förderablauf (AUF-0004), seit 13.10.2026",
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0015"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Neue Website (gefördert, ca. 25.000 €)",
+    "bereich": "Kunde",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Start voraussichtlich in 1–2 Monaten",
+    "partner": [
+     "Ytter Design"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "wartet",
+    "umsatzhebel": "hoch",
+    "wartetAuf": "Übergabe an neuen Inhaber, seit 13.10.2026",
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0016"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Nische entscheiden: Handwerk/Immo/Dienstleister oder neue Nische",
+    "bereich": "Strategie",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Mit Alex durchsprechen",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "später",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0017"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Ansprechpartner und Betreuungsbeginn je Kunde dokumentieren",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": null,
+    "naechsterSchritt": "Wird für die Partner-Agenten gebraucht (Steckbrief je Partner)",
+    "partner": [
+     "Alle Partner"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "später",
+    "umsatzhebel": "niedrig",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Drive-Agent",
+    "_id": "AUF-0018"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Domain-Problem bei Strato lösen",
+    "bereich": "System",
+    "dringend": true,
+    "erstelltAm": "2026-10-13",
+    "faelligAm": "2026-10-13",
+    "naechsterSchritt": "Lief noch über den Bruder",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": null,
+    "quelle": "TASKS.md",
+    "status": "erledigt",
+    "umsatzhebel": "niedrig",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0019"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Zielgruppe Handwerker für Voice-Agenten-Kampagne bestätigen",
+    "bereich": "Akquise",
+    "dringend": null,
+    "erstelltAm": "2026-05-17",
+    "faelligAm": null,
+    "naechsterSchritt": "Noch aktuell? Entscheiden oder streichen",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": null,
+    "quelle": "Alex-Gespräch",
+    "status": "prüfen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": null,
+    "zustaendig": "Danny",
+    "_id": "AUF-0020"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Cold-Email-Hook (max. 3 Sätze, schmerzorientiert) entwerfen",
+    "bereich": "Content",
+    "dringend": null,
+    "erstelltAm": "2026-05-17",
+    "faelligAm": null,
+    "naechsterSchritt": "Noch aktuell? Hängt an AUF-0020",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": null,
+    "quelle": "Alex-Gespräch",
+    "status": "prüfen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": null,
+    "zustaendig": "Text-Agent",
+    "_id": "AUF-0021"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Instantly-Kampagne mit 100 Kontakten pro Tag vorbereiten",
+    "bereich": "Akquise",
+    "dringend": null,
+    "erstelltAm": "2026-05-17",
+    "faelligAm": null,
+    "naechsterSchritt": "Noch aktuell? Erst nach Zielgruppe und Hook",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": null,
+    "quelle": "Alex-Gespräch",
+    "status": "prüfen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": null,
+    "zustaendig": "Danny",
+    "_id": "AUF-0022"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "DFY-Wachstumspaket (8.000 €/Monat) pitchen",
+    "bereich": "Akquise",
+    "dringend": null,
+    "erstelltAm": "2026-05-18",
+    "faelligAm": null,
+    "naechsterSchritt": "Wurde der Pitch gemacht? Ergebnis eintragen oder streichen",
+    "partner": [
+     "Hausman"
+    ],
+    "projekt": null,
+    "quelle": "Alex-Gespräch",
+    "status": "prüfen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": null,
+    "zustaendig": "Danny",
+    "_id": "AUF-0023"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Badezimmerkampagne: E-Mail-Liste und Follow-up vorbereiten",
+    "bereich": "Kunde",
+    "dringend": null,
+    "erstelltAm": "2026-05-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Noch aktuell? Zielgruppe und vorhandene Kontakte prüfen",
+    "partner": [
+     "Hausman"
+    ],
+    "projekt": null,
+    "quelle": "Alex-Gespräch",
+    "status": "prüfen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": null,
+    "zustaendig": "Danny",
+    "_id": "AUF-0024"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:40:45.000Z",
+    "aufgabe": "Malerbetrieb-Pitch auf Conversion und Lead-Sicherung umstellen",
+    "bereich": "Akquise",
+    "dringend": null,
+    "erstelltAm": "2026-05-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Noch aktuell? Partner bestätigen (laut Alex-Gespräch ein Malerbetrieb)",
+    "partner": [
+     "Peinture de l'Est"
+    ],
+    "projekt": null,
+    "quelle": "Alex-Gespräch",
+    "status": "prüfen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": null,
+    "zustaendig": "Danny",
+    "_id": "AUF-0025"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:44:52.000Z",
+    "aufgabe": "Gehirn umstellen: Artifact-Datenbank ist das Hauptgehirn",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Doku angepasst; lokale App bleibt Entwicklungsstand",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0026"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:44:52.000Z",
+    "aufgabe": "Alex jetzt testen (Gesprächslink)",
+    "bereich": "System",
+    "dringend": true,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Link öffnen, ein kurzes Gespräch führen, am Ende „speichern“ sagen; prüfen, ob es im Alex-Sheet ankommt",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0027"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Cockpit: Morgen-Briefing und Freigaben auf „Heute“ anzeigen",
+    "bereich": "System",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T21:15:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Neue Sammlungen briefings und freigaben; Knöpfe Freigeben/Bearbeiten/Verwerfen",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0028"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Organisator: Morgen-Briefing werktags 06:30 als geplante Aufgabe",
+    "bereich": "System",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T21:15:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Liest Gehirn (und Kalender, sobald verbunden), schreibt Top 3, Fristen, Wartet-auf und Freigaben ins Briefing",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0029"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Organisator: Tagesabschluss 18:00 als geplante Aufgabe",
+    "bereich": "System",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T21:15:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Was wurde erledigt, was rutscht auf morgen, offene Freigaben",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0030"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Alex-Gespräche automatisch ins Gehirn holen",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Erster Import erledigt (4 Gespräche). Laufender Import im Morgenlauf braucht Google Sheets in der geplanten Aufgabe.",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "in Arbeit",
+    "umsatzhebel": "mittel",
+    "wartetAuf": "AUF-0043",
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0031"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Drive-Agent v1: Ordner Dashboard überwachen",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Erster Vorschlag liegt als Freigabe vor. Laufende Prüfung braucht Google Drive in der geplanten Aufgabe.",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "in Arbeit",
+    "umsatzhebel": "niedrig",
+    "wartetAuf": "AUF-0043",
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0032"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Partner-Steckbriefe aus Drive ins Gehirn",
+    "bereich": "System",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T21:15:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Hausman, Ytter Design, Berdorfer Käse, Peinture de l'Est: Leistungen, Ansprechpartner, laufende Projekte; offene Lücken als Fragen an Danny",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0033"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Agenten-Konfiguration agents/*.md mit Vorlage",
+    "bereich": "System",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T21:15:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Rolle, Ziele, Werkzeuge, Freigaberegeln, Ton je Agent; neuer Partner = neue Datei",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "niedrig",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0034"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Skill hormozi-cockpit für Akquise- und Text-Agent",
+    "bereich": "System",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T21:15:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Value Equation, Grand Slam Offer, Core Four, Money Models, Skripte; mit C&E-Beispielen",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0035"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Akquise-Agent v1: Empfehlungsanfragen an die 4 Partner entwerfen",
+    "bereich": "System",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T21:15:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Je Partner ein persönlicher Entwurf (WhatsApp/Mail) zur Freigabe; zahlt auf AUF-0003 ein",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0036"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Mark in ElevenLabs anlegen und Stimmen vorschlagen",
+    "bereich": "System",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T21:15:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Agent mit Zugriff auf das Gehirn-Wissen; 3 Stimmvorschläge zum Anhören",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "erledigt",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude Code",
+    "_id": "AUF-0037"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:15:00.000Z",
+    "aufgabe": "Mark-Stimme auswählen",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Mark testen: https://elevenlabs.io/app/talk-to?agent_id=agent_2401m5g43pe0fchr10razqyqn7hk (Stimme jetzt: Patrick, ruhig und positiv). Alternativen: Charlie Chatlin (locker, natürlich) oder Harvey (tief, souverän). Sag mir einfach den Namen.",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "offen",
+    "umsatzhebel": "niedrig",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0038"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:44:52.000Z",
+    "aufgabe": "6 alte Aufgaben im Tab „Prüfen“ entscheiden",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Je Aufgabe: Wichtig/Dringend setzen oder auf erledigt",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0039"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:44:52.000Z",
+    "aufgabe": "Google Kalender in Claude verbinden",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "claude.ai → Einstellungen → Connectoren → Google Calendar; dann kommen Termine ins Briefing",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0040"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:44:52.000Z",
+    "aufgabe": "Gmail-Zugang freigeben",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Gmail-Connector in Claude verbinden; danach baue ich den Mail-Assistenten",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0041"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:44:52.000Z",
+    "aufgabe": "Adspirer-Abo abschließen",
+    "bereich": "System",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Danach kann der Performance-Agent alle Partner-Kampagnen lesen",
+    "partner": [
+     "C&E intern"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude (Arbeitsliste)",
+    "status": "offen",
+    "umsatzhebel": "niedrig",
+    "wartetAuf": null,
+    "wichtig": false,
+    "zustaendig": "Danny",
+    "_id": "AUF-0042"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Google Drive und Google Sheets für die geplanten Aufgaben freischalten",
+    "bereich": "Cockpit",
+    "dringend": true,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": "2026-10-22",
+    "naechsterSchritt": "In claude.ai die geplanten Aufgaben öffnen und Connectoren hinzufügen: „Cockpit Morgen-Briefing“ → Google Drive, Google Sheets, ElevenLabs; „Cockpit Backup Gehirn“ → Google Drive.",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Claude",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0043"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Offene Fragen aus den Partner-Steckbriefen beantworten",
+    "bereich": "Akquise",
+    "dringend": true,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Im Cockpit unter Pipeline je Angebot „Stufe“ und „Zählt als“ (Neuumsatz/Bestand) setzen. Dazu die Fragen aus den Steckbriefen und den Freigaben beantworten.",
+    "partner": [
+     "Alle Partner"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "offen",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Danny",
+    "_id": "AUF-0044"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Ersten Morgenlauf prüfen und nachbessern",
+    "bereich": "Cockpit",
+    "dringend": true,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Prüfung ist für morgen 06:40 eingeplant.",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "in Arbeit",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude",
+    "_id": "AUF-0045"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Pipeline im Cockpit: Angebote und Umsatz gegen das Ziel 140.000 €",
+    "bereich": "Cockpit",
+    "dringend": true,
+    "erledigtAm": "2026-10-21T22:35:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Seite „Pipeline“ im Cockpit; 5 Angebote eingetragen, Zuordnung klärt Danny (AUF-0044).",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "erledigt",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude",
+    "_id": "AUF-0046"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Fehlerhafte Angebote korrigieren (Ytter-Seitenangebot, Peinture-Hauptangebot)",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T22:35:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Korrigierte Kopien liegen als Freigabe bereit; Originale unverändert.",
+    "partner": [
+     "Ytter Design",
+     "Peinture de l'Est"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "erledigt",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude",
+    "_id": "AUF-0047"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "12-Monats-Akquiseplan nach Hormozi",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T22:35:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Entwurf liegt als Freigabe bereit. Nach Freigabe kommen die Wochenziele ins Montags-Briefing.",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "erledigt",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude",
+    "_id": "AUF-0048"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Kalt-Akquise Handwerker vorbereiten (Lead-Magnet und Mail-Sequenz)",
+    "bereich": "Akquise",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T22:35:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Paket liegt als Freigabe bereit; deine Entscheidungen stehen im Entwurf.",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "erledigt",
+    "umsatzhebel": "hoch",
+    "wartetAuf": null,
+    "wichtig": true,
+    "zustaendig": "Claude",
+    "_id": "AUF-0049"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Mark-Gespräche ins Gehirn",
+    "bereich": "Cockpit",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Mark zieht Aufträge jetzt aus jedem Gespräch heraus, der Morgenlauf übernimmt sie. Dafür braucht die geplante Aufgabe den ElevenLabs-Connector.",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "in Arbeit",
+    "umsatzhebel": "mittel",
+    "wartetAuf": "AUF-0043",
+    "wichtig": true,
+    "zustaendig": "Claude",
+    "_id": "AUF-0050"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Partner-Agenten v1: Wochencheck je Partner",
+    "bereich": "Partner",
+    "dringend": false,
+    "erledigtAm": "2026-10-21T22:35:00.000Z",
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Läuft montags im Morgen-Briefing.",
+    "partner": [
+     "Alle Partner"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "erledigt",
+    "umsatzhebel": "mittel",
+    "wartetAuf": null,
+    "wichtig": false,
+    "zustaendig": "Claude",
+    "_id": "AUF-0051"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:35:00.000Z",
+    "aufgabe": "Wöchentliches Backup des Gehirns nach Drive",
+    "bereich": "Cockpit",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Erstes Backup heute von Hand erstellt. Geplante Aufgabe „Cockpit Backup Gehirn“ läuft sonntags 20:13 und braucht Google Drive.",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "in Arbeit",
+    "umsatzhebel": "niedrig",
+    "wartetAuf": "AUF-0043",
+    "wichtig": false,
+    "zustaendig": "Claude",
+    "_id": "AUF-0052"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:30:00.000Z",
+    "aufgabe": "Mail-Assistent v1",
+    "bereich": "Cockpit",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Nach Gmail-Zugang (AUF-0041): Posteingang zusammenfassen, Antwortentwürfe als Freigabe",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": "AUF-0041",
+    "wichtig": true,
+    "zustaendig": "Claude",
+    "_id": "AUF-0053"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:30:00.000Z",
+    "aufgabe": "Termine ins Morgen-Briefing",
+    "bereich": "Cockpit",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Nach Kalender-Verbindung (AUF-0040): Termine des Tages und Vorbereitung je Termin",
+    "partner": [],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "offen",
+    "umsatzhebel": "niedrig",
+    "wartetAuf": "AUF-0040",
+    "wichtig": false,
+    "zustaendig": "Claude",
+    "_id": "AUF-0054"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:30:00.000Z",
+    "aufgabe": "Performance-Agent v1: Montagsbericht Kampagnen",
+    "bereich": "Partner",
+    "dringend": false,
+    "erstelltAm": "2026-10-21",
+    "faelligAm": null,
+    "naechsterSchritt": "Nach Adspirer-Abo (AUF-0042): Kennzahlen je Partner, Auffälligkeiten, Vorschläge als Freigabe",
+    "partner": [
+     "Alle Partner"
+    ],
+    "projekt": "Cockpit-Aufbau",
+    "quelle": "Arbeitsliste 21.10.2026 (Runde 2)",
+    "status": "offen",
+    "umsatzhebel": "mittel",
+    "wartetAuf": "AUF-0042",
+    "wichtig": false,
+    "zustaendig": "Claude",
+    "_id": "AUF-0055"
+   }
+  ],
+  "briefings": [
+   {
+    "abschnitte": [
+     {
+      "punkte": [
+       "Briefing und Freigaben auf „Heute“",
+       "4 Alex-Gespräche im Gehirn",
+       "Steckbriefe für Hausman, Ytter Design, Berdorfer Käse und Peinture de l'Est",
+       "Skill hormozi-cockpit und Agenten-Beschreibungen",
+       "Mark in ElevenLabs angelegt",
+       "Morgen-Briefing (06:15) und Tagesabschluss (17:37) als geplante Aufgaben"
+      ],
+      "titel": "Heute erledigt"
+     },
+     {
+      "punkte": [
+       "4 Empfehlungsanfragen (Akquise-Agent)",
+       "7 Dateien in Drive einsortieren (Drive-Agent)"
+      ],
+      "titel": "Wartet auf deine Freigabe"
+     },
+     {
+      "punkte": [
+       "Empfehlungsanfragen prüfen, anpassen und selbst senden (AUF-0003)",
+       "Google Drive und Sheets für den Morgenlauf freischalten (AUF-0043)",
+       "Mark testen und Stimme wählen (AUF-0038)"
+      ],
+      "titel": "Morgen zuerst"
+     },
+     {
+      "punkte": [
+       "Welche Angebote sind unterschrieben (Hausman 41.000 €, Ytter, Berdorfer, Peinture)?",
+       "Ytter-Seitenangebot und Peinture-Hauptangebot sind falsch adressiert",
+       "Ansprechpartner bei Ytter: Montenach/Heinen oder Kuhfeld?"
+      ],
+      "titel": "Offene Fragen aus den Steckbriefen"
+     }
+    ],
+    "art": "abend",
+    "datum": "2026-10-21",
+    "erstelltAm": "2026-10-21T21:15:00.000Z",
+    "erstelltVon": "Organisator",
+    "titel": "Tagesabschluss: Cockpit steht",
+    "zusammenfassung": "Das Cockpit hat heute Briefing, Freigaben, Partner-Steckbriefe und die ersten Agenten bekommen. Morgen zählt vor allem eins: die vier Empfehlungsanfragen prüfen und rausschicken. Das ist der schnellste Hebel Richtung +140.000 €.",
+    "_id": "abend-2026-10-21"
+   }
+  ],
+  "ereignisse": [
+   {
+    "akteur": "Claude",
+    "aktion": "Gehirn angelegt",
+    "details": "Startdaten geladen: 25 Aufgaben, 5 Ziele, 4 Partner, 14 Agenten",
+    "objekt": null,
+    "zeit": "2026-10-21T20:40:45.000Z",
+    "_id": "e0001"
+   },
+   {
+    "akteur": "Claude",
+    "aktion": "Arbeitsliste angelegt",
+    "details": "17 Aufgaben (AUF-0026 bis AUF-0042)",
+    "objekt": "Cockpit-Aufbau",
+    "zeit": "2026-10-21T20:44:52.000Z",
+    "_id": "e0002"
+   },
+   {
+    "akteur": "Organisator",
+    "aktion": "Alex-Gespräche importiert",
+    "details": "4 Gespräche aus dem Alex-Sheet (17.–20.05.2026); ToDos waren schon als AUF-0020 bis AUF-0025 im Gehirn",
+    "objekt": "gespraeche",
+    "zeit": "2026-10-21T20:51:54.000Z",
+    "_id": "e0003"
+   },
+   {
+    "akteur": "Drive-Agent",
+    "aktion": "Einsortier-Vorschlag erstellt",
+    "details": "7 lose Dateien im Hauptordner Dashboard",
+    "objekt": "drive-2026-10-21",
+    "zeit": "2026-10-21T20:51:54.000Z",
+    "_id": "e0004"
+   },
+   {
+    "akteur": "Akquise-Agent",
+    "aktion": "4 Empfehlungsanfragen entworfen",
+    "details": "Liegen als Freigaben im Cockpit; nichts gesendet",
+    "objekt": "AUF-0003",
+    "zeit": "2026-10-21T21:05:00.000Z",
+    "_id": "e0005"
+   },
+   {
+    "akteur": "Claude",
+    "aktion": "Partner-Steckbriefe angelegt",
+    "details": "Aus den Drive-Ordnern zusammengestellt, nur gelesen",
+    "objekt": "partner",
+    "zeit": "2026-10-21T21:05:00.000Z",
+    "_id": "e0006"
+   },
+   {
+    "akteur": "Claude",
+    "aktion": "Cockpit-Aufbau Runde 1 abgeschlossen",
+    "details": "8 Aufgaben erledigt, 2 in Arbeit, Mark angelegt, geplante Aufgaben eingerichtet",
+    "objekt": "AUF-0028–0037",
+    "zeit": "2026-10-21T21:15:00.000Z",
+    "_id": "e0007"
+   },
+   {
+    "akteur": "Claude",
+    "aktion": "Arbeitsliste Runde 2 angelegt",
+    "details": "12 neue Aufgaben",
+    "objekt": "AUF-0044–0055",
+    "zeit": "2026-10-21T21:30:00.000Z",
+    "_id": "e0008"
+   },
+   {
+    "akteur": "Claude",
+    "aktion": "Pipeline angelegt",
+    "details": "5 Angebote aus den Steckbriefen; Status und Zuordnung klärt Danny",
+    "objekt": "pipeline",
+    "zeit": "2026-10-21T21:45:00.000Z",
+    "_id": "e0009"
+   },
+   {
+    "akteur": "Akquise-Agent",
+    "aktion": "4 Entwürfe zur Freigabe",
+    "details": "2 korrigierte Angebote (Kopien), Kalt-Akquise-Paket, Akquiseplan; Originale unverändert",
+    "objekt": "AUF-0047/0048/0049",
+    "zeit": "2026-10-21T22:20:00.000Z",
+    "_id": "e0010"
+   },
+   {
+    "akteur": "Claude",
+    "aktion": "Mark wertet Gespräche aus",
+    "details": "Datenfelder auftraege und kurztitel in ElevenLabs; Import im Morgenlauf",
+    "objekt": "mark",
+    "zeit": "2026-10-21T22:20:00.000Z",
+    "_id": "e0011"
+   }
+  ],
+  "freigaben": [
+   {
+    "agent": "Akquise-Agent",
+    "aktionen": null,
+    "art": "Nachricht",
+    "bezug": "AUF-0003",
+    "empfaenger": "Monique Schmalen",
+    "erstelltAm": "2026-10-21T21:05:00.000Z",
+    "hinweis": "Entwurf, nichts wurde gesendet. Anrede (Sie/Du) und Namen bitte prüfen, dann kopieren und selbst senden. Das Dankeschön ist ein Vorschlag (Hormozi: Empfehlung belohnen) und muss von dir bestätigt werden.",
+    "inhalt": "Hallo Monique,\n\nihr kennt in der Region viele Betriebe: Hofläden, Gastronomie, Händler. Gibt es zwei oder drei davon, die mehr Kunden gebrauchen könnten und bei denen du sagen würdest: „Die sollten mal mit Danny reden“?\n\nEin Name reicht völlig. Ich melde mich kurz und sage gerne, dass der Tipp von dir kommt, nur wenn du willst.\n\nAls kleines Dankeschön gibt es für jede Empfehlung, aus der eine Zusammenarbeit wird, ein zusätzliches KI-Produktvideo für euch.\n\nLiebe Grüße\nDanny",
+    "kanal": "E-Mail oder WhatsApp",
+    "status": "wartet",
+    "titel": "Empfehlung anfragen: Berdorfer Käse",
+    "_id": "akquise-empfehlung-berdorfer"
+   },
+   {
+    "agent": "Akquise-Agent",
+    "aktionen": null,
+    "art": "Nachricht",
+    "bezug": "AUF-0003",
+    "empfaenger": "Herr Kuhfeld",
+    "erstelltAm": "2026-10-21T21:05:00.000Z",
+    "hinweis": "Entwurf, nichts wurde gesendet. Anrede (Sie/Du) und Namen bitte prüfen, dann kopieren und selbst senden. Das Dankeschön ist ein Vorschlag (Hormozi: Empfehlung belohnen) und muss von dir bestätigt werden.",
+    "inhalt": "Guten Tag Herr Kuhfeld,\n\neine kurze Frage an Sie: Kennen Sie zwei oder drei Betriebe in Luxemburg, die vor einem ähnlichen Schritt stehen wie Hausman vor einem Jahr? Gemeint sind Handwerks- oder Technikbetriebe, die mehr planbare Anfragen wollen und das Marketing nicht selbst stemmen können.\n\nMir reicht ein Name und ob ich mich auf Sie berufen darf. Ich melde mich dann kurz, unverbindlich, und halte Sie auf dem Laufenden.\n\nAls Dankeschön bekommt Hausman für jede Empfehlung, aus der eine Zusammenarbeit wird, einen zusätzlichen Drehtag gratis.\n\nVielen Dank und beste Grüße\nDanny",
+    "kanal": "E-Mail oder WhatsApp",
+    "status": "wartet",
+    "titel": "Empfehlung anfragen: Hausman",
+    "_id": "akquise-empfehlung-hausman"
+   },
+   {
+    "agent": "Akquise-Agent",
+    "aktionen": null,
+    "art": "Nachricht",
+    "bezug": "AUF-0003",
+    "empfaenger": "Patrick Kirsch",
+    "erstelltAm": "2026-10-21T21:05:00.000Z",
+    "hinweis": "Entwurf, nichts wurde gesendet. Anrede (Sie/Du) und Namen bitte prüfen, dann kopieren und selbst senden. Das Dankeschön ist ein Vorschlag (Hormozi: Empfehlung belohnen) und muss von dir bestätigt werden.",
+    "inhalt": "Hallo Patrick,\n\ndu kennst durch deine Baustellen viele Handwerker und Unternehmer, zum Beispiel Elektriker, Schreiner, Dachdecker oder Hotels wie das Belair. Fallen dir zwei oder drei ein, die mehr gute Anfragen brauchen könnten?\n\nSchick mir einfach einen Namen. Ich melde mich unverbindlich und sage nur auf Wunsch, dass es von dir kommt.\n\nAls Dank bekommst du für jede Empfehlung, aus der ein Auftrag wird, einen zusätzlichen Drohnen-Dreh für Peinture de l'Est.\n\nBeste Grüße\nDanny",
+    "kanal": "E-Mail oder WhatsApp",
+    "status": "wartet",
+    "titel": "Empfehlung anfragen: Peinture de l'Est",
+    "_id": "akquise-empfehlung-peinture"
+   },
+   {
+    "agent": "Akquise-Agent",
+    "aktionen": null,
+    "art": "Nachricht",
+    "bezug": "AUF-0003",
+    "empfaenger": "Frau Montenach / Herr Heinen",
+    "erstelltAm": "2026-10-21T21:05:00.000Z",
+    "hinweis": "Entwurf, nichts wurde gesendet. Anrede (Sie/Du) und Namen bitte prüfen, dann kopieren und selbst senden. Ansprechpartner bei Ytter ist unklar (Montenach/Heinen oder Kuhfeld). Das Dankeschön ist ein Vorschlag (Hormozi: Empfehlung belohnen) und muss von dir bestätigt werden.",
+    "inhalt": "Guten Tag Frau Montenach,\n\nSie arbeiten täglich mit Architekten, Bauträgern und Kunden aus dem gehobenen Segment. Fällt Ihnen ein Betrieb oder ein Partner ein, für den unsere Arbeit genauso passen würde, etwa ein Möbelhaus, ein Innenarchitekt oder ein Bauträger?\n\nEin oder zwei Namen genügen. Ich melde mich dann zurückhaltend und erwähne Sie nur, wenn Sie das möchten.\n\nAls Dank schenken wir Ytter für jede Empfehlung, aus der ein Auftrag wird, eine zusätzliche Animated Ad.\n\nHerzliche Grüße\nDanny",
+    "kanal": "E-Mail oder WhatsApp",
+    "status": "wartet",
+    "titel": "Empfehlung anfragen: Ytter Design",
+    "_id": "akquise-empfehlung-ytter"
+   },
+   {
+    "agent": "Akquise-Agent",
+    "aktionen": null,
+    "art": "Dokument",
+    "bezug": "AUF-0048",
+    "empfaenger": null,
+    "erstelltAm": "2026-10-21T22:20:00.000Z",
+    "hinweis": "Wenn du den Plan freigibst, nehme ich die Wochenziele ins Montags-Briefing auf.",
+    "inhalt": "Entwurf: https://docs.google.com/document/d/1ve4IdTxqfCBI4fzeDarbTodakazkcQzl-6fbSj8eNt0/edit\n\nKern: Bei Ø 17.500 € pro Auftrag braucht es 8 Abschlüsse, 32 Gespräche und 160 Leads (Quoten sind Annahmen). Quartalsziele 25.000 / 35.000 / 40.000 / 40.000 €. Pro Woche: 250 Kaltmails (ab Q2 500), 50 LinkedIn-Nachrichten, 10 warme Kontakte, 1 Empfehlungsanfrage, 3 Beiträge.\n\nDeine Entscheidungen: Zählen die offenen Partner-Angebote (zusammen rund 120.000 €) zum Ziel? Meint „Neuumsatz“ den unterschriebenen Auftragswert oder den fakturierten Umsatz? Dazu Preise, Garantie, Werbebudget.",
+    "kanal": "Google Drive",
+    "status": "wartet",
+    "titel": "Akquiseplan 12 Monate (Hormozi)",
+    "_id": "akquiseplan-12m"
+   },
+   {
+    "agent": "Akquise-Agent",
+    "aktionen": null,
+    "art": "Angebot",
+    "bezug": "AUF-0047",
+    "empfaenger": "Patrick Kirsch",
+    "erstelltAm": "2026-10-21T22:20:00.000Z",
+    "hinweis": "Das Original ist unverändert. Ohne die Positionstexte ist das Angebot noch nicht versandfertig.",
+    "inhalt": "Korrigierte Kopie: https://docs.google.com/document/d/16GH_lJrk_lyMElb8KvdT5mOv6RJiFWxNBR3bWdv_rZw/edit\n\nKorrigiert:\n• Anrede „Frau Schmalen“ → „Herr Kirsch“, z. Hd. Patrick Kirsch ergänzt\n• Schreibweise Peinture de l’Est, Brutto 9.360,00 €\n• Tippfehler (Plannung, K.i Produktvideos u. a.)\n\nNoch offen: Bei Position 1 bis 5 fehlen Beschreibung, Laufzeit und Betrag (Platzhalter „TEXT FEHLT“).\n\nFragen: Wie verteilen sich die 8.000 € auf die Positionen? Welche Laufzeit? Neues Datum? Nummerierung 3.1, 4.3 und 4.5 fehlt.",
+    "kanal": "Google Drive",
+    "status": "wartet",
+    "titel": "Peinture de l'Est: Hauptangebot korrigiert",
+    "_id": "angebot-peinture-haupt"
+   },
+   {
+    "agent": "Akquise-Agent",
+    "aktionen": null,
+    "art": "Angebot",
+    "bezug": "AUF-0047",
+    "empfaenger": "Ytter Design",
+    "erstelltAm": "2026-10-21T22:20:00.000Z",
+    "hinweis": "Das Original ist unverändert. Bitte die Kopie ansehen, die Platzhalter füllen und selbst versenden.",
+    "inhalt": "Korrigierte Kopie: https://docs.google.com/document/d/1ATUrBl3x_f5-iFlDQdvapv4e71rJYNugoh9VBUvg2Sk/edit\n\nKorrigiert:\n• Anrede (vorher „Herr Kirsch“) → Platzhalter Frau Montenach / Herr Heinen\n• Adresse ergänzt: 183, Rue de Luxembourg, L-8077 Bertrange\n• Brutto 27.046 € → 27.846 €\n• Reste von Berdorfer Käse (Hofladen, Käse, Raclette) und Hausman (Heizung, Wärmepumpe) entfernt\n• Tippfehler „Verkehrspsychologisches“ → „Verkaufspsychologisches“\n\nNoch offen (gelb markiert): Ansprechpartner, B2B-Zielgruppe, Unterseiten Ytter, weitere Funktionen, Buchungssystem, Store Locator.\n\nFragen: Datum (Gültigkeit seit 02.10. abgelaufen)? Fehlen Seite 2 und 3? Passen Buchungssystem und Store Locator überhaupt zu Ytter?",
+    "kanal": "Google Drive",
+    "status": "wartet",
+    "titel": "Ytter Design: Website-Angebot korrigiert",
+    "_id": "angebot-ytter-website"
+   },
+   {
+    "agent": "Drive-Agent",
+    "aktionen": [
+     {
+      "datei": "Master E-Mail",
+      "dateiId": "1RhvAgIUNWTUDNuCea4tSDHZ6yGlUJEN1E4CFwhHkfME",
+      "ziel": "01_Marketing",
+      "zielId": "13u-GEP1EFf3bbABOeZj84LhdvK9vg7zC"
+     },
+     {
+      "datei": "Master E-Mail Kopie LU",
+      "dateiId": "1kaKb3nfQysDnjHiFxJdUggxRqOQw6PAFdDfM5oVPKow",
+      "ziel": "01_Marketing",
+      "zielId": "13u-GEP1EFf3bbABOeZj84LhdvK9vg7zC"
+     },
+     {
+      "datei": "E-Mail Funnel Handwerker",
+      "dateiId": "1wKqk2Pi9h47P29TXGUqvOGTzcCS_YlOsMwxSKIQVmJU",
+      "ziel": "01_Marketing",
+      "zielId": "13u-GEP1EFf3bbABOeZj84LhdvK9vg7zC"
+     },
+     {
+      "datei": "21.09.26 E-Mail Kamp.",
+      "dateiId": "1FaXRBT_7qzx0IhQVzDu2Eh6vvB4f-AwAnXbwoRMEsgM",
+      "ziel": "01_Marketing",
+      "zielId": "13u-GEP1EFf3bbABOeZj84LhdvK9vg7zC"
+     },
+     {
+      "datei": "Angebotsvorlage KI-Beratung",
+      "dateiId": "1jCWvzTOhBt4uQ21Go61BNG4tMia8FQ-VGz-biI5eD40",
+      "ziel": "04_Kunden/Angebote_Proposals",
+      "zielId": "1b2vu-sX4MpjJN1Jny9r-mHAP8qx0KzFn"
+     },
+     {
+      "datei": "Alex-Agent (Sheet)",
+      "dateiId": "15tsKAKHvDe0knUqKUx39wYXAuxsERB_M0snfRLBQ_-4",
+      "ziel": "08_Datenbanken",
+      "zielId": "166Siw6drC1deQtU-X0F-L3A-pF5tvX10"
+     },
+     {
+      "datei": "CV",
+      "dateiId": "157bhwmwbFcpXWjRlTbnnOLSd6VMXKsQh6D4It-9lvSQ",
+      "ziel": "07_Ressourcen",
+      "zielId": "1U0tTcsUlqAtKykD8Ful6S6rbB1YCw6Dc"
+     }
+    ],
+    "art": "Dateiaktion",
+    "bezug": "AUF-0032",
+    "empfaenger": null,
+    "erstelltAm": "2026-10-21T20:51:54.000Z",
+    "hinweis": "Nur verschieben, nichts löschen. Das Alex-Sheet bleibt für Make erreichbar, weil Make die Datei über ihre ID anspricht.",
+    "inhalt": "• Master E-Mail  →  01_Marketing\n• Master E-Mail Kopie LU  →  01_Marketing\n• E-Mail Funnel Handwerker  →  01_Marketing\n• 21.09.26 E-Mail Kamp.  →  01_Marketing\n• Angebotsvorlage KI-Beratung  →  04_Kunden/Angebote_Proposals\n• Alex-Agent (Sheet)  →  08_Datenbanken\n• CV  →  07_Ressourcen",
+    "kanal": "Google Drive",
+    "status": "wartet",
+    "titel": "7 lose Dateien im Ordner Dashboard einsortieren",
+    "_id": "drive-2026-10-21"
+   },
+   {
+    "agent": "Akquise-Agent",
+    "aktionen": null,
+    "art": "Dokument",
+    "bezug": "AUF-0049",
+    "empfaenger": null,
+    "erstelltAm": "2026-10-21T22:20:00.000Z",
+    "hinweis": "Nichts gesendet, keine Kampagne angelegt. Die beiden Tabellen haben eine leere erste Zeile, die sich mit einem Klick löschen lässt.",
+    "inhalt": "Entwurf: https://docs.google.com/document/d/1aLbTXi0ZE0hHD7CCGrMfJEOBNKkikIaFldOysI88g98/edit\n\nInhalt: Zielgruppe (3–25 Mitarbeiter, zuerst Sanitär/Heizung, Elektro, Dach), Angebot „24/7-Telefonassistent: kein verlorener Anruf in 30 Tagen“, 2 Lead-Magnete, 10 Betreffzeilen, 10 Hooks (dazu 3 auf Französisch), 4 Mails, LinkedIn-Variante, rechtliche Prüffragen, Rule of 100.\n\nDeine Entscheidungen: Preis und Garantie, Anbieter des Voice-Agenten, Versanddomain für Instantly, rechtliche Prüfung von B2B-Kaltmails in Luxemburg, ob die 4 Partner als Referenz genannt werden dürfen.",
+    "kanal": "Google Drive",
+    "status": "wartet",
+    "titel": "Kalt-Akquise Handwerker: Paket zum Prüfen",
+    "_id": "kaltakquise-handwerker"
+   }
+  ],
+  "gespraeche": [
+   {
+    "agent": "Alex",
+    "aufgaben": [
+     "AUF-0020",
+     "AUF-0021",
+     "AUF-0022"
+    ],
+    "datum": "2026-05-17T13:41:47.149Z",
+    "importiertAm": "2026-10-21T20:51:54.000Z",
+    "quelle": "Alex-Agent Sheet, Tabellenblatt1",
+    "titel": "Leadmaschine Voice-Agenten für Handwerker",
+    "todos": "- Endgültige Auswahl der Zielgruppe Handwerker bestätigen.\n- Hook für Cold-Email-Kampagne entwerfen (maximal drei Sätze, schmerzorientiert).\n- Instantly-Kampagne aufsetzen und Start mit einhundert Kontakten pro Tag.",
+    "zusammenfassung": "- Fokus: Aufbau einer Leadmaschine für Voice-Agenten-Automatisierung.\n- Zielgruppe: Eingrenzung auf Handwerker aufgrund von hohem Schmerz durch verpasste Anrufe und hoher Zahlungsbereitschaft.\n- Strategie: Cold-Email-Kampagne über Instantly.\n- Kern-Erkenntnis: Fokus liegt auf brutaler Kürze und schmerzorientierten Hooks, nicht auf komplexem Funnel-Design.",
+    "_id": "1c45481f877f45e182396986834f312d"
+   },
+   {
+    "agent": "Alex",
+    "aufgaben": [
+     "AUF-0025"
+    ],
+    "datum": "2026-05-20T08:32:31.896Z",
+    "importiertAm": "2026-10-21T20:51:54.000Z",
+    "quelle": "Alex-Agent Sheet, Tabellenblatt1",
+    "titel": "Malerbetrieb: Pitch auf Conversion umstellen",
+    "todos": "Pitch auf Conversion und Effizienz umstellen; CRM als Lead-Sicherung positionieren; KI-Visualisierung als Abschluss-Werkzeug verkaufen; Fokus auf Umsatzsicherung.",
+    "zusammenfassung": "Der Kunde ist ein Malerbetrieb mit genug Arbeit, will aber bessere Webseiten-Conversion ohne selbst Content zu erstellen. Reframe: weg von Content-Erstellung, hin zu Conversion-Optimierung und Effizienz. Drohnenvideos und Testimonials als Social Proof, KI-Visualisierungen senken das Kaufrisiko, monday.com als Werkzeug zur Lead-Sicherung.",
+    "_id": "3872d7c35e4546a096856445986cfd07"
+   },
+   {
+    "agent": "Alex",
+    "aufgaben": [
+     "AUF-0023"
+    ],
+    "datum": "2026-05-18T05:59:37.950Z",
+    "importiertAm": "2026-10-21T20:51:54.000Z",
+    "quelle": "Alex-Agent Sheet, Tabellenblatt1",
+    "titel": "Hausman: DFY-Wachstumspaket pitchen",
+    "todos": "1. Autopilot-System als Done-For-You-Wachstum pitchen. 2. Argumentation nur auf Zeitverlust und entgangene Aufträge. 3. Achttausend Euro im Monat für das Gesamtpaket fordern. 4. Deal im Termin abschließen.",
+    "zusammenfassung": "Strategie für den Hausman-Termin: Verkauf des Autopilot-Systems als DFY-Wachstumspaket für achttausend Euro monatlich. Fokus auf drei Kernvorteile: 1. Sofortige Lead-Qualifizierung (kein Umsatzverlust). 2. KI-Wissensdatenbank für Monteure (Zeitersparnis). 3. Content-Cloning (Lösung des Content-Bottlenecks). Weg von Feature-Verkauf (Monday, Make, ElevenLabs) hin zur Transformation (Zeitersparnis, Umsatzwachstum, Skalierung).",
+    "_id": "89100edae9a34760ac6a4e7f1352276b"
+   },
+   {
+    "agent": "Alex",
+    "aufgaben": [
+     "AUF-0024"
+    ],
+    "datum": "2026-05-20T08:53:57.808Z",
+    "importiertAm": "2026-10-21T20:51:54.000Z",
+    "quelle": "Alex-Agent Sheet, Tabellenblatt1",
+    "titel": "Hausman: Badezimmerkampagne nach Value Equation",
+    "todos": "1. Badezimmer-Angebot nach Value Equation überarbeiten. 2. Hook für Badezimmer-Anzeige formulieren. 3. E-Mail-Liste vorbereiten. 4. Konkrete Texte bereitstellen.",
+    "zusammenfassung": "Problem: Badezimmer werden als Commodity verkauft, nicht als Transformation und Wertsteigerung. Strategie: weg von Persönlichkeitstypen (Fake Work) hin zur Value Equation (Traum-Ergebnis, Erfolgswahrscheinlichkeit, Zeitverzögerung, Aufwand). E-Mail-Marketing nutzen. Hooks auf Wellness und Immobilienwert.",
+    "_id": "a022609877ca482cadca2af130417017"
+   }
+  ],
+  "partner": [
+   {
+    "driveOrdner": "04_Kunden/Berdorfer_Kaese",
+    "name": "Berdorfer Käse",
+    "quellen": [],
+    "status": "aktiv",
+    "steckbrief": {
+     "angebote": [
+      {
+       "betrag": "12.300 € netto / 14.391 € brutto",
+       "datum": "01.05.2026",
+       "status": "unbekannt",
+       "titel": "Zweitangebot-02 (3 Monate)"
+      },
+      {
+       "betrag": "23.800 € netto / 27.846 € brutto",
+       "datum": "28.09.2026",
+       "status": "unbekannt",
+       "titel": "Hauptangebot-01 Full-Service (12 Monate)"
+      },
+      {
+       "betrag": "23.800 € netto / 27.846 € brutto",
+       "datum": "01.10.2026",
+       "status": "unbekannt; laut 'Ablauf' wird schon umgesetzt",
+       "titel": "Neues Hauptangebot-01 (Website)"
+      },
+      {
+       "betrag": "",
+       "datum": "",
+       "status": "nicht gelesen",
+       "titel": "Basisangebot-03"
+      }
+     ],
+     "ansprechpartner": [
+      {
+       "kontakt": "+352 79 03 78, mail@berdorfer.lu (Firmenkontakt laut Website-Entwurf)",
+       "name": "Monique Schmalen",
+       "rolle": "Gérante"
+      }
+     ],
+     "branche": "Käserei / Hofladen (Käse, Joghurt, Glace)",
+     "laufendeProjekte": [
+      "Raclette-Film am 24. (Monat unklar), Raclette-Abende im Januar",
+      "Landingpages fertig; eine modernere Website-Version wurde gebaut",
+      "Offen: Seiten fertigstellen, Texte, Formulare und Prozesse, Designs, Dreh und Schnitt, Kampagnen, KI-Videos und -Bilder",
+      "Kampagnenstrategie: 30 km Umkreis (Hofladen, 1 Gratis-Joghurt), landesweite Bekanntheit, Touristen FR/NL/DE"
+     ],
+     "leistungenCE": [
+      "Marketingplan und 12 Monate Betreuung",
+      "Social-Media-Kampagnen: Käse (durchgehend), Raclette, Yaourt, Sommer/Hofbesuche",
+      "Corporate Design, Etiketten-Design mit KI",
+      "Werbevideos (1,5 Drehtage), KI-Produkt- und Animationsvideos, KI-Produktbilder",
+      "Landingpages (Yaourt, Lokal Berdorf, Käsesorten, Stoffi, Raclette)",
+      "Neue Website mit Produktkatalog, Event-Buchung, CRM, Store Locator, SEO/GEO",
+      "Website-Texte und Übersetzung ins Luxemburgische"
+     ],
+     "offeneFragen": [
+      "Welches Angebot ist unterschrieben (Full-Service oder Website, beide 23.800 €)?",
+      "Wann ist der offizielle Start? (laut 'Ablauf' noch offen)",
+      "Genaues Datum des Raclette-Drehs und der Raclette-Abende",
+      "In welchen Sprachen laufen die Kampagnen?",
+      "Website-Entwurf: Gründungsjahr, Öffnungszeiten, Sternezahl, Schreibweise der Marke (Berdorfer/Berduerfer) klären",
+      "Monatliches Werbebudget"
+     ],
+     "ort": "2, rue de Consdorf, L-6551 Berdorf (Mëllerdall)",
+     "positionierung": "Familiengeführte Handwerkskäserei mit Rezepten aus den österreichischen Alpen. Die Milch kommt von einem einzigen Hof: 100 % lokal, Rohmilch, Handarbeit.",
+     "quellen": [
+      {
+       "id": "1xpXgk9xOWqW0VzeIaRP0NsQCIeNFjMmtxq741uDH7sI",
+       "titel": "Ablauf"
+      },
+      {
+       "id": "1Z2_Md6a4swfz4NyvYCCn8-X0yKC9aX3DmMu6BfKclxs",
+       "titel": "Neues Hauptangebot-01-BerdorferKäse"
+      },
+      {
+       "id": "1AwsYbeLEostDA3ZkdT8QGMhwlUIpVtCGZGscBzNogUI",
+       "titel": "Hauptangebot-01-BerdorferKäse-28.09"
+      },
+      {
+       "id": "1E9fePn2UbXoOUkUIZmYjB6qpny6fhcXbl20RzUUCdhU",
+       "titel": "Zweitangebot-02-BerdorferKäse"
+      },
+      {
+       "id": "1fAfYFID_4fMD0JeMgo2Jgfcvv3TWB4btzy3dqEoHMjY",
+       "titel": "Kampagnen Strategie"
+      },
+      {
+       "id": "1lRDxk8kUgNQ01i8lz7ZwAtP8goAOYP4-71_pc2R27rI",
+       "titel": "Unbenanntes Dokument (Website/Iwwersetzungen)"
+      }
+     ],
+     "stand": "2026-10-21",
+     "wichtigeFakten": [
+      "4 Käsesorten (Berdorfer Jung, Roude Bouf, Berdorfer Trüffel, Mellendaller), 7 Joghurtsorten",
+      "Verkauf bei Cactus, Pall Center, Massen, Alavita Bio, Epicerie Beim Bauer und im Hofladen",
+      "Zweite Generation, 4 Mitarbeiter, Käseautomat vor Ort",
+      "Google-Bewertung: im Entwurf widersprüchlich (4,7 oder 4,9)",
+      "Raclette-Saison ab Ende September als Kampagnenschwerpunkt"
+     ],
+     "zielgruppe": "B2C: Hofladen-Kunden, Familien und Touristen im Umkreis von 30 km, Event-Gäste. B2B: Gastronomie und Einzelhandel"
+    },
+    "web": null,
+    "_id": "berdorfer"
+   },
+   {
+    "driveOrdner": "04_Kunden/Hausman",
+    "name": "Hausman",
+    "quellen": [
+     "Meta Ads (Adspirer)",
+     "monday-Boards"
+    ],
+    "status": "aktiv",
+    "steckbrief": {
+     "angebote": [
+      {
+       "betrag": "41.000 € netto / 47.970 € brutto",
+       "datum": "18.09.2026",
+       "status": "offen (unbekannt)",
+       "titel": "Angebot-Digitalisierung-Hausman-18September2026"
+      },
+      {
+       "betrag": "71.460 € netto/Jahr",
+       "datum": "04.09.2026",
+       "status": "interne Kalkulation",
+       "titel": "Preisrechnung Jahresangebot Modell 1 (Einzelkalkulation)"
+      },
+      {
+       "betrag": "14.500 € Setup + 4.750 €/Monat netto",
+       "datum": "04.09.2026",
+       "status": "interne Kalkulation",
+       "titel": "Preisrechnung Jahresangebot Modell 2 (Setup + Retainer, empfohlen)"
+      },
+      {
+       "betrag": "25.000 € + 34.000 € = 59.000 €",
+       "datum": "",
+       "status": "Bestand (Details unklar)",
+       "titel": "Alter Vertrag laut 'Pro an Kontra'"
+      }
+     ],
+     "ansprechpartner": [
+      {
+       "kontakt": "",
+       "name": "Herr Kuhfeld",
+       "rolle": "Adressat des Angebots vom 18.09.2026"
+      },
+      {
+       "kontakt": "",
+       "name": "Lothar",
+       "rolle": "Bauleiter, geplanter Protagonist der Videos"
+      },
+      {
+       "kontakt": "",
+       "name": "Jury",
+       "rolle": "Protagonist der Videos, im monday-Team (Janina/Jury)"
+      },
+      {
+       "kontakt": "",
+       "name": "Gerry",
+       "rolle": "Protagonist, im monday-Team"
+      },
+      {
+       "kontakt": "",
+       "name": "Sven, Tania, Janina, Cederic",
+       "rolle": "im monday-Team bzw. möglicher Protagonist (Rolle unklar)"
+      }
+     ],
+     "branche": "Haustechnik: Heizung, Wärmepumpe, PV/Solar, Klima, Bad, Wellness, Renovierung/Innenausbau, Spanndecken",
+     "laufendeProjekte": [
+      "Kampagne-06Mai2026 (Werbetexte Bad und Renovierung, Heizsysteme)",
+      "Lead-Magnets: PV-Verlustrechner, Renov.-Blackbox, Renov.-LookBook, Bad 3D-Machbarkeitscheck",
+      "Recruiting-Texte",
+      "Google-Profil: Rezensionen, Fotos, Einträge in Verzeichnissen (Yellow, Editus), Bing-Webmaster",
+      "Neue Seiten: Haustechnik, Fliesen, Architektur/Innen-Design, Kundendienst, Maler, Dankeseiten",
+      "Anfragen werden laufend dokumentiert (Ordner 'Anfragen Doks')"
+     ],
+     "leistungenCE": [
+      "Marketingstrategie und 12 Monate Betreuung",
+      "Branding 'Nr. 1 für Haustechnik', die Menschen hinter Hausman zeigen",
+      "Meta/TikTok-Kampagnen, ca. 20 Kampagnen (je 3x PV, Heizsysteme, WP, Renovierung, Bad, Klima, Branding)",
+      "Werbevideos (1 Drehtag/Monat), KI-Erklärvideos, Animated Ads",
+      "Lead-Magnets (Förder-Rechner, Bad-Guide, PV-Verlustrechner, WP-Rechner)",
+      "SEO/GEO, Landingpages, Tracking (Meta Pixel/CAPI, GA/GTM)",
+      "monday.com-CRM und Automatisierungen",
+      "Recruiting: Karriereportal, Jobseiten, KI-Bilder"
+     ],
+     "offeneFragen": [
+      "Ist das Angebot vom 18.09.2026 (41.000 €) unterschrieben? Welches Modell gilt?",
+      "Vollständiger Name und Rolle von Herrn Kuhfeld, dazu Kontaktdaten",
+      "Inhalt und Status von Devis-Hausman-2025-01.pdf und dem älteren Angebot-Digitalisierung-Hausman (nicht gelesen)",
+      "Laufzeit und Beginn des aktuellen Vertrags",
+      "Ergebnisse und KPIs der laufenden Kampagnen (ADS-Analysen nicht gelesen)",
+      "Wurden die DJI-Drohnen für Lothar gekauft?"
+     ],
+     "ort": "55, Av. de la Gare, L-9233 Diekirch (Showroom)",
+     "positionierung": "Komplettanbieter für die gesamte Haustechnik in Luxemburg ('Eine Firma. Alle Gewerke. Ein Ansprechpartner. Seit 1974.'). Hausman soll nahbar wirken und als Förder-Experte auftreten (Klimabonus, Enoprimes, 3 % MwSt.).",
+     "quellen": [
+      {
+       "id": "1yB6-Ik1HgqZdn5WXETIzOJEnHUfDaYRdWo1zX-dfsgI",
+       "titel": "Zesummenfassung Gespreich"
+      },
+      {
+       "id": "10RmBE5X8blTbYg3c2dGfYD9y7L5LIWWleaX9It2_M9I",
+       "titel": "Angebot-Digitalisierung-Hausman-18September2026"
+      },
+      {
+       "id": "16o6Lqpc49YJHPRb1kb77UASmOZVFPP6Xh4kXZui_Qbo",
+       "titel": "Preisrechnung Jahresangebot Hausman"
+      },
+      {
+       "id": "1TdqPaoQ54Tnle_k4QQ7m50o0nFyikKkl7m8FRhp5VjQ",
+       "titel": "Pro an Kontra"
+      },
+      {
+       "id": "1vDG7ENQncxH0fYvjp51JnSRyVBG5LosSKKAU5gEX9TU",
+       "titel": "Ytter+Hausm. Angebot"
+      },
+      {
+       "id": "1BPzCRDu617ZdCdagICGmH8AouqRje91mcY402i_66Rw",
+       "titel": "Website Analyse"
+      }
+     ],
+     "stand": "2026-10-21",
+     "wichtigeFakten": [
+      "Seit 1974, über 30.000 Projekte, 55+ Mitarbeiter (laut Website-Analyse)",
+      "Google-Schnitt knapp 4 Sterne, Ziel über 4,5 (1 Rezension pro Woche)",
+      "18 Seiten und Prozesse, alle mit FB-Pixel verbunden",
+      "Einmal im Monat 1 Std. Meeting in Diekirch (Monatsanfang)",
+      "CRM monday.com, Lizenz 100 €/Monat",
+      "Ca. 50 Anfrage-Dokumente zwischen 08.10. und 21.10.2026"
+     ],
+     "zielgruppe": "Hausbesitzer und Bauherren in Luxemburg (DE/FR), vor Investitionen in Heizung, Bad oder Renovierung; dazu Fachkräfte fürs Recruiting"
+    },
+    "web": "hausman.lu",
+    "_id": "hausman"
+   },
+   {
+    "driveOrdner": "04_Kunden/Peinture_de_lEst",
+    "name": "Peinture de l'Est",
+    "quellen": [],
+    "status": "aktiv",
+    "steckbrief": {
+     "angebote": [
+      {
+       "betrag": "7.000 € netto / 8.190 € brutto",
+       "datum": "18.09.2026",
+       "status": "unbekannt",
+       "titel": "Peinturedelest-Angebot-Digitalisierung-17September2026"
+      },
+      {
+       "betrag": "8.000 € netto / 9.360 € brutto",
+       "datum": "28.09.2026",
+       "status": "Gerüst ohne Texte, an 'Frau Schmalen' adressiert",
+       "titel": "Hauptangebot-01-Peinturedelest"
+      },
+      {
+       "betrag": "3.500 €/Jahr (ca. 291 €/Monat)",
+       "datum": "",
+       "status": "Ideenstand",
+       "titel": "Erste Ideen-Kalkulation"
+      }
+     ],
+     "ansprechpartner": [
+      {
+       "kontakt": "",
+       "name": "Patrick Kirsch",
+       "rolle": "Gérant technique / Patron, Malermeister"
+      }
+     ],
+     "branche": "Malerbetrieb: Innenmalerei, Tapezieren, Fassaden, Lack/Holz, kreative Wandtechniken, Bodenbeläge, Renovierung",
+     "laufendeProjekte": [
+      "Werbetexte und CTAs erstellt",
+      "Website-Texte LU (Ordner übersetzungen)",
+      "Anfragen werden dokumentiert (z. B. Celine Alves, Malerarbeiten)",
+      "Testimonials: Hotel Belair und 2 andere Unternehmer"
+     ],
+     "leistungenCE": [
+      "Marketingplan und 12 Monate Betreuung",
+      "Social-Media-Kampagnen (Fassaden, Malerei, Tapezieren), Bilder mit Photoshop/InDesign",
+      "Werbevideos mit Drohne (Fassade, Hotel Belair, Kundenstimmen)",
+      "KI-Bilder (z. B. Räume in Kundenfarben)",
+      "SEO/GEO, Website und Landingpages, Mobile-Optimierung, Tracking/Pixel",
+      "29 Werbetexte und CTAs, Website-Texte auf Luxemburgisch",
+      "Ideen: Content posten, Automatisierungen (Manus), monday.com-CRM"
+     ],
+     "offeneFragen": [
+      "Welches Angebot gilt (7.000 € oder 8.000 €), und ist es angenommen?",
+      "Hauptangebot-01 ist an 'Frau Schmalen' adressiert. Korrigieren auf Patrick Kirsch.",
+      "Kontaktdaten von Patrick Kirsch (Telefon, E-Mail)",
+      "Termine für Drehs (Hotel Belair, Fassade) und Testimonials",
+      "Werbebudget und Start der Kampagnen",
+      "Ordner Texte, Strategie_und_Konzept und Analysen_und_Reports sind leer oder nur mit leerem Dokument"
+     ],
+     "ort": "18, rue d'Echternach, L-6550 Berdorf",
+     "positionierung": "Traditioneller Familien-Meisterbetrieb seit 1979, bewusst klein (6 Gesellen). Der Chef berät selbst und arbeitet sauber, zuverlässig und mit hochwertigen Materialien.",
+     "quellen": [
+      {
+       "id": "1rK3qyMfBhvWO9tAM8nQhSMfZ5S-GJif08T_sk56zIiY",
+       "titel": "Peinture de l est"
+      },
+      {
+       "id": "1f7zG4WvHd6Y0kgzyTGNb4s4emZsm-YZ1MV3zc8N1ipY",
+       "titel": "Hauptangebot-01-Peinturedelest"
+      },
+      {
+       "id": "1EtqNRkIx44Nq5k4ckExMOF6LCVsPfv4JBtX2gnGiUlM",
+       "titel": "Peinturedelest-Angebot-Digitalisierung-17September2026"
+      },
+      {
+       "id": "1pfpAfFghHa31Bp40oKSW3_TIp4FdY0Q0GQH7CZpeK1A",
+       "titel": "Unbenanntes Dokument (übersetzungen)"
+      },
+      {
+       "id": "1qQ9-chYZKX3Jytotzcajiruo46uh0M3n-FogBTrNMDc",
+       "titel": "Celine Alves"
+      }
+     ],
+     "stand": "2026-10-21",
+     "wichtigeFakten": [
+      "Gegründet 1979 als Peinture Klaus Kirsch, seit 2013 Peinture de l'Est",
+      "Patrick Kirsch: mit 21 jüngster Malermeister Luxemburgs, Gérant seit 01/2012",
+      "6 Malergesellen/-innen; bewusst kein Wachstum",
+      "Materialien: Relius, Sikkens, Keim, Peinture Robin",
+      "Mitglied der Fédération des Artisans; SuperDrecksKëscht, Vision Zero",
+      "Wunsch: mehr Bekanntheit in Berdorf, wöchentlich Content"
+     ],
+     "zielgruppe": "Private Haus- und Wohnungsbesitzer in der Region Berdorf/Consdorf/Echternach und landesweit; auch Gewerbe (z. B. Hotels)"
+    },
+    "web": null,
+    "_id": "peinture"
+   },
+   {
+    "driveOrdner": "04_Kunden/YtterDesign",
+    "name": "Ytter Design",
+    "quellen": [],
+    "status": "aktiv",
+    "steckbrief": {
+     "angebote": [
+      {
+       "betrag": "25.000 € netto / 29.250 € brutto",
+       "datum": "xx.xx.2026 (Datei vom 15.09.2026)",
+       "status": "Entwurf, Datum fehlt",
+       "titel": "Ytter-Angebot-Digitalisierung-18September2026"
+      },
+      {
+       "betrag": "23.800 € netto / 27.046 € brutto laut Dok (rechnerisch 27.846 €)",
+       "datum": "18.09.2026",
+       "status": "Entwurf, Vorlagenreste",
+       "titel": "Seiten-Ytter-Angebot-17September2026 (Website)"
+      },
+      {
+       "betrag": "Setup 25.500–34.000 € + 4.850–5.700 €/Monat; Jahr ca. 85.000–100.000 € netto",
+       "datum": "04.09.2026",
+       "status": "interne Kalkulation",
+       "titel": "Preisrechnung ytter.lu (Hausman)"
+      }
+     ],
+     "ansprechpartner": [
+      {
+       "kontakt": "",
+       "name": "Christiane Montenach",
+       "rolle": "Geschäftsführerin"
+      },
+      {
+       "kontakt": "",
+       "name": "Ewald Heinen",
+       "rolle": "Geschäftsführer"
+      },
+      {
+       "kontakt": "",
+       "name": "David Sorce",
+       "rolle": "Kontakt (Sorce Invest), soll vernetzt werden"
+      },
+      {
+       "kontakt": "",
+       "name": "Herr Kuhfeld",
+       "rolle": "Adressat des Ytter-Angebots (wohl Hausman, da ytter.lu von Hausman zugekauft)"
+      }
+     ],
+     "branche": "High-End-Küchenstudio / Küchenarchitektur (LEICHT, VALCUCINE)",
+     "laufendeProjekte": [
+      "Strategie-Konzept (Architekten-Outreach über Instantly, Makler-Netzwerk, Lumpy Mail, Showroom-Events)",
+      "Website- und Landingpage-Aufbau (Landingpages Rot/Gelb/Grün/Blau, Funnels, Icons, Showroom-Video)"
+     ],
+     "leistungenCE": [
+      "Marketingstrategie für das Luxussegment (LinkedIn, E-Mail, Google/YouTube; Meta nur für Bekanntheit)",
+      "Kampagnen-Management, A/B-Tests, verkaufspsychologische Texte",
+      "Werbevideos (5 Drehtage), Animated Ads, mehrsprachig DE/FR/EN mit KI",
+      "monday.com-CRM, Automatisierung mit Make, Lead-Nurturing",
+      "Lead-Magnet: 'Michelin-Star'-Showroom-Dinner per E-Mail-Kampagne",
+      "SEO/GEO, Tracking, Google Search Ads, Local SEO",
+      "Website ytter.lu mit Landingpages und Funnels (Setup-Angebot)"
+     ],
+     "offeneFragen": [
+      "Wer ist der Ansprechpartner bei Ytter: Montenach/Heinen oder Hausman (Kuhfeld)?",
+      "Seiten-Angebot ist an 'Herrn Kirsch' adressiert und enthält Berdorfer- und Hausman-Reste (Käserei, Hofladen, Heizsysteme). Muss korrigiert werden.",
+      "Brutto im Seiten-Angebot falsch (27.046 statt 27.846 €)",
+      "Welches Angebot gilt, und ist es angenommen?",
+      "Gibt es separate Versand-Domains für Instantly (z. B. ytter-design.com)?",
+      "Welche Rolle hat David Sorce / Sorce Invest konkret?"
+     ],
+     "ort": "183, Rue de Luxembourg, L-8077 Bertrange (Showroom 300 m²); Depot Greivelsbarrière",
+     "positionierung": "Exklusiver Vertreter für LEICHT und VALCUCINE in Luxemburg mit 39 Jahren Erfahrung. Küchen werden als Architektur und Wertanlage verkauft, das Ziel ist der private Termin im Showroom.",
+     "quellen": [
+      {
+       "id": "1s3rFCxlQACfd3-co2xjT2HDMHIzPO19Uxf2QSQREtVQ",
+       "titel": "Strategie,Idee, alles"
+      },
+      {
+       "id": "1Jysx3QsO_3udXw93KRuOU0rVH_0TSrPGC4KZOFiWPsM",
+       "titel": "Seiten-Ytter-Angebot-17September2026"
+      },
+      {
+       "id": "1wSXZdwJe5kGgAPaqJ451m7_YtCmU0f7yii980Cd-nCg",
+       "titel": "Ytter-Angebot-Digitalisierung-18September2026"
+      },
+      {
+       "id": "1VplRfLqoCOGUMI6FhgiyQlxguFi1Z2AamrNGw0oSJtg",
+       "titel": "Preisrechnung ytter.lu (Hausman)"
+      },
+      {
+       "id": "1vDG7ENQncxH0fYvjp51JnSRyVBG5LosSKKAU5gEX9TU",
+       "titel": "Ytter+Hausm. Angebot"
+      }
+     ],
+     "stand": "2026-10-21",
+     "wichtigeFakten": [
+      "Marke ytter.lu wurde von Hausman S.à r.l. zugekauft",
+      "Showroom 300 m² in Bertrange, vormittags (Di–Fr) nur nach Termin",
+      "Eigene Innenarchitekten, eigener Kundendienst, eigenes Depot",
+      "Geplant: 4 Google- und 4 Meta-Kampagnen pro Jahr, 2–3 Bekanntheitskampagnen",
+      "Idee: bezahlte Raumstudie für 1.500 €, die beim Küchenkauf angerechnet wird",
+      "Flyer/Broschüre mit QR-Code im Dezember an wohlhabende Gegenden"
+     ],
+     "zielgruppe": "Kaufkräftige Bauherren, Geschäftsführer, Investoren, Expats; als Multiplikatoren Architekten, Luxusmakler, Bauträger und Relocation-Agenturen"
+    },
+    "web": null,
+    "_id": "ytter"
+   }
+  ],
+  "pipeline": [
+   {
+    "aktualisiertAm": "2026-10-21T21:45:00.000Z",
+    "art": null,
+    "betrag": 23800,
+    "datum": "2026-10-01",
+    "erstelltAm": "2026-10-21T21:45:00.000Z",
+    "naechsterSchritt": "Danny: unterschrieben? Und zählt es als Neuumsatz oder als Bestand?",
+    "notiz": "Laut „Ablauf“ läuft die Umsetzung schon. Varianten: Full-Service vom 28.09. (gleicher Betrag), 3 Monate für 12.300 €.",
+    "partner": "Berdorfer Käse",
+    "quelle": "1Z2_Md6a4swfz4NyvYCCn8-X0yKC9aX3DmMu6BfKclxs",
+    "stufe": "Angebot",
+    "titel": "Hauptangebot Website und Marketing",
+    "wahrscheinlichkeit": null,
+    "_id": "berdorfer-hauptangebot"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:45:00.000Z",
+    "art": null,
+    "betrag": 41000,
+    "datum": "2026-09-18",
+    "erstelltAm": "2026-10-21T21:45:00.000Z",
+    "naechsterSchritt": "Danny: unterschrieben? Und zählt es als Neuumsatz oder als Bestand?",
+    "notiz": "Alternative aus der Preisrechnung: 14.500 € Setup + 4.750 €/Monat. Unterschrieben?",
+    "partner": "Hausman",
+    "quelle": "10RmBE5X8blTbYg3c2dGfYD9y7L5LIWWleaX9It2_M9I",
+    "stufe": "Angebot",
+    "titel": "Digitalisierung 12 Monate",
+    "wahrscheinlichkeit": null,
+    "_id": "hausman-digitalisierung"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:20:00.000Z",
+    "art": null,
+    "betrag": 8000,
+    "datum": "2026-09-28",
+    "erstelltAm": "2026-10-21T21:45:00.000Z",
+    "naechsterSchritt": "Danny: unterschrieben? Und zählt es als Neuumsatz oder als Bestand?",
+    "notiz": "Korrigierte Kopie liegt zur Freigabe bereit. Positionstexte fehlen noch. Alternative vom 17.09.: 7.000 €.",
+    "partner": "Peinture de l'Est",
+    "quelle": "1f7zG4WvHd6Y0kgzyTGNb4s4emZsm-YZ1MV3zc8N1ipY",
+    "stufe": "Angebot",
+    "titel": "Hauptangebot Marketing",
+    "wahrscheinlichkeit": null,
+    "_id": "peinture-hauptangebot"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T21:45:00.000Z",
+    "art": null,
+    "betrag": 25000,
+    "datum": null,
+    "erstelltAm": "2026-10-21T21:45:00.000Z",
+    "naechsterSchritt": "Danny: unterschrieben? Und zählt es als Neuumsatz oder als Bestand?",
+    "notiz": "Entwurf, Datum fehlt noch.",
+    "partner": "Ytter Design",
+    "quelle": "1wSXZdwJe5kGgAPaqJ451m7_YtCmU0f7yii980Cd-nCg",
+    "stufe": "Angebot",
+    "titel": "Digitalisierung Ytter",
+    "wahrscheinlichkeit": null,
+    "_id": "ytter-digitalisierung"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T22:20:00.000Z",
+    "art": null,
+    "betrag": 23800,
+    "datum": "2026-09-18",
+    "erstelltAm": "2026-10-21T21:45:00.000Z",
+    "naechsterSchritt": "Danny: unterschrieben? Und zählt es als Neuumsatz oder als Bestand?",
+    "notiz": "Korrigierte Kopie liegt zur Freigabe bereit (Brutto 27.846 €). Ansprechpartner noch offen.",
+    "partner": "Ytter Design",
+    "quelle": "1Jysx3QsO_3udXw93KRuOU0rVH_0TSrPGC4KZOFiWPsM",
+    "stufe": "Angebot",
+    "titel": "Website ytter.lu",
+    "wahrscheinlichkeit": null,
+    "_id": "ytter-website"
+   }
+  ],
+  "system": [
+   {
+    "aktualisiertAm": "2026-10-21T22:20:00.000Z",
+    "quartale": [
+     {
+      "quartal": "Q1",
+      "umsatzziel": 25000,
+      "zeitraum": "26.10.2026–24.01.2027"
+     },
+     {
+      "quartal": "Q2",
+      "umsatzziel": 35000,
+      "zeitraum": "25.01.2027–25.04.2027"
+     },
+     {
+      "quartal": "Q3",
+      "umsatzziel": 40000,
+      "zeitraum": "26.04.2027–25.07.2027"
+     },
+     {
+      "quartal": "Q4",
+      "umsatzziel": 40000,
+      "zeitraum": "26.07.2027–24.10.2027"
+     }
+    ],
+    "quelle": "https://docs.google.com/document/d/1ve4IdTxqfCBI4fzeDarbTodakazkcQzl-6fbSj8eNt0/edit",
+    "status": "Entwurf",
+    "wochenziele": [
+     {
+      "einheit": "Kontakte pro Woche (ab Q2: 500)",
+      "kanal": "Kalt-Akquise Mail (Instantly)",
+      "kennzahl": "Neue Kalt-Mail-Kontakte",
+      "ziel": 250
+     },
+     {
+      "einheit": "Nachrichten pro Woche",
+      "kanal": "Kalt-Akquise LinkedIn",
+      "kennzahl": "LinkedIn-Kontaktanfragen und Nachrichten",
+      "ziel": 50
+     },
+     {
+      "einheit": "pro Woche",
+      "kanal": "Warme Ansprache",
+      "kennzahl": "Warme Nachrichten und Follow-ups",
+      "ziel": 10
+     },
+     {
+      "einheit": "pro Woche",
+      "kanal": "Empfehlungen",
+      "kennzahl": "Empfehlungsanfragen an Partner",
+      "ziel": 1
+     },
+     {
+      "einheit": "pro Woche",
+      "kanal": "Content",
+      "kennzahl": "Veröffentlichte Beiträge (davon 1 Fallstudie)",
+      "ziel": 3
+     },
+     {
+      "einheit": "pro Woche",
+      "kanal": "alle",
+      "kennzahl": "Neue Leads (Annahme)",
+      "ziel": 4
+     },
+     {
+      "einheit": "pro Woche",
+      "kanal": "alle",
+      "kennzahl": "Erstgespräche (Annahme)",
+      "ziel": 1
+     }
+    ],
+    "_id": "akquiseplan"
+   },
+   {
+    "aktualisiertAm": "2026-10-21T20:51:54.000Z",
+    "bekannteIds": [
+     "1c45481f877f45e182396986834f312d",
+     "89100edae9a34760ac6a4e7f1352276b",
+     "3872d7c35e4546a096856445986cfd07",
+     "a022609877ca482cadca2af130417017"
+    ],
+    "letzteZeit": "2026-05-20T08:53:57.808Z",
+    "quelle": "Google Sheet Alex-Agent (15tsKAKHvDe0knUqKUx39wYXAuxsERB_M0snfRLBQ_-4), Tabellenblatt1",
+    "_id": "alex-import"
+   }
+  ],
+  "ziele": [
+   {
+    "einheit": "EUR",
+    "ist": null,
+    "quelle": "TASKS.md, 13.10.2026",
+    "soll": 140000,
+    "zeitraum": "12 Monate ab 10/2026",
+    "ziel": "Neuumsatz",
+    "_id": "z1"
+   },
+   {
+    "einheit": "Abschlüsse",
+    "ist": null,
+    "quelle": "TASKS.md, 13.10.2026",
+    "soll": 4,
+    "zeitraum": "12 Monate ab 10/2026",
+    "ziel": "Website-Projekte",
+    "_id": "z2"
+   },
+   {
+    "einheit": "Abschlüsse",
+    "ist": null,
+    "quelle": "TASKS.md, 13.10.2026",
+    "soll": 4,
+    "zeitraum": "12 Monate ab 10/2026",
+    "ziel": "Jahresverträge Marketing",
+    "_id": "z3"
+   },
+   {
+    "einheit": "Qualifizierte Gespräche pro Monat",
+    "ist": null,
+    "quelle": "TASKS.md, 13.10.2026 (Ziel 5–6)",
+    "soll": 5,
+    "zeitraum": "laufender Monat",
+    "ziel": "Pipeline",
+    "_id": "z4"
+   },
+   {
+    "einheit": "EUR",
+    "ist": null,
+    "quelle": "TASKS.md, 13.10.2026 (ca.)",
+    "soll": 140000,
+    "zeitraum": "laufend",
+    "ziel": "Bestand (zum Vergleich)",
+    "_id": "z5"
+   }
+  ]
+ }
+}
