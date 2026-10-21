@@ -26,3 +26,8 @@
 - **AUF-0040**: Google Kalender in Claude verbinden (für die Termine im Briefing).
 - **AUF-0041**: Gmail-Zugang freigeben (für den Mail-Assistenten).
 - **AUF-0042**: Adspirer-Abo abschließen (für den Performance-Agenten).
+
+## Runde 2 (angelegt am 21.10.2026, AUF-0044 bis AUF-0055)
+- **Danny:** AUF-0044 Offene Fragen aus den Steckbriefen beantworten (vor allem: welche Angebote sind unterschrieben?)
+- **Claude:** AUF-0045 ersten Morgenlauf prüfen · AUF-0046 Pipeline und Umsatz gegen das Ziel · AUF-0047 fehlerhafte Angebote korrigieren · AUF-0048 12-Monats-Akquiseplan · AUF-0049 Kalt-Akquise Handwerker · AUF-0050 Mark-Gespräche ins Gehirn · AUF-0051 Partner-Wochencheck · AUF-0052 Backup des Gehirns
+- **Claude, sobald der Zugang da ist:** AUF-0053 Mail-Assistent (Gmail) · AUF-0054 Termine im Briefing (Kalender) · AUF-0055 Performance-Bericht (Adspirer)
