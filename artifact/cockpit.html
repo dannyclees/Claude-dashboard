@@ -180,6 +180,40 @@ details summary{cursor:pointer;min-height:32px;display:flex;align-items:center;g
 .chance .oben{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .chance-felder{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .chance-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
+.hero{padding:24px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:center}
+.hero-haupt{display:flex;flex-direction:column;gap:8px}
+.hero-zahl{font-size:2.75rem;line-height:1.1;font-weight:700;letter-spacing:.008em}
+.hero-balken{height:10px;border-radius:5px;background:var(--fill);overflow:hidden}
+.hero-balken div{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--green),var(--teal))}
+.hero-werte{display:grid;grid-template-columns:1fr;gap:12px;border-left:.5px solid var(--sep);padding-left:24px}
+.hero-werte dd{margin:0}
+.board{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(168px,1fr);gap:12px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}
+.spalte{background:var(--fill);border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:8px;scroll-snap-align:start;min-height:120px}
+.spalte header{display:flex;align-items:center;gap:8px;padding:4px 4px 2px}
+.spalte header .num{white-space:nowrap}
+.lf+.lf{border-top:.5px solid var(--sep)}
+.box .lf{margin:0}
+.punkt-s{width:8px;height:8px;border-radius:50%;flex:none}
+.pk{display:flex;flex-direction:column;align-items:stretch;gap:2px;text-align:left;width:100%;padding:10px 12px;border-radius:12px;background:var(--surface);box-shadow:var(--shadow);min-height:44px;transition:transform .15s ease, box-shadow .15s ease}
+.pk:hover{box-shadow:var(--shadow-hover)}
+.pk:active{transform:scale(.98)}
+.pk-titel{font-weight:600;line-height:1.3}
+.pk-fuss{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:4px}
+@media (max-width:760px){.hero{grid-template-columns:1fr}.hero-werte{border-left:0;padding-left:0;border-top:.5px solid var(--sep);padding-top:16px;grid-template-columns:repeat(3,minmax(0,1fr))}.hero-zahl{font-size:2.125rem}}
+@media (max-width:480px){.hero-werte{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.pk{transition:none}.pk:active{transform:none}}
+.fokus{display:flex;flex-direction:column;gap:8px}
+.fokus li{display:flex;gap:10px;align-items:center}
+.fokus li .num{width:20px;color:var(--label-2)}
+.akt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.trichter{display:flex;flex-direction:column;gap:6px}
+.trichter li{display:grid;grid-template-columns:110px 1fr 28px;gap:8px;align-items:center}
+.trichter .tb{height:10px;background:var(--fill);border-radius:5px;overflow:hidden}
+.trichter .tb div{height:100%;background:var(--green);border-radius:5px}
+.zeile-kompakt{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:8px 16px;min-height:52px}
+.lf summary{min-height:44px;display:flex;align-items:center;gap:6px;cursor:pointer}
+#h-lf~.lf:first-of-type{margin-top:4px}
+.lf ul{padding-left:18px;list-style:disc;display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
 .lead{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:8px 16px;min-height:56px}
 .lead-haupt{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
 .lead-name{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -299,6 +333,7 @@ const I = {
   lupe:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
   trichter:'<path d="M3 4h18l-7 9v6l-4 2v-8z"/>',
   telefon:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+  ziel:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
   punkt:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/>'
 };
 const ic = (n, extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${I[n]}</svg>`;
@@ -307,8 +342,8 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 
 const NAV = [
   {id:"heute",titel:"Heute",ico:"sonne",farbe:"var(--orange)"},
+  {id:"sales",titel:"Sales",ico:"ziel",farbe:"var(--red)"},
   {id:"aufgaben",titel:"Aufgaben",ico:"liste",farbe:"var(--blue)"},
-  {id:"pipeline",titel:"Pipeline",ico:"trichter",farbe:"var(--indigo)"},
   {id:"leads",titel:"Leads",ico:"telefon",farbe:"var(--green)"},
   {id:"mails",titel:"Mails",ico:"mail",farbe:"var(--teal)"},
   {id:"partner",titel:"Partner",ico:"haus",farbe:"var(--green)"},
@@ -362,7 +397,7 @@ const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)",
 
 const S = {
   db:null, verbunden:false, geladen:{aufgaben:false,ziele:false,partner:false,agenten:false},
-  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], leads:[], lFilter:"alle", lSuche:"", pJahr:null, bearbeite:null,
+  aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], leads:[], system:{}, lFilter:"alle", lSuche:"", pJahr:null, bearbeite:null,
   ansicht:"aktiv", fPartner:"", fZust:"", suche:"", offen:new Set(), fehler:null, nurLesen:false, renderOffen:false
 };
 
@@ -384,7 +419,7 @@ function prioPille(p){ if(p===null) return pille("var(--t-gray)","var(--label-2)
 function statusPille(s){ const [bg,fg,i]=STATUS_STIL[s]||STATUS_STIL.offen; return pille(bg,fg,esc(s),i); }
 
 /* ---------- Ansichten ---------- */
-function ansichtAus(){ const h = location.hash.slice(1); if(NAV.some(n=>n.id===h)) return {seite:h}; if(/^AUF-\d+$/.test(h)) return {seite:"aufgaben", aufgabe:h}; return {seite:"heute"}; }
+function ansichtAus(){ const h0 = location.hash.slice(1); const h = h0==="pipeline" ? "sales" : h0; if(NAV.some(n=>n.id===h)) return {seite:h}; if(/^AUF-\d+$/.test(h)) return {seite:"aufgaben", aufgabe:h}; return {seite:"heute"}; }
 
 function renderNav(){
   const {seite} = ansichtAus();
@@ -478,7 +513,7 @@ function zielHtml(z){
   const ausPipe = z.id==="z1" && S.pipeline.length>0;
   const ist = ausPipe ? pipeZahlen().gewonnen : Number(z.ist)||0, soll = Number(z.soll)||0, anteil = soll>0 ? Math.min(ist/soll,1) : 0;
   const bearb = !ausPipe && S.offen.has("ziel:"+z.id);
-  return `<div class="card ziel"><div class="oben"><div><div class="t-hl">${esc(z.ziel)}</div><div class="t-fn c2">${esc(z.einheit==="EUR"?z.zeitraum:`${z.einheit} · ${z.zeitraum}`)}</div></div>${ausPipe?`<a class="t-fn" href="#pipeline" style="font-weight:600;text-decoration:none">aus Pipeline</a>`:`<button class="stift" data-aktion="ziel-bearb" data-id="${esc(z.id)}" aria-label="Ist-Wert für ${esc(z.ziel)} eintragen" ${S.nurLesen?"disabled":""}>${ic("stift")}</button>`}</div>
+  return `<div class="card ziel"><div class="oben"><div><div class="t-hl">${esc(z.ziel)}</div><div class="t-fn c2">${esc(z.einheit==="EUR"?z.zeitraum:`${z.einheit} · ${z.zeitraum}`)}</div></div>${ausPipe?`<a class="t-fn" href="#sales" style="font-weight:600;text-decoration:none">aus Pipeline</a>`:`<button class="stift" data-aktion="ziel-bearb" data-id="${esc(z.id)}" aria-label="Ist-Wert für ${esc(z.ziel)} eintragen" ${S.nurLesen?"disabled":""}>${ic("stift")}</button>`}</div>
   <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><span class="t-title1 num">${formatZ(ist,z.einheit)}</span><span class="t-sub c2">von ${formatZ(soll,z.einheit)}</span></div>
   <div class="balken" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(anteil*100)}" aria-label="${esc(z.ziel)}: ${Math.round(anteil*100)} Prozent"><div style="width:${anteil*100}%"></div></div>
   ${ausPipe?`<p class="t-fn c2">Gewonnen laut Pipeline (ohne Bestand)</p>`:""}
@@ -684,6 +719,110 @@ function seiteLeads(){
   <p class="t-fn c2">„Termin vereinbart“ setzt den Lead auf Vorgespräch, „Empfehlung erhalten“ öffnet direkt einen neuen Lead. Jedes Ergebnis steht im Verlauf.</p>`;
 }
 
+function wocheStart(){ const d = new Date(heute()+"T12:00:00"); const w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d.toISOString().slice(0,10); }
+function kw(){ const d = new Date(heute()+"T12:00:00"); const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const n = t.getUTCDay()||7; t.setUTCDate(t.getUTCDate()+4-n); const j = new Date(Date.UTC(t.getUTCFullYear(),0,1)); return Math.ceil(((t-j)/86400000+1)/7); }
+function salesZahlen(){
+  const pz = pipeZahlen();
+  const vertr = S.partner.filter(p=>p.vertrag&&Number(p.vertrag.volumenJahr)>0).map(p=>({name:p.name, v:Number(p.vertrag.volumenJahr), ap:p.vertrag.ansprechpartner||"–", ende:p.vertrag.vertragsende, p}));
+  const laufend = vertr.reduce((x,c)=>x+c.v,0);
+  const top3 = [...vertr].sort((a,b)=>b.v-a.v).slice(0,3).reduce((x,c)=>x+c.v,0);
+  const proPerson = {}; vertr.forEach(c=>{ proPerson[c.ap]=(proPerson[c.ap]||0)+c.v; });
+  const [person, personV] = Object.entries(proPerson).sort((a,b)=>b[1]-a[1])[0]||["–",0];
+  const offen = S.pipeline.filter(c=>c.stufe!=="Gewonnen"&&c.stufe!=="Verloren");
+  const heiss = offen.filter(c=>["Angebot","Verhandlung"].includes(c.stufe)&&c.art!=="bestand");
+  const ws = wocheStart(), monat = heute().slice(0,7);
+  const ver = S.leads.flatMap(l=>(l.verlauf||[]).map(v=>({...v,l})));
+  return {pz, vertr, laufend, top3, anteil: laufend? top3/laufend : 0, person, personV, offen, heiss, heissSumme: heiss.reduce((x,c)=>x+(Number(c.betrag)||0),0),
+    anrufeWoche: ver.filter(v=>v.datum>=ws).length, termineMonat: ver.filter(v=>v.ergebnis==="Termin vereinbart"&&String(v.datum).startsWith(monat)).length,
+    empfehlungenMonat: ver.filter(v=>v.ergebnis==="Empfehlung erhalten"&&String(v.datum).startsWith(monat)).length};
+}
+function seiteSales(){
+  const z = salesZahlen(), ziel = (S.ziele.find(x=>x.id==="z1")||{}).soll||140000;
+  const kurz = S.ziele.find(x=>x.id==="z6");
+  const sales = S.system.sales||{};
+  const fokus = [0,1,2].map(i=>(sales.wochenfokus||[])[i]||"");
+  const leads = S.leads.filter(l=>!istAnfrage(l));
+  const stufen = ["Empfehlung","Neu","Angesprochen","Vorgespräch","Angebot","Gewonnen"];
+  const zahlS = st => leads.filter(l=>l.stufe===st).length;
+  const maxS = Math.max(1,...stufen.map(zahlS));
+  const kachel = (t,w,u,extra="") => `<div class="card" style="padding:16px"><dt class="t-fn c2">${t}</dt><dd class="t-title1 num">${w}</dd><dd class="t-fn c2">${u}</dd>${extra}</div>`;
+  const bal = (v,f="var(--green)") => `<div class="balken" style="margin-top:8px" role="presentation"><div style="width:${Math.min(100,v*100)}%;background:${f}"></div></div>`;
+  const lf = sales.leitfaden||{};
+  return `${kopf("Sales", `KW ${kw()} · Neukunden gewinnen, Bestand ausbauen`)}${verbindungsHinweis()}
+  <section class="card hero" aria-labelledby="h-hero">
+    <div class="hero-haupt">
+      <h2 id="h-hero" class="t-fn c2">Neuumsatz · Ziel ${euro(ziel)} in 12 Monaten</h2>
+      <div class="hero-zahl num">${euro(z.pz.gewonnen)}</div>
+      <div class="hero-balken" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.min(100,Math.round(z.pz.gewonnen/ziel*100))}" aria-label="Fortschritt zum Ziel"><div style="width:${Math.min(100,z.pz.gewonnen/ziel*100)}%"></div></div>
+      <div class="t-fn c2">${Math.round(z.pz.gewonnen/ziel*100)} % erreicht · es fehlen ${euro(Math.max(ziel-z.pz.gewonnen,0))}${z.pz.ohneZuordnung?` · ${z.pz.ohneZuordnung} Abschlüsse ohne Zuordnung zählen vorerst als neu`:""}</div>
+    </div>
+    <dl class="hero-werte">
+      <div><dt class="t-fn c2">Kurz vor Abschluss</dt><dd class="t-t3 num">${euro(z.heissSumme)}</dd><dd class="t-c1 c2">${z.heiss.length} Angebote${kurz?` · Bedarf ${euro(kurz.soll)}${kurz.sollMax?"–"+euro(kurz.sollMax):""}`:""}</dd></div>
+      <div><dt class="t-fn c2">Laufender Umsatz</dt><dd class="t-t3 num">${euro(z.laufend)}</dd><dd class="t-c1 c2">${z.vertr.length} Jahresverträge</dd></div>
+      <div><dt class="t-fn c2">Klumpenrisiko</dt><dd class="t-t3 num" style="color:${z.anteil>0.6?"var(--red-text)":"var(--green-text)"}">${Math.round(z.anteil*100)} %</dd><dd class="t-c1 c2">Ziel unter 60 % · ${euro(z.personV)} bei ${esc(z.person)}</dd></div>
+    </dl>
+  </section>
+  ${boardHtml()}
+  ${umsatzHtml()}
+  <div class="grid2">
+    <section class="card box" aria-labelledby="h-fokus"><h2 id="h-fokus" class="t-hl"><span style="color:var(--red-text);display:flex">${ic("ziel")}</span>Wochenfokus KW ${kw()}</h2>
+      <ol class="fokus">${fokus.map((f,i)=>`<li><span class="num t-hl">${i+1}</span><input class="feld" data-fokus="${i}" data-text value="${esc(f)}" placeholder="Was zählt diese Woche?" ${S.nurLesen?"disabled":""}></li>`).join("")}</ol>
+      <p class="t-fn c2">Montags gemeinsam festlegen. Wird beim Verlassen des Feldes gespeichert.</p></section>
+    <section class="card box" aria-labelledby="h-akt"><h2 id="h-akt" class="t-hl"><span style="color:var(--green-text);display:flex">${ic("telefon")}</span>Aktivität</h2>
+      <dl class="akt"><div><dt class="t-fn c2">Anrufe diese Woche</dt><dd class="t-t2 num">${z.anrufeWoche}</dd></div><div><dt class="t-fn c2">Termine diesen Monat</dt><dd class="t-t2 num">${z.termineMonat}<span class="t-fn c2"> / Ziel 2–3</span></dd></div><div><dt class="t-fn c2">Empfehlungen diesen Monat</dt><dd class="t-t2 num">${z.empfehlungenMonat}</dd></div></dl>
+      <ol class="trichter" aria-label="Verkaufstrichter">${stufen.map(st=>`<li><span class="t-fn">${st}</span><div class="tb"><div style="width:${zahlS(st)/maxS*100}%"></div></div><span class="t-fn num">${zahlS(st)}</span></li>`).join("")}</ol>
+      <p class="t-fn c2">Rund 30 qualifizierte Gespräche in 12 Monaten ergeben bei 20 % Abschlussquote 5–6 Neukunden.</p></section>
+  </div>
+  ${anruflisteHtml()}
+  <section aria-labelledby="h-best"><h2 id="h-best" class="t-t2" style="margin-bottom:12px">Bestandskunden: Verlängerung und Ausbau</h2>
+    <ul class="gruppe">${[...z.vertr].sort((a,b)=>b.v-a.v).map(c=>{ const up = S.pipeline.filter(x=>x.partner===c.name&&x.stufe!=="Gewonnen"&&x.stufe!=="Verloren"); return `<li class="zeile-kompakt"><div style="min-width:0;flex:1"><div class="t-sub" style="font-weight:600">${esc(c.name)} <span class="c2" style="font-weight:400">· ${esc(c.ap)}</span></div><div class="t-fn c2">Vertragsende: ${esc(c.ende||"–")}${up.length?` · Chancen: ${esc(up.map(x=>x.titel).join(", "))}`:""}</div></div><span class="t-hl num">${euro(c.v)}</span></li>`; }).join("")}</ul></section>
+  <section class="card box" aria-labelledby="h-lf"><h2 id="h-lf" class="t-hl"><span style="color:var(--blue-text);display:flex">${ic("zeitung")}</span>Verkaufsleitfaden</h2>
+    ${lf.positionierung?`<p class="t-sub">${esc(lf.positionierung)}</p>`:""}
+    ${[["Zielkunden",lf.zielkunden],["Angebote",lf.angebote],["Argumente",lf.argumente],["Erstgespräch",lf.gespraech],["Einwände",lf.einwaende],["Regeln",lf.regeln]].filter(([,l])=>Array.isArray(l)&&l.length).map(([t,l])=>`<details class="lf"><summary class="t-sub" style="font-weight:600">${t} <span class="c2" style="font-weight:400">${l.length}</span></summary><ul>${l.map(x=>`<li class="t-sub">${typeof x==="string"?esc(x):esc(Object.values(x).filter(Boolean).join(" – "))}</li>`).join("")}</ul></details>`).join("")||`<p class="t-sub c2">Wird gerade aus deinen Dokumenten zusammengestellt.</p>`}
+  </section>`;
+}
+const BOARD = ["Lead","Gespräch","Angebot","Verhandlung","Gewonnen"];
+const STUFE_FARBE = {Lead:"var(--gray)","Gespräch":"var(--teal)",Angebot:"var(--blue)",Verhandlung:"var(--orange)",Gewonnen:"var(--green)",Verloren:"var(--red)"};
+function boardHtml(){
+  const spalten = BOARD.map(st=>[st, S.pipeline.filter(c=>(c.stufe||"Lead")===st).sort((a,b)=>(Number(b.betrag)||0)-(Number(a.betrag)||0))]);
+  const verloren = S.pipeline.filter(c=>c.stufe==="Verloren").length;
+  return `<section aria-labelledby="h-board"><div class="zeile-titel"><h2 id="h-board" class="t-t2">Pipeline</h2><button class="knopf primaer" data-pneu ${S.nurLesen?"disabled":""}>${ic("plus")}Neue Chance</button></div>
+  <div class="board" role="list">${spalten.map(([st,l])=>`<section class="spalte" role="listitem" aria-label="${st}"><header><span class="punkt-s" style="background:${STUFE_FARBE[st]}"></span><span class="t-sub" style="font-weight:600">${st}</span><span class="t-fn c2 num" style="margin-left:auto">${l.length?euro(l.reduce((x,c)=>x+(Number(c.betrag)||0),0)):""}</span></header>
+    ${l.length?l.map(c=>`<button class="pk" data-pkarte="${esc(c.id)}"><span class="t-fn c2">${esc(c.partner||"Neukunde")}</span><span class="t-sub pk-titel">${esc(c.titel)}</span><span class="pk-fuss"><span class="t-hl num">${c.betrag!=null?euro(c.betrag):"–"}</span>${c.art==="bestand"?`<span class="t-c1 c2">Bestand</span>`:!c.art&&c.stufe==="Gewonnen"?`<span class="t-c1" style="color:var(--orange-text)">zuordnen</span>`:""}</span></button>`).join(""):`<p class="t-fn c2" style="padding:8px 4px">–</p>`}</section>`).join("")}</div>
+  ${verloren?`<p class="t-fn c2" style="margin-top:8px">${verloren} verloren (nicht angezeigt).</p>`:""}</section>`;
+}
+function oeffneChanceDetail(id){
+  const c = S.pipeline.find(x=>x.id===id); if(!c) return;
+  vorherFokus = document.activeElement;
+  const sel = (feld,wert,opts,label) => `<label class="f"><span>${label}</span><select class="feld" data-pfeld="${feld}" ${S.nurLesen?"disabled":""}><option value="">Klären</option>${opts.map(([v,t])=>`<option value="${esc(v)}" ${wert===v?"selected":""}>${esc(t)}</option>`).join("")}</select></label>`;
+  schicht.innerHTML = `<div class="overlay" data-schliessen><div class="dialog blatt" role="dialog" aria-modal="true" aria-labelledby="cd-titel" data-cid="${esc(c.id)}">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px"><div><p class="t-fn c2">${esc(c.partner||"Neukunde")}</p><h2 id="cd-titel" class="t-t2">${esc(c.titel)}</h2></div><button class="knopf" data-schliessen-knopf aria-label="Schließen" style="margin-right:-12px">✕</button></div>
+    <form onsubmit="return false">
+      <label class="f"><span>Betrag netto (€)</span><input class="feld num" inputmode="decimal" data-pfeld="betrag" value="${c.betrag!=null?zahl.format(c.betrag):""}" ${S.nurLesen?"disabled":""}></label>
+      ${sel("stufe",c.stufe,STUFEN.map(x=>[x,x]),"Stufe")}
+      ${sel("art",c.art,ARTEN,"Zählt als")}
+      <label class="f"><span>Angebot vom</span><input class="feld" type="date" data-pfeld="datum" value="${esc(c.datum||"")}" ${S.nurLesen?"disabled":""}></label>
+      <label class="f"><span>Abgeschlossen am</span><input class="feld" type="date" data-pfeld="abgeschlossenAm" value="${esc(c.abgeschlossenAm||"")}" ${S.nurLesen?"disabled":""}></label>
+      <label class="f breit"><span>Nächster Schritt</span><input class="feld" data-pfeld="naechsterSchritt" value="${esc(c.naechsterSchritt||"")}" ${S.nurLesen?"disabled":""}></label>
+    </form>
+    ${c.notiz?`<p class="t-fn c2" style="margin:12px 0">${esc(c.notiz)}</p>`:""}
+    <div class="chance-knoepfe" style="margin-top:12px">
+      ${c.quelle&&/^[\w-]{20,}$/.test(c.quelle)?`<a class="knopf sekundaer" href="https://docs.google.com/document/d/${esc(c.quelle)}" target="_blank" rel="noopener">Angebot öffnen</a>`:""}
+      <button class="knopf sekundaer" data-pauftrag="followup">Akquise-Agent: Follow-up</button>
+      <button class="knopf sekundaer" data-pauftrag="angebot">Angebot überarbeiten</button>
+      <button class="knopf sekundaer" data-pauftrag="alex">Mit Alex besprechen</button>
+    </div></div></div>`;
+  schicht.querySelector('[data-pfeld="betrag"]')?.focus();
+}
+async function setzeFokus(i, wert){
+  if(!S.db) return;
+  const alt = (S.system.sales||{}).wochenfokus||["","",""];
+  if((alt[i]||"")===wert.trim()) return;
+  const neu = [0,1,2].map(k=>k===i?wert.trim():(alt[k]||""));
+  try{ if(S.system.sales) await S.db.doc("system/sales").update({wochenfokus:neu, kw:kw(), aktualisiertAm:new Date().toISOString()}); else await S.db.doc("system/sales").set({wochenfokus:neu, kw:kw(), aktualisiertAm:new Date().toISOString()}); protokoll("Wochenfokus", "sales", `${i+1}: ${wert.trim()||"leer"}`); }
+  catch(e){ schreibFehler(e); }
+}
+
 function leer(titel, unter, ico, farbe, h, text, pill){
   return `${kopf(titel, unter)}<div class="card leer ein"><span class="ico" style="background:${farbe}">${ic(ico)}</span><h2 class="t-t3">${h}</h2><p class="c2">${text}</p>${pill?`<span class="pille meta" style="margin-top:8px">${pill}</span>`:""}</div>`;
 }
@@ -713,7 +852,7 @@ function render(){
   S.renderOffen = false;
   renderNav();
   const {seite} = ansichtAus();
-  const html = {heute:seiteHeute,aufgaben:seiteAufgaben,pipeline:seitePipeline,leads:seiteLeads,partner:seitePartner,agenten:seiteAgenten,mails:seiteMails,content:seiteContent,einstellungen:seiteEinstellungen}[seite]();
+  const html = {heute:seiteHeute,sales:seiteSales,aufgaben:seiteAufgaben,pipeline:seitePipeline,leads:seiteLeads,partner:seitePartner,agenten:seiteAgenten,mails:seiteMails,content:seiteContent,einstellungen:seiteEinstellungen}[seite]();
   document.getElementById("seite").innerHTML = html;
   document.title = "Cockpit";
 }
@@ -750,7 +889,7 @@ async function lege(form){
   try{ await S.db.doc("aufgaben/"+id).set(doc); protokoll("Aufgabe angelegt", id, titel); return id; }
   catch(e){ schreibFehler(e); return null; }
 }
-const PFELD = {stufe:"Stufe",art:"Zählt als",betrag:"Betrag",abgeschlossenAm:"Abgeschlossen am",datum:"Angebot vom",wahrscheinlichkeit:"Wahrscheinlichkeit"};
+const PFELD = {stufe:"Stufe",art:"Zählt als",betrag:"Betrag",abgeschlossenAm:"Abgeschlossen am",datum:"Angebot vom",naechsterSchritt:"Nächster Schritt",wahrscheinlichkeit:"Wahrscheinlichkeit"};
 async function aenderePipe(id, feld, roh){
   if(!S.db) return;
   const c = S.pipeline.find(x=>x.id===id); if(!c) return;
@@ -933,6 +1072,8 @@ schicht.addEventListener("click", e => {
 });
 schicht.addEventListener("mousemove", e => { const b = e.target.closest("#pal-liste button[data-i]"); if(b && Number(b.dataset.i)!==palAuswahl){ palAuswahl = Number(b.dataset.i); document.querySelectorAll("#pal-liste button").forEach(x=>x.setAttribute("aria-selected", x.dataset.i==palAuswahl)); } });
 
+schicht.addEventListener("change", e => { const t = e.target; if(t.dataset && t.dataset.pfeld){ const d = t.closest("[data-cid]"); if(d) aenderePipe(d.dataset.cid, t.dataset.pfeld, t.dataset.pfeld==="naechsterSchritt"?(t.value.trim()||null):(t.value||null)); } });
+schicht.addEventListener("click", e => { const pa = e.target.closest("[data-pauftrag]"); if(pa){ const d = pa.closest("[data-cid]"); if(d){ const id = d.dataset.cid; schliesseSchicht(); pipeAuftrag(id, pa.dataset.pauftrag); } } });
 /* ---------- Ereignisse der Seite ---------- */
 const seite = document.getElementById("seite");
 async function freigabeAktion(fid, was){
@@ -966,6 +1107,7 @@ async function freigabeAktion(fid, was){
 seite.addEventListener("click", e => {
   const pj = e.target.closest("[data-pjahr]"); if(pj){ S.pJahr = pj.dataset.pjahr; render(); return; }
   if(e.target.closest("[data-pneu]")){ oeffneChance(); return; }
+  const pk = e.target.closest("[data-pkarte]"); if(pk){ oeffneChanceDetail(pk.dataset.pkarte); return; }
   if(e.target.closest("[data-lneu]")){ oeffneLead(); return; }
   const lf = e.target.closest("[data-lfilter]"); if(lf){ S.lFilter = lf.dataset.lfilter; render(); return; }
   const pa = e.target.closest("[data-pauftrag]"); if(pa){ const k = pa.closest("[data-cid]"); if(k) pipeAuftrag(k.dataset.cid, pa.dataset.pauftrag); return; }
@@ -997,7 +1139,8 @@ seite.addEventListener("change", e => {
 seite.addEventListener("input", e => { if(e.target.id==="l-suche"){ S.lSuche = e.target.value; clearTimeout(seite._l); seite._l = setTimeout(()=>{ const pos = e.target.selectionStart; S.renderOffen=false; document.activeElement.blur(); render(); const n=document.getElementById("l-suche"); if(n){ n.focus(); n.setSelectionRange(pos,pos); } }, 180); return; } if(e.target.id==="f-suche"){ S.suche = e.target.value; clearTimeout(seite._s); seite._s = setTimeout(()=>{ const pos = e.target.selectionStart; S.renderOffen=false; const f=document.activeElement; f.blur(); render(); const n=document.getElementById("f-suche"); if(n){ n.focus(); n.setSelectionRange(pos,pos); } }, 180); } });
 seite.addEventListener("focusout", e => {
   const t = e.target;
-  if(t.hasAttribute && t.hasAttribute("data-text")){ const li = t.closest("[data-id]"); if(li) aendere(li.dataset.id, t.dataset.feld, t.value); }
+  if(t.dataset && t.dataset.fokus!=null){ setzeFokus(Number(t.dataset.fokus), t.value); }
+  else if(t.hasAttribute && t.hasAttribute("data-text")){ const li = t.closest("[data-id]"); if(li) aendere(li.dataset.id, t.dataset.feld, t.value); }
   setTimeout(()=>{ if(S.renderOffen && !(document.activeElement && document.activeElement.matches && document.activeElement.matches("main textarea, main input[data-text], main input#f-suche, main form input"))) render(); }, 0);
 });
 seite.addEventListener("submit", e => {
@@ -1039,6 +1182,7 @@ render();
   abo("freigaben", v => S.freigaben = v);
   abo("pipeline", v => S.pipeline = v);
   abo("leads", v => S.leads = v);
+  abo("system", v => { S.system = Object.fromEntries(v.map(d=>[d.id,d])); });
   abo("gespraeche", v => S.gespraeche = v, db.collection("gespraeche").orderBy("datum","desc").limit(5));
   const v = ansichtAus(); if(v.aufgabe){ S.ansicht="alle"; S.offen.add(v.aufgabe); }
   render();
