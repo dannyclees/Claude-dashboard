@@ -22,3 +22,4 @@
 - Version 19: Agenten-Chat im Cockpit (Panel rechts, alle Agenten wählbar, kein Wechsel zu ElevenLabs). Die Agenten lesen Kunden, Leads, Sales, Aufgaben und das Lagebild über Werkzeuge und können Aufgaben anlegen. Fähigkeit `sample` dazu.
 - Version 20: Sprachmodus (Mikrofon, wo die Ansicht es erlaubt; sonst Diktat mit Wispr Flow, das automatisch gesendet wird; Antworten werden vorgelesen). Jedes Gespräch wird vollständig in der Sammlung `chats` gespeichert und ist über „Gespeicherte Gespräche“ wieder abrufbar.
 - Version 21: Augen-Knopf oben rechts verbirgt Zahlen und Namen zum Vorzeigen. Abend-Briefing mit Mark: Mark stellt die offenen Fragen nacheinander, trägt die Antworten ein, ändert Aufgaben und legt die Aufgaben für morgen an.
+- Version 22: Jede Kennzahl und jeder Bereich hat ein eigenes Auge zum Verbergen; das große Auge oben rechts verbirgt alles, einzelne Bereiche lassen sich dann wieder zeigen. Die Auswahl bleibt gespeichert.

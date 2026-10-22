@@ -449,7 +449,25 @@ table.jahre thead th{color:var(--label-2);font-weight:600;font-size:.8125rem;bor
 .auge:hover{background:var(--fill-2)}
 .auge svg{width:20px;height:20px}
 .auge[aria-pressed="true"]{background:var(--label);color:var(--bg)}
-body.privat :is(.num,.kpi-wert,.kpi .t-c1,.hero-werte dd,.hero-haupt p,.hero-haupt .t-fn,.fr-akt button:not(.fr-spaeter),.pk,.lead-haupt,.mini-liste li,.fr-text,.msg,.chance .oben,.chance-felder,.monate,.frei-titel,table.wer td:not(:first-child),.ak,[data-privat-inhalt]){filter:blur(7px);transition:filter .15s}
+body.privat :is(.num,.fr-akt button:not(.fr-spaeter),.pk,.lead-haupt,.mini-liste li,.fr-text,.msg,.chance .oben,.chance-felder,.monate,.frei-titel,table.wer td:not(:first-child),.ak,[data-privat-inhalt]):not(.tile *, .kpi *, .hero *, .p-bereich *){filter:blur(7px);transition:filter .15s}
+.kpi{position:relative}
+.kpi-link{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit;flex:1}
+.kpi-link::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.auge-mini{position:relative;z-index:1;width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--label-3);background:transparent;flex:none}
+.auge-mini:hover{background:var(--fill);color:var(--label)}
+.auge-mini svg{width:16px;height:16px}
+.auge-mini[aria-pressed="true"]{color:var(--label);background:var(--fill)}
+.kpi .auge-mini{position:absolute;top:8px;right:8px}
+.kpi .kpi-label{padding-right:26px}
+.hero{position:relative}
+.hero>.auge-mini{position:absolute;top:12px;right:12px}
+.tile-kopf .auge-mini{margin-left:auto}
+.tile-kopf .tile-link+.auge-mini{margin-left:4px}
+.verdeckt :is(.kpi-wert,.kpi-sub,.hero-zahl,.hero-werte dd,.hero-haupt .t-fn){filter:blur(8px)}
+:is(.tile,.p-bereich).verdeckt>:not(:has([data-pauge])),.hero.verdeckt>:not([data-pauge]){filter:blur(8px);pointer-events:none;user-select:none}
+.mit-auge{display:flex;align-items:center;gap:6px}
+.mit-auge>.auge-mini{margin-left:2px}
+@media (prefers-reduced-motion:no-preference){ .verdeckt *{transition:filter .15s} }
 body.privat :is(.pk,.lead-haupt,.mini-liste li,.ak):hover{filter:blur(7px)}
 @media (prefers-reduced-motion:reduce){ body.privat *{transition:none} }
 .link-knopf{color:var(--blue-text);font-weight:600;padding:0;min-height:0;background:none;text-decoration:underline;text-underline-offset:2px}
@@ -582,6 +600,7 @@ const AV_FARBEN = ["var(--blue)","var(--green)","var(--orange)","var(--purple)",
 const S = {
   db:null, verbunden:false, geladen:{aufgaben:false,ziele:false,partner:false,agenten:false},
   aufgaben:[], ziele:[], partner:[], agenten:[], ereignisse:[], briefings:[], freigaben:[], gespraeche:[], pipeline:[], leads:[], system:{}, fragen:[], kampagnen:[], lFilter:"alle", lSuche:"", pJahr:null, bearbeite:null,
+  gezeigt:new Set(), verborgen:new Set((()=>{ try{ return JSON.parse(localStorage.getItem("cockpit.verborgen")||"[]"); }catch(e){ return []; } })()),
   privat:(()=>{ try{ return localStorage.getItem("cockpit.privat")==="1"; }catch(e){ return false; } })(), ansicht:"aktiv", fPartner:"", fZust:"", suche:"", offen:new Set(), fehler:null, nurLesen:false, renderOffen:false
 };
 
@@ -611,6 +630,24 @@ function renderNav(){
 }
 
 function kopf(titel, unter, rechts=""){ return `<div class="kopf"><div><h1 class="t-lt">${esc(titel)}</h1>${unter?`<p class="c2">${unter}</p>`:""}</div><div class="kopf-rechts">${rechts}<button type="button" class="auge" data-privat aria-pressed="${S.privat}" aria-label="${S.privat?"Zahlen und Namen wieder zeigen":"Zahlen und Namen verbergen"}" title="${S.privat?"Wieder zeigen":"Zum Vorzeigen verbergen"}">${ic(S.privat?"auge-zu":"auge")}</button></div></div>`; }
+const pZu = key => S.privat ? !S.gezeigt.has(key) : S.verborgen.has(key);
+const pAuge = (key, name) => `<button type="button" class="auge-mini" data-pauge="${esc(key)}" aria-pressed="${pZu(key)}" aria-label="${esc(name)} ${pZu(key)?"zeigen":"verbergen"}" title="${pZu(key)?"Zeigen":"Verbergen"}">${ic(pZu(key)?"auge-zu":"auge")}</button>`;
+function pAnwenden(){
+  const {seite:sid} = ansichtAus();
+  // Abschnitte ohne eigenes Auge bekommen eins neben ihre Überschrift.
+  if(sid!=="einstellungen") document.querySelectorAll("#seite section:not(.spalte)").forEach((sec, i) => {
+    if(sec.querySelector("[data-pauge]") || sec.parentElement.closest(".p-bereich, .tile, .hero")) return;
+    const id = sec.getAttribute("aria-labelledby"), hd = id ? document.getElementById(id) : sec.querySelector(":scope > h2, :scope > div > h2, :scope > header > h2, :scope > div > div > h2");
+    if(!hd || !sec.contains(hd)) return;
+    sec.classList.add("p-bereich"); hd.classList.add("mit-auge");
+    hd.insertAdjacentHTML("beforeend", pAuge(sid+":"+(id || "s-"+hd.textContent.trim().slice(0,30)), hd.textContent.trim().replace(/\s*\d+$/,"")));
+  });
+  document.querySelectorAll("[data-pauge]").forEach(b => { const k = b.dataset.pauge, zu = pZu(k);
+    b.closest(".kpi, .tile, .hero, .p-bereich")?.classList.toggle("verdeckt", zu);
+    b.setAttribute("aria-pressed", zu); b.title = zu ? "Zeigen" : "Verbergen"; b.innerHTML = ic(zu?"auge-zu":"auge");
+    b.setAttribute("aria-label", b.getAttribute("aria-label").replace(/ (zeigen|verbergen)$/, zu?" zeigen":" verbergen")); });
+}
+function pSpeichern(){ try{ localStorage.setItem("cockpit.verborgen", JSON.stringify([...S.verborgen])); localStorage.setItem("cockpit.privat", S.privat?"1":"0"); }catch(e){} }
 const chatKnopf = (aid, text) => `<button type="button" class="knopf sekundaer" data-chat="${aid}">${ic("sprechblase")}${text}</button>`;
 
 function verbindungsHinweis(){
@@ -689,7 +726,8 @@ function vorZeit(iso){
   return datumDe(String(iso).slice(0,10));
 }
 function kachelKopf(titel, ico, farbe, link, linkText){
-  return `<header class="tile-kopf"><span class="ico-mini" style="background:${farbe}">${ic(ico)}</span><h2 class="t-hl">${titel}</h2>${link?`<a class="t-fn tile-link" href="${link}">${linkText||"Alle"} ›</a>`:""}</header>`;
+  const key = (String(titel).match(/id="([^"]+)"/)||[])[1], name = String(titel).replace(/<[^>]+>/g,"").replace(/\s*\d+\s*$/,"").trim();
+  return `<header class="tile-kopf"><span class="ico-mini" style="background:${farbe}">${ic(ico)}</span><h2 class="t-hl">${titel}</h2>${link?`<a class="t-fn tile-link" href="${link}">${linkText||"Alle"} ›</a>`:""}${key?pAuge(key, name):""}</header>`;
 }
 function miniBalken(wert, farbe="var(--green)"){ return `<div class="mini-balken" role="presentation"><div style="width:${Math.max(0,Math.min(100,wert*100))}%;background:${farbe}"></div></div>`; }
 function anrufeProTag(){
@@ -830,7 +868,7 @@ function seiteHeute(){
   const stufen = BOARD.map(st=>{ const l = S.pipeline.filter(c=>(c.stufe||"Lead")===st); return {st, n:l.length, s:l.reduce((x,c)=>x+(Number(c.betrag)||0),0)}; });
   const maxS = Math.max(1,...stufen.map(x=>x.s));
   const ges = [...S.gespraeche].sort((a,b)=>String(b.datum).localeCompare(String(a.datum))).slice(0,3);
-  const kpi = (label, wert, sub, viz, link) => `<a class="card kpi" href="${link}"><span class="t-c1 c2 kpi-label">${label}</span><span class="kpi-wert num">${wert}</span><span class="t-c1 c2">${sub}</span>${viz||""}</a>`;
+  const kpi = (label, wert, sub, viz, link) => `<div class="card kpi"><a class="kpi-link" href="${link}"><span class="t-c1 c2 kpi-label">${label}</span><span class="kpi-wert num">${wert}</span><span class="t-c1 c2 kpi-sub">${sub}</span>${viz||""}</a>${pAuge("kpi-"+label, label)}</div>`;
   return `${kopf(gruss, esc(datum))}
   ${verbindungsHinweis()}
   <div class="kpis">
@@ -1127,7 +1165,7 @@ function seiteSales(){
   const bal = (v,f="var(--green)") => `<div class="balken" style="margin-top:8px" role="presentation"><div style="width:${Math.min(100,v*100)}%;background:${f}"></div></div>`;
   const lf = sales.leitfaden||{};
   return `${kopf("Sales", `KW ${kw()} · Neukunden gewinnen, Bestand ausbauen`, chatKnopf("alex","Mit Alex besprechen"))}${verbindungsHinweis()}
-  <section class="card hero" aria-labelledby="h-hero">
+  <section class="card hero" aria-labelledby="h-hero">${pAuge("sales-hero","Umsatz")}
     <div class="hero-haupt">
       <h2 id="h-hero" class="t-fn c2">Neuumsatz · Ziel ${euro(ziel)} in 12 Monaten</h2>
       <div class="hero-zahl num">${euro(z.pz.gewonnen)}</div>
@@ -1322,6 +1360,7 @@ function render(){
   const {seite} = ansichtAus();
   const html = {heute:seiteHeute,sales:seiteSales,aufgaben:seiteAufgaben,pipeline:seitePipeline,leads:seiteLeads,partner:seitePartner,agenten:seiteAgenten,mails:seiteMails,content:seiteContent,einstellungen:seiteEinstellungen}[seite]();
   document.getElementById("seite").innerHTML = html;
+  pAnwenden();
   document.title = "Cockpit";
 }
 
@@ -2003,7 +2042,9 @@ function chatHoeren(){
 }
 document.addEventListener("click", e => {
   const pv = e.target.closest("[data-privat]");
-  if(pv){ S.privat = !S.privat; try{ localStorage.setItem("cockpit.privat", S.privat?"1":"0"); }catch(x){} render(); zeigeToast(S.privat?"Zahlen und Namen verborgen":"Wieder sichtbar"); return; }
+  if(pv){ S.privat = !S.privat; S.gezeigt.clear(); if(!S.privat) S.verborgen.clear(); pSpeichern(); render(); zeigeToast(S.privat?"Alles verborgen. Einzelne Bereiche mit ihrem Auge wieder zeigen.":"Alles wieder sichtbar"); return; }
+  const pa = e.target.closest("[data-pauge]");
+  if(pa){ e.preventDefault(); e.stopPropagation(); const k = pa.dataset.pauge, set = S.privat ? S.gezeigt : S.verborgen; set.has(k) ? set.delete(k) : set.add(k); pSpeichern(); pAnwenden(); return; }
   const ab = e.target.closest("[data-abendbriefing]");
   if(ab){ abendBriefing(); return; }
   const t = e.target.closest("[data-chatmic],[data-chatliste],[data-chatsitzung],[data-chat],[data-chatagent],[data-chatzu],[data-chatneu],[data-chatvorlesen],[data-chatstop],[data-chatfrage]"); if(!t) return;
