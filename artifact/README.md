@@ -19,3 +19,6 @@
 - Version 16: „Mein Tag“ (Aufgaben-Board Als Nächstes/Heute/In Arbeit/Wartet/Erledigt, ziehen, Tag abschließen), „Kurz gefragt“ (Fragen zum Ankreuzen, Antwort wird direkt umgesetzt, Sammlung `fragen`), Kampagnenplan (Sammlung `kampagnen`, Vorbereitung wird 21 Tage vorher an Agenten verteilt), Partner-Kennzahlen beschriftet, Content-Seite entfernt.
 - Version 17: Neue Anrufvorschläge aus der Leadliste erscheinen als „Neuer Vorschlag“ (türkis).
 - Version 18: „Weiß nicht“ bei Datumsfragen legt keine Kampagne mehr an.
+- Version 19: Agenten-Chat im Cockpit (Panel rechts, alle Agenten wählbar, kein Wechsel zu ElevenLabs). Die Agenten lesen Kunden, Leads, Sales, Aufgaben und das Lagebild über Werkzeuge und können Aufgaben anlegen. Fähigkeit `sample` dazu.
+- Version 20: Sprachmodus (Mikrofon, wo die Ansicht es erlaubt; sonst Diktat mit Wispr Flow, das automatisch gesendet wird; Antworten werden vorgelesen). Jedes Gespräch wird vollständig in der Sammlung `chats` gespeichert und ist über „Gespeicherte Gespräche“ wieder abrufbar.
+- Version 21: Augen-Knopf oben rechts verbirgt Zahlen und Namen zum Vorzeigen. Abend-Briefing mit Mark: Mark stellt die offenen Fragen nacheinander, trägt die Antworten ein, ändert Aufgaben und legt die Aufgaben für morgen an.

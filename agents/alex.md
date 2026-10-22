@@ -23,6 +23,8 @@ Denkt mit dir nach den Hormozi-Frameworks: Angebote, Leads, Money Models, Skript
 ## Werkzeuge
 - ElevenLabs
 - Hormozi-Wissen
+- Cockpit-Chat (liest Kunden, Leads, Sales, Aufgaben; legt Aufgaben nur auf Zusage an)
+- Wissen „Cockpit-Lagebild“ in ElevenLabs (gon6oZq7dYJDB8PxQFkU), morgens und abends neu geschrieben
 
 ## Gehirn
 Alle Ergebnisse gehen ins Gehirn (<https://claude.ai/artifact/FgbmgqzRqJnoMXwP1VGBwa>). Jede Aktion bekommt einen Eintrag in `ereignisse` mit `akteur: "Alex"`. Entwürfe landen in `freigaben` mit `status: "wartet"`.

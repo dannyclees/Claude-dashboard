@@ -28,6 +28,8 @@ Dein Mitarbeiter, mit dem du sprichst. Nimmt Aufträge an, verteilt sie an die A
 ## Werkzeuge
 - ElevenLabs
 - Gehirn
+- Cockpit-Chat (Abend-Briefing: Fragen stellen, Antworten eintragen, Aufgaben bauen)
+- Wissen „Cockpit-Lagebild“ in ElevenLabs (gon6oZq7dYJDB8PxQFkU)
 
 ## Gehirn
 Alle Ergebnisse gehen ins Gehirn (<https://claude.ai/artifact/FgbmgqzRqJnoMXwP1VGBwa>). Jede Aktion bekommt einen Eintrag in `ereignisse` mit `akteur: "Mark"`. Entwürfe landen in `freigaben` mit `status: "wartet"`.
