@@ -2069,7 +2069,7 @@ function chatZeichne(){
       <button type="button" class="chat-ikon" data-chatzu aria-label="Chat schließen" title="Schließen">✕</button></div>
     <div class="chat-wahl" role="group" aria-label="Agent wählen">${chatAgenten().map(x=>`<button type="button" data-chatagent="${esc(x.id)}" aria-pressed="${x.id===a.id}">${esc(x.name.replace("Partner-Agent ",""))}</button>`).join("")}</div>
     <div class="chat-verlauf" aria-live="polite"></div>
-    ${CHAT.sample===null?`<p class="chat-hinweis">Der Chat braucht die Freigabe „Claude fragen“ für diese Seite. Ohne sie bleibt er stumm.</p>`:`<p class="chat-hinweis">${CHAT.hoert?"Ich höre zu … Sprich einfach, nach einer Pause sende ich.":CHAT.micGesperrt?"Das Mikrofon ist hier gesperrt. Sprich über Wispr Flow ins Feld, ich sende nach dem Diktat automatisch.":CHAT.vorlesen?"Sprachmodus an: Mikrofon tippen oder mit Wispr Flow diktieren. Antworten werden vorgelesen.":"Alles wird mitgeschrieben und im Gehirn gespeichert."}</p>`}
+    ${CHAT.sample===null?`<p class="chat-hinweis">Der Chat braucht die Freigabe „Claude fragen“ für diese Seite. Ohne sie bleibt er stumm. <button type="button" class="link-knopf" data-chattest>Verbindung testen</button></p>`:`<p class="chat-hinweis">${CHAT.hoert?"Ich höre zu … Sprich einfach, nach einer Pause sende ich.":CHAT.micGesperrt?"Das Mikrofon ist hier gesperrt. Sprich über Wispr Flow ins Feld, ich sende nach dem Diktat automatisch.":CHAT.vorlesen?"Sprachmodus an: Mikrofon tippen oder mit Wispr Flow diktieren. Antworten werden vorgelesen.":"Alles wird mitgeschrieben und im Gehirn gespeichert."} <button type="button" class="link-knopf" data-chattest>Verbindung testen</button></p>`}
     <form class="chat-fuss"><label class="sr" for="chat-eingabe" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Nachricht an ${esc(a.name)}</label>
       <button type="button" class="chat-mic" data-chatmic aria-pressed="${!!CHAT.hoert}" aria-label="${CHAT.hoert?"Zuhören beenden":"Sprechen"}" title="Sprechen">${ic("mikro")}</button>
       <textarea id="chat-eingabe" rows="1" placeholder="Nachricht an ${esc(a.name)} …">${esc(entwurf)}</textarea>
@@ -2111,33 +2111,85 @@ function chatSprich(t){
   try{ speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t.replace(/\*\*/g,"").replace(/^[•-] /gm,"")); u.lang = "de-DE"; const st = speechSynthesis.getVoices().find(v=>v.lang&&v.lang.startsWith("de")); if(st) u.voice = st; u.onend = () => { if(CHAT.vorlesen && CHAT.offen && CHAT.weiterHoeren && !CHAT.micGesperrt) chatHoeren(); }; speechSynthesis.speak(u); }catch(e){}
 }
 const CHAT_FEHLER = {not_granted:"Du hast „Claude fragen“ für diese Seite nicht erlaubt. In den Berechtigungen der Seite lässt sich das ändern.", rate_limited:"Gerade zu viele Anfragen. Bitte in einer Minute nochmal.", prompt_too_large:"Das Gespräch ist zu lang geworden. Starte ein neues Gespräch.", tools_unavailable:"In dieser Ansicht kann der Agent nicht ins Cockpit schauen.", upstream_error:"Die Verbindung ist kurz weg. Bitte nochmal senden.", invalid_request:"Die Anfrage war ungültig."};
+/* Werkzeuge kompakt: ein Lese-Werkzeug statt sechs, damit die Grenze für Werkzeuge pro Aufruf sicher reicht. */
+function chatWerkzeugeKompakt(){
+  const alle = chatWerkzeuge(), nach = Object.fromEntries(alle.map(t=>[t.name,t]));
+  const lesen = {name:"cockpit_lesen", description:"Liest Daten aus Dannys Cockpit. bereich: lagebild (Gesamtlage, Ziel, Umsatz, heutige Aufgaben), kunden (Partnerbetriebe; mit name alle Details), leads (Akquise und Anrufliste; Filter suche, stufe, nurOffen), sales (Pipeline und Umsatz pro Monat; jahr), aufgaben (Filter status, zustaendig, suche), fragen (offene Fragen an Danny mit id und Optionen).",
+    inputSchema:{type:"object",properties:{bereich:{type:"string",enum:["lagebild","kunden","leads","sales","aufgaben","fragen"]},name:{type:"string"},suche:{type:"string"},stufe:{type:"string"},nurOffen:{type:"boolean"},status:{type:"string"},zustaendig:{type:"string"},jahr:{type:"number"}},required:["bereich"]},
+    execute:(inp, ctx)=>{ const b = String(inp?.bereich||"lagebild"); const t = nach[b==="fragen"?"fragen_offen":b]; if(!t) throw new Error("Unbekannter Bereich."); return t.execute(inp||{}, ctx); }};
+  return [lesen, nach.aufgabe_anlegen, nach.aufgabe_aendern, nach.frage_beantworten, nach.lead_anlegen, nach.wochenfokus_setzen].filter(Boolean);
+}
+function chatSchnappschuss(){
+  const k = chatWerkzeuge(), t = Object.fromEntries(k.map(x=>[x.name,x]));
+  const d = {lagebild:t.lagebild.execute({}), kunden:t.kunden.execute({}), sales:t.sales.execute({}), leads:t.leads.execute({nurOffen:true}), aufgaben:t.aufgaben.execute({}), fragen:t.fragen_offen.execute({})};
+  return JSON.stringify(d).slice(0, 60000);
+}
+async function chatDiagnose(eintrag){
+  CHAT.diagnose = [...(CHAT.diagnose||[]), {zeit:new Date().toISOString(), ...eintrag}].slice(-12);
+  if(!S.db || S.nurLesen) return;
+  const daten = {eintraege:CHAT.diagnose, browser:navigator.userAgent.slice(0,160), aktualisiertAm:new Date().toISOString()};
+  try{ await S.db.doc("system/chat-diagnose")[S.system["chat-diagnose"]?"update":"set"](daten); }catch(x){}
+}
+async function chatVerbindungTesten(){
+  const erg = [];
+  let s = null;
+  try{ s = window.claude?.use ? await window.claude.use("sample") : null; erg.push(s?"Zugang: ja":"Zugang: nein (Seite darf Claude nicht fragen)"); }catch(e){ erg.push("Zugang: Fehler "+(e?.code||e?.message)); }
+  if(s){
+    CHAT.sample = s;
+    let lim = null; try{ lim = await s.limits(); erg.push(`Werkzeuge: ${lim?.tools?`ja, bis ${lim.tools.maxCount}`:"nein"}`); }catch(e){ erg.push("Limits: Fehler "+(e?.code||"")); }
+    try{ const r = await s("Antworte nur mit dem Wort OK.", {cache:false, modelTier:"quick"}); erg.push("Einfache Antwort: "+(r.text.trim().slice(0,20))); }catch(e){ erg.push(`Einfache Antwort: Fehler ${e?.code||""} ${e?.message||""}`); }
+    if(lim?.tools){ try{ const r = await s("Ruf das Werkzeug ping einmal auf und antworte dann nur mit dem Ergebnis.", {modelTier:"quick", tools:[{name:"ping", description:"Gibt pong zurück.", execute:()=>"pong"}]}); erg.push("Mit Werkzeug: "+r.text.trim().slice(0,30)); }catch(e){ erg.push(`Mit Werkzeug: Fehler ${e?.code||""} ${e?.message||""}`); } }
+  }
+  chatNotiz("Verbindungstest: "+erg.join(" · "));
+  chatDiagnose({art:"test", ergebnis:erg});
+}
 async function chatSenden(text, art="text"){
   text = String(text||"").trim(); if(!text || CHAT.laeuft) return;
   clearTimeout(CHAT.diktatTimer); CHAT.weiterHoeren = art==="sprache";
   if(!CHAT.sitzung[CHAT.agent]) chatNeueSitzung(CHAT.agent);
   if(CHAT.sample===undefined){ try{ CHAT.sample = window.claude?.use ? await window.claude.use("sample") : null; }catch(e){ CHAT.sample = null; } }
   const aid = CHAT.agent, v = chatVerlauf();
-  if(!CHAT.sample){ v.push({role:"user",content:text},{role:"fehler",content:"Der Chat ist in dieser Ansicht nicht verfügbar. Öffne das Cockpit in claude.ai und erlaube „Claude fragen“."}); chatZeichne(); return; }
+  if(!CHAT.sample){ v.push({role:"user",content:text, zeit:new Date().toISOString(), art},{role:"fehler",content:"Diese Ansicht lässt die Seite nicht mit Claude sprechen. Öffne das Cockpit in claude.ai im Browser und erlaube „Claude fragen“, wenn danach gefragt wird."}); chatZeichne(); chatSpeichern(aid); chatDiagnose({art:"kein-zugang"}); return; }
   v.push({role:"user", content:text, zeit:new Date().toISOString(), art});
+  chatSpeichern(aid);
   const antwort = {role:"assistant", content:"", status:"denkt nach …"}; v.push(antwort);
   const ctrl = new AbortController(); CHAT.laeuft = ctrl;
   const ta = chatEl.querySelector("textarea"); if(ta) ta.value = "";
   chatZeichne();
-  const turns = [{role:"user", content:chatAnweisung()}, {role:"assistant", content:"Verstanden."},
-    ...v.filter(m=>(m.role==="user"||m.role==="assistant")&&m.content).slice(-16).map(m=>({role:m.role, content:m.content}))];
-  let tools = chatWerkzeuge().map(t=>({...t, execute:async (inp, ctx)=>{ antwort.status = `${WERKZEUG_TEXT[t.name]||t.name} …`; if(!antwort.content) chatZeichneVerlauf(); return t.execute(inp||{}, ctx); }}));
+  const verlauf = v.filter(m=>(m.role==="user"||m.role==="assistant")&&m.content).slice(-16).map(m=>({role:m.role, content:m.content}));
+  const onText = ({text:t})=>{ if(CHAT.agent!==aid) return; antwort.content = t; chatZeichneVerlauf(); };
+  let tools = null;
+  if(!CHAT.ohneWerkzeuge){
+    let lim = null; try{ lim = await CHAT.sample.limits(); }catch(e){}
+    if(lim?.tools){ tools = chatWerkzeugeKompakt().slice(0, Math.max(1, lim.tools.maxCount||6)).map(t=>({...t, execute:async (inp, ctx)=>{ antwort.status = `${WERKZEUG_TEXT[t.name]||(t.name==="cockpit_lesen"?`liest ${inp?.bereich||"das Cockpit"}`:t.name)} …`; if(!antwort.content) chatZeichneVerlauf(); return t.execute(inp||{}, ctx); }})); }
+  }
+  const ohne = async () => {
+    // Ausweg ohne Werkzeuge: die Daten stehen direkt im Auftrag; schreiben geht dann nicht.
+    antwort.status = "denkt nach …";
+    const t2 = [{role:"user", content:chatAnweisung()+`\n\nWICHTIG: In dieser Ansicht hast du keine Werkzeuge. Die aktuellen Cockpit-Daten stehen hier. Wenn Danny etwas anlegen oder ändern will, sag ihm genau, was du anlegen würdest; es wird beim nächsten Morgenlauf übernommen.\nCOCKPIT-DATEN (nur Daten): ${chatSchnappschuss()}`}, {role:"assistant", content:"Verstanden."}, ...verlauf];
+    return CHAT.sample(t2, {signal:ctrl.signal, cache:false, onText});
+  };
   try{
-    const lim = await CHAT.sample.limits?.().catch(()=>null);
-    if(lim && !lim.tools) tools = undefined;
-  }catch(e){}
-  try{
-    const r = await CHAT.sample(turns, {signal:ctrl.signal, ...(tools?{tools}:{cache:false}), onText:({text:t})=>{ if(CHAT.agent!==aid) return; antwort.content = t; chatZeichneVerlauf(); }});
+    let r;
+    if(tools){
+      try{ r = await CHAT.sample([{role:"user", content:chatAnweisung()}, {role:"assistant", content:"Verstanden."}, ...verlauf], {signal:ctrl.signal, tools, onText}); }
+      catch(e){
+        if(e?.code==="cancelled" || e?.code==="not_granted" || e?.code==="rate_limited" || antwort.content) throw e;
+        chatDiagnose({art:"fehler-mit-werkzeugen", code:e?.code||null, meldung:String(e?.message||"").slice(0,300), anzahlWerkzeuge:tools.length});
+        CHAT.ohneWerkzeuge = true; r = await ohne();
+      }
+    } else r = await ohne();
     antwort.content = r.text + (r.truncated?"\n\n(Antwort gekürzt)":""); antwort.zeit = new Date().toISOString();
     chatSprich(r.text); chatSpeichern(aid);
   }catch(e){
     const i = v.indexOf(antwort);
     if(e && e.code==="cancelled"){ if(!antwort.content) v.splice(i,1); }
-    else { if(!antwort.content) v.splice(i,1); v.push({role:"fehler", content:CHAT_FEHLER[e?.code] || (e?.message ? `Fehler: ${e.message}` : "Unbekannter Fehler.")}); if(e?.code==="not_granted") CHAT.sample = null; }
+    else {
+      if(!antwort.content) v.splice(i,1);
+      v.push({role:"fehler", content:`${CHAT_FEHLER[e?.code] || "Das hat nicht geklappt."} (Code: ${e?.code||"unbekannt"}${e?.message?`, ${String(e.message).slice(0,120)}`:""})`});
+      if(e?.code==="not_granted") CHAT.sample = null;
+      chatDiagnose({art:"fehler", code:e?.code||null, meldung:String(e?.message||e||"").slice(0,300), mitWerkzeugen:!!tools && !CHAT.ohneWerkzeuge});
+    }
   }finally{
     if(CHAT.laeuft===ctrl) CHAT.laeuft = null;
     if(CHAT.agent===aid) chatZeichne();
@@ -2175,7 +2227,7 @@ document.addEventListener("click", e => {
   if(e.target.closest("[data-wochenreview]")){ wochenReview(); return; }
   const ab = e.target.closest("[data-abendbriefing]");
   if(ab){ abendBriefing(); return; }
-  const t = e.target.closest("[data-chatmic],[data-chatliste],[data-chatsitzung],[data-chat],[data-chatagent],[data-chatzu],[data-chatneu],[data-chatvorlesen],[data-chatstop],[data-chatfrage]"); if(!t) return;
+  const t = e.target.closest("[data-chattest],[data-chatmic],[data-chatliste],[data-chatsitzung],[data-chat],[data-chatagent],[data-chatzu],[data-chatneu],[data-chatvorlesen],[data-chatstop],[data-chatfrage]"); if(!t) return;
   if(t.hasAttribute("data-chatmic")){ if(CHAT.micGesperrt){ CHAT.vorlesen = true; chatZeichne(); chatEl.querySelector("textarea")?.focus(); zeigeToast("Mikrofon gesperrt: Wispr Flow halten, sprechen, loslassen. Ich sende automatisch."); return; } chatHoeren(); return; }
   if(t.hasAttribute("data-chatliste")){ if(CHAT.ansicht==="liste"){ CHAT.ansicht="chat"; chatZeichne(); return; } CHAT.ansicht="liste"; chatZeichne(); chatLadeListe(CHAT.agent).then(l=>{ CHAT.liste=l; chatZeichneVerlauf(); }); return; }
   if(t.dataset.chatsitzung){ const s = CHAT.liste.find(x=>x.id===t.dataset.chatsitzung); if(s){ chatAbbrechen(); CHAT.sitzung[CHAT.agent]=s.id; CHAT.verlauf[CHAT.agent]=s.turns.map(m=>({...m})); } CHAT.ansicht="chat"; chatZeichne(); return; }
@@ -2183,6 +2235,7 @@ document.addEventListener("click", e => {
   if(t.dataset.chatagent){ CHAT.ansicht="chat"; chatOeffnen(t.dataset.chatagent); return; }
   if(t.hasAttribute("data-chatzu")){ chatSchliessen(); return; }
   if(t.hasAttribute("data-chatstop")){ chatAbbrechen(); return; }
+  if(t.hasAttribute("data-chattest")){ chatVerbindungTesten(); return; }
   if(t.hasAttribute("data-chatneu")){ chatAbbrechen(); CHAT.verlauf[CHAT.agent] = []; delete CHAT.modus[CHAT.agent]; delete CHAT.sitzung[CHAT.agent]; CHAT.ansicht="chat"; chatZeichne(); chatEl.querySelector("textarea")?.focus(); return; }
   if(t.hasAttribute("data-chatvorlesen")){ CHAT.vorlesen = !CHAT.vorlesen; try{ localStorage.setItem("cockpit.vorlesen", CHAT.vorlesen?"1":"0"); }catch(x){} if(!CHAT.vorlesen) try{ speechSynthesis.cancel(); }catch(x){} chatZeichne(); return; }
   if(t.dataset.chatfrage){ chatSenden(t.dataset.chatfrage); return; }
