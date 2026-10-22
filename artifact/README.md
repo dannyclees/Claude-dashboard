@@ -18,3 +18,4 @@
 - Version 15: Anrufliste zeigt den Zweck jedes Anrufs als farbiges Etikett mit Farbstreifen (Empfehlung anfragen, Empfehlung, Termin fixieren/vorbereiten, Rückruf, Nachfassen, Unterlagen, Erstanruf).
 - Version 16: „Mein Tag“ (Aufgaben-Board Als Nächstes/Heute/In Arbeit/Wartet/Erledigt, ziehen, Tag abschließen), „Kurz gefragt“ (Fragen zum Ankreuzen, Antwort wird direkt umgesetzt, Sammlung `fragen`), Kampagnenplan (Sammlung `kampagnen`, Vorbereitung wird 21 Tage vorher an Agenten verteilt), Partner-Kennzahlen beschriftet, Content-Seite entfernt.
 - Version 17: Neue Anrufvorschläge aus der Leadliste erscheinen als „Neuer Vorschlag“ (türkis).
+- Version 18: „Weiß nicht“ bei Datumsfragen legt keine Kampagne mehr an.

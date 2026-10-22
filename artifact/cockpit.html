@@ -698,7 +698,7 @@ async function frageBeantworten(id, wert, el){
     let umgesetzt = false;
     const set = a.wenn && a.wenn[wert];
     if(a.ziel && set && Object.keys(set).length){ const daten = {...set}; for(const k in daten){ if(daten[k]==="__heute") daten[k]=heute(); if(daten[k]==="__jetzt") daten[k]=jetzt; } await S.db.doc(a.ziel).update({...daten, aktualisiertAm:jetzt}); umgesetzt = true; }
-    if(a.neu && f.typ==="datum"){ const kid = "k-"+Date.now().toString(36); await S.db.doc(a.neu+"/"+kid).set({...(a.vorlage||{}), [a.feld||"start"]:wert, erstelltAm:jetzt, aktualisiertAm:jetzt, quelle:"Frage "+id}); umgesetzt = true; }
+    if(a.neu && f.typ==="datum" && /^\d{4}-\d{2}-\d{2}$/.test(wert)){ const kid = "k-"+Date.now().toString(36); await S.db.doc(a.neu+"/"+kid).set({...(a.vorlage||{}), [a.feld||"start"]:wert, erstelltAm:jetzt, aktualisiertAm:jetzt, quelle:"Frage "+id}); umgesetzt = true; }
     await S.db.doc("fragen/"+id).update({status:"beantwortet", antwort:wert, beantwortetAm:jetzt, umgesetzt});
     protokoll("Frage beantwortet", id, `${f.frage} → ${wert}`);
     zeigeToast(umgesetzt ? "Danke, ist eingetragen." : "Danke, ich kümmere mich darum.");
