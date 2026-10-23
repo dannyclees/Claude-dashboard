@@ -529,6 +529,14 @@ body.privat :is(.pk,.lead-haupt,.mini-liste li,.ak):hover{filter:blur(7px)}
 .tagboard .spalte{max-height:620px;overflow-y:auto}
 .tagboard .spalte>*{flex-shrink:0}
 .tagboard .tile-kopf h2{white-space:nowrap;margin-right:auto}
+.jetzt-knoepfe{display:flex;gap:8px;align-items:center;flex:none}
+.spaeter{position:relative}
+.spaeter-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:20;min-width:200px;padding:6px;border-radius:14px;background:var(--surface);box-shadow:var(--shadow-hover);border:.5px solid var(--sep);display:flex;flex-direction:column}
+.spaeter-menu[hidden]{display:none}
+.spaeter-menu button{min-height:40px;padding:0 12px;border-radius:10px;text-align:left;color:var(--label);font-size:.9375rem}
+.spaeter-menu button:hover{background:var(--fill)}
+.ad .spaeter-menu{top:auto;bottom:calc(100% + 6px);left:0;right:auto}
+@media (max-width:760px){ .jetzt-knoepfe{width:100%} .jetzt-knoepfe .jetzt-knopf{flex:1} .spaeter{flex:1} .spaeter .jetzt-knopf{width:100%} }
 .p-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
 .modus-knopf{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;min-height:56px;border-radius:14px;background:var(--fill);color:var(--label)}
 .modus-knopf:hover{background:var(--fill-2)}
@@ -2410,7 +2418,7 @@ function adZeichne(){
     </div>
     ${an&&!AD.laeuft?`<form class="ad-wunsch" data-adwunsch><input class="feld" name="w" placeholder="Was soll anders oder genauer sein?" aria-label="Wunsch für die Anleitung"><button class="knopf sekundaer klein" type="submit">Anpassen</button></form>`:""}
     <div class="ad-aktionen">${S.nurLesen?"":[["heute","Heute"],["arbeit","In Arbeit"],["wartet","Wartet"],["erledigt","Erledigt"]].map(([z,t])=>`<button class="knopf ${z==="erledigt"?"primaer":"sekundaer"} klein" data-adziel="${z}">${t}</button>`).join("")}
-      <button class="knopf sekundaer klein" data-adchat>${ic("sprechblase")}Mit Mark besprechen</button><a class="knopf klein" href="#${esc(a.id)}" data-adliste>In der Liste öffnen</a></div>`;
+      ${S.nurLesen?"":`<div class="spaeter" data-spaeter-box><button type="button" class="knopf sekundaer klein" data-spaeter-auf aria-haspopup="true" aria-expanded="false">Später nachhaken</button><div class="spaeter-menu" role="menu" hidden>${SPAETER.map(([w,t])=>`<button type="button" role="menuitem" data-spaeter="${w}" data-skey="aufgabe:${esc(a.id)}" data-saufgabe="${esc(a.id)}">${t}</button>`).join("")}</div></div>`}<button class="knopf sekundaer klein" data-adchat>${ic("sprechblase")}Mit Mark besprechen</button><a class="knopf klein" href="#${esc(a.id)}" data-adliste>In der Liste öffnen</a></div>`;
 }
 schicht.addEventListener("click", e => {
   if(!schicht.querySelector(".ad")) return;
@@ -2459,24 +2467,64 @@ function gesundheit(){
     {l:"Aufgaben ohne Datum", w:`${ohneDatum} %`, f:ok(ohneDatum<20)}
   ];
 }
+/* Später nachhaken: Punkte aus „Jetzt dran“ zurückstellen, sie kommen zur gewählten Zeit wieder. */
+const zurueckListe = () => (S.system.zurueckgestellt||{}).eintraege||{};
+const istZurueck = k => { const t = zurueckListe()[k]; return !!t && t > new Date().toISOString(); };
+function spaeterZeit(wann){
+  const n = new Date(), d = new Date(n);
+  if(wann==="stunde") return new Date(n.getTime()+3600e3);
+  if(wann==="nachmittag"){ d.setHours(15,0,0,0); return d > n ? d : new Date(n.getTime()+2*3600e3); }
+  if(wann==="morgen"){ const [y,m,t] = morgenIso().split("-").map(Number); return new Date(y,m-1,t,7,0,0); }
+  if(wann==="woche"){ d.setDate(d.getDate()+((8-d.getDay())%7||7)); d.setHours(7,0,0,0); return d; }
+  return new Date(n.getTime()+3600e3);
+}
+const SPAETER = [["stunde","In 1 Stunde"],["nachmittag","Heute Nachmittag"],["morgen","Morgen früh"],["woche","Nächste Woche"]];
+const spaeterMenu = (key, aufgabe) => `<div class="spaeter" data-spaeter-box><button type="button" class="knopf sekundaer jetzt-knopf" data-spaeter-auf aria-haspopup="true" aria-expanded="false">Später</button><div class="spaeter-menu" role="menu" hidden>${SPAETER.map(([w,t])=>`<button type="button" role="menuitem" data-spaeter="${w}" data-skey="${esc(key)}" ${aufgabe?`data-saufgabe="${esc(aufgabe)}"`:""}>${t}</button>`).join("")}</div></div>`;
+async function zurueckstellen(key, wann, aufgabeId){
+  if(!S.db || S.nurLesen) return;
+  const bis = spaeterZeit(wann), jetzt = new Date().toISOString();
+  const alt = zurueckListe(), neu = {};
+  for(const [k,t] of Object.entries(alt)) if(t > jetzt) neu[k] = t;
+  neu[key] = bis.toISOString();
+  try{
+    await S.db.doc("system/zurueckgestellt")[S.system.zurueckgestellt?"update":"set"]({eintraege:neu, aktualisiertAm:jetzt});
+    S.system.zurueckgestellt = {...(S.system.zurueckgestellt||{}), eintraege:neu};
+    const a = aufgabeId && S.aufgaben.find(x=>x.id===aufgabeId);
+    if(a){
+      const tag = bis.toISOString().slice(0,10) > heute() ? new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Luxembourg"}).format(bis) : null;
+      await S.db.doc("aufgaben/"+a.id).update({nachhakenAm:bis.toISOString(), ...(tag?{vorschlagHeute:tag, heute:a.heute===heute()?null:a.heute}:{}), aktualisiertAm:jetzt});
+      protokoll("Aufgabe zurückgestellt", a.id, `${a.aufgabe} → ${zeitDe.format(bis)}`);
+    }
+    zeigeToast(`Kommt wieder: ${zeitDe.format(bis)} Uhr`);
+    render();
+  }catch(e){ schreibFehler(e); }
+}
+document.addEventListener("click", e => {
+  const auf = e.target.closest("[data-spaeter-auf]");
+  if(auf){ const m = auf.parentElement.querySelector(".spaeter-menu"); const zu = m.hidden; document.querySelectorAll(".spaeter-menu").forEach(x=>x.hidden=true); m.hidden = !zu; auf.setAttribute("aria-expanded", String(zu)); return; }
+  const s = e.target.closest("[data-spaeter]");
+  if(s){ s.closest(".spaeter-menu").hidden = true; zurueckstellen(s.dataset.skey, s.dataset.spaeter, s.dataset.saufgabe); if(s.closest(".ad")) schliesseSchicht(); return; }
+  if(!e.target.closest("[data-spaeter-box]")) document.querySelectorAll(".spaeter-menu").forEach(x=>x.hidden=true);
+});
+setInterval(() => { if(ansichtAus().seite==="heute" && !schicht.innerHTML && !MODUS.art) render(); }, 300000);
 function jetztDran(){
   const std = Number(new Intl.DateTimeFormat("de-DE",{hour:"numeric",hour12:false,timeZone:"Europe/Luxembourg"}).format(new Date()));
   const e = entscheidungen(), wz = wochenZahlen(), sp = tagSpalten();
   const anrufe = S.leads.filter(leadOffen).sort(leadSort);
   const v = [];
   const freitag = new Date(heute()+"T12:00:00").getDay()===5;
-  if(!tagesplan() && std<14) v.push({t:"Morgen-Briefing: Tag festlegen", u:"Wir gehen die Vorschläge durch. Nur was du bestätigst, kommt auf „Heute“.", k:"Starten", a:`data-morgen`, ico:"sonne", farbe:"var(--orange)"});
-  if(freitag && std>=13 && !(S.system.sales?.aktualisiertAm||"").startsWith(heute())) v.push({t:"Wochen-Review mit Alex", u:"15 Minuten: Zahlen der Woche, was hat Umsatz gebracht, Fokus für nächste Woche.", k:"Starten", a:`data-wochenreview`, ico:"ziel", farbe:"var(--purple)"});
-  if(freitag && std>=12) v.push({t:"Aufräumen: jede Aufgabe einmal entscheiden", u:"10 Minuten. Heute, Diese Woche, Später, An Agent oder Weg.", k:"Aufräumen", a:`data-aufraeumen`, ico:"liste", farbe:"var(--gray)"});
-  if(std>=16) v.push({t:"Abend-Briefing mit Mark", u:"Mark fragt dich ab und baut den Plan für morgen.", k:"Starten", a:`data-abendbriefing`, ico:"mond", farbe:"var(--indigo)"});
-  if(e.length>=5 && std<12) v.push({t:`${e.length} Entscheidungen abarbeiten`, u:"Fragen und Freigaben nacheinander, je ein Klick. Dauert meist unter 5 Minuten.", k:"Los", a:`data-stapel`, ico:"achtung", farbe:"var(--orange)"});
-  const inArbeit = sp.arbeit.filter(a=>(a.zustaendig||"Danny")==="Danny")[0];
-  if(inArbeit) v.push({t:inArbeit.aufgabe, u:"Ist in Arbeit. Mach hier weiter, die Anleitung steht in der Aufgabe.", k:"Weitermachen", a:`data-detail="${esc(inArbeit.id)}"`, ico:"liste", farbe:"var(--blue)"});
-  if(anrufe.length && wz.tag<ANRUF_ZIEL_TAG && std<18){ const l = anrufe[0]; v.push({t:`Anrufen: ${istAnfrage(l)?l.partner:l.betrieb}`, u:`${zweck(l)[0]}${l.ansprechpartner?` · ${l.ansprechpartner}`:""}. Heute ${wz.tag} von ${ANRUF_ZIEL_TAG} Anrufen.`, k:"Anruf-Modus", a:`data-anrufmodus`, ico:"telefon", farbe:"var(--green)"}); }
-  const naechste = [...sp.heute, ...topDrei()].find(a=>a && a.status!=="erledigt" && !istSetup(a));
-  if(naechste) v.push({t:naechste.aufgabe, u:naechste.naechsterSchritt?String(naechste.naechsterSchritt).slice(0,140):"Öffnen für die Schritt-für-Schritt-Anleitung.", k:"Öffnen", a:`data-detail="${esc(naechste.id)}"`, ico:"liste", farbe:"var(--blue)"});
-  if(e.length && !v.some(x=>x.a==="data-stapel")) v.push({t:`${e.length} Entscheidungen`, u:"Fragen und Freigaben nacheinander.", k:"Los", a:`data-stapel`, ico:"achtung", farbe:"var(--orange)"});
-  return v;
+  if(!tagesplan() && std<14) v.push({key:"morgen-"+heute(), t:"Morgen-Briefing: Tag festlegen", u:"Wir gehen die Vorschläge durch. Nur was du bestätigst, kommt auf „Heute“.", k:"Starten", a:`data-morgen`, ico:"sonne", farbe:"var(--orange)"});
+  if(freitag && std>=13 && !(S.system.sales?.aktualisiertAm||"").startsWith(heute())) v.push({key:"woche-"+heute(), t:"Wochen-Review mit Alex", u:"15 Minuten: Zahlen der Woche, was hat Umsatz gebracht, Fokus für nächste Woche.", k:"Starten", a:`data-wochenreview`, ico:"ziel", farbe:"var(--purple)"});
+  if(freitag && std>=12) v.push({key:"aufraeumen-"+heute(), t:"Aufräumen: jede Aufgabe einmal entscheiden", u:"10 Minuten. Heute, Diese Woche, Später, An Agent oder Weg.", k:"Aufräumen", a:`data-aufraeumen`, ico:"liste", farbe:"var(--gray)"});
+  if(std>=16) v.push({key:"abend-"+heute(), t:"Abend-Briefing mit Mark", u:"Mark fragt dich ab und baut den Plan für morgen.", k:"Starten", a:`data-abendbriefing`, ico:"mond", farbe:"var(--indigo)"});
+  if(e.length>=5 && std<12) v.push({key:"stapel", t:`${e.length} Entscheidungen abarbeiten`, u:"Fragen und Freigaben nacheinander, je ein Klick. Dauert meist unter 5 Minuten.", k:"Los", a:`data-stapel`, ico:"achtung", farbe:"var(--orange)"});
+  const inArbeit = sp.arbeit.filter(a=>(a.zustaendig||"Danny")==="Danny" && !istZurueck("aufgabe:"+a.id))[0];
+  if(inArbeit) v.push({key:"aufgabe:"+inArbeit.id, aufgabe:inArbeit.id, t:inArbeit.aufgabe, u:"Ist in Arbeit. Mach hier weiter, die Anleitung steht in der Aufgabe.", k:"Weitermachen", a:`data-detail="${esc(inArbeit.id)}"`, ico:"liste", farbe:"var(--blue)"});
+  if(anrufe.length && wz.tag<ANRUF_ZIEL_TAG && std<18){ const l = anrufe.find(x=>!istZurueck("anruf:"+x.id)) || anrufe[0]; v.push({key:"anruf:"+l.id, t:`Anrufen: ${istAnfrage(l)?l.partner:l.betrieb}`, u:`${zweck(l)[0]}${l.ansprechpartner?` · ${l.ansprechpartner}`:""}. Heute ${wz.tag} von ${ANRUF_ZIEL_TAG} Anrufen.`, k:"Anruf-Modus", a:`data-anrufmodus`, ico:"telefon", farbe:"var(--green)"}); }
+  const naechste = [...sp.heute, ...topDrei()].find(a=>a && a.status!=="erledigt" && !istSetup(a) && !istZurueck("aufgabe:"+a.id) && a.id!==inArbeit?.id);
+  if(naechste) v.push({key:"aufgabe:"+naechste.id, aufgabe:naechste.id, t:naechste.aufgabe, u:naechste.naechsterSchritt?String(naechste.naechsterSchritt).slice(0,140):"Öffnen für die Schritt-für-Schritt-Anleitung.", k:"Öffnen", a:`data-detail="${esc(naechste.id)}"`, ico:"liste", farbe:"var(--blue)"});
+  if(e.length && !v.some(x=>x.a==="data-stapel")) v.push({key:"stapel", t:`${e.length} Entscheidungen`, u:"Fragen und Freigaben nacheinander.", k:"Los", a:`data-stapel`, ico:"achtung", farbe:"var(--orange)"});
+  return v.filter(x=>!x.key || !istZurueck(x.key));
 }
 function jetztHtml(){
   const v = jetztDran(), j = v[0];
@@ -2484,7 +2532,7 @@ function jetztHtml(){
   const e = entscheidungen().length, wz = wochenZahlen();
   return `<section class="card jetzt" aria-labelledby="h-jetzt" style="--akzent:${j.farbe}">
     <div class="jetzt-haupt"><span class="jetzt-ico">${ic(j.ico)}</span><div style="min-width:0;flex:1"><p class="t-c1 c2 jetzt-label" id="h-jetzt">Jetzt dran</p><h2 class="t-t2">${esc(j.t)}</h2><p class="t-sub c2">${esc(j.u)}</p></div>
-      <button type="button" class="knopf primaer jetzt-knopf" ${j.a}>${esc(j.k)}</button></div>
+      <div class="jetzt-knoepfe"><button type="button" class="knopf primaer jetzt-knopf" ${j.a}>${esc(j.k)}</button>${j.key?spaeterMenu(j.key, j.aufgabe):""}</div></div>
     ${v.length>1?`<div class="jetzt-danach"><span class="t-c1 c2">Danach:</span>${v.slice(1,3).map(x=>`<button type="button" class="jetzt-chip" ${x.a}>${ic(x.ico)}${esc(x.t.length>48?x.t.slice(0,46)+"…":x.t)}</button>`).join("")}</div>`:""}
     <div class="jetzt-modi">
       <button type="button" class="modus-knopf" data-anrufmodus>${ic("telefon")}<span><b>Anruf-Modus</b><span class="t-c1 c2">Heute ${wz.tag}/${ANRUF_ZIEL_TAG} · Woche ${wz.anrufe}/${ANRUF_ZIEL_WOCHE}</span></span></button>
