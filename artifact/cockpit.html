@@ -522,6 +522,13 @@ body.privat :is(.pk,.lead-haupt,.mini-liste li,.ak):hover{filter:blur(7px)}
 .jetzt-chip svg{width:14px;height:14px;color:var(--label-2)}
 .jetzt-chip:hover{background:var(--fill-2)}
 .jetzt-modi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding-top:14px;border-top:.5px solid var(--sep)}
+.mb-liste{list-style:none;margin:6px 0;padding:0;display:flex;flex-direction:column}
+.mb-zeile{display:flex;gap:12px;align-items:center;padding:10px 6px;border-radius:12px;cursor:pointer;min-height:52px}
+.mb-zeile:hover{background:var(--fill)}
+.mb-zeile input{width:22px;height:22px;flex:none;accent-color:var(--blue)}
+.tagboard .spalte{max-height:620px;overflow-y:auto}
+.tagboard .spalte>*{flex-shrink:0}
+.tagboard .tile-kopf h2{white-space:nowrap;margin-right:auto}
 .p-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
 .modus-knopf{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;min-height:56px;border-radius:14px;background:var(--fill);color:var(--label)}
 .modus-knopf:hover{background:var(--fill-2)}
@@ -570,6 +577,32 @@ body.modus-auf{overflow:hidden}
 .raeum-gruppe .knopf{min-height:44px}
 @media (max-width:1100px){ .kpis-4{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:760px){ .jetzt-haupt{flex-wrap:wrap} .jetzt-knopf{width:100%} .jetzt-modi{grid-template-columns:1fr 1fr} .trichter{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.lt-karte{padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.lt-kopf{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+.lt-wrap{overflow-x:auto}
+.lt-scroll{max-height:34rem;overflow:auto}
+table.lt{width:100%;border-collapse:collapse;font-size:.875rem;line-height:19px}
+table.lt th{text-align:left;font-weight:600;color:var(--label-2);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;padding:6px 8px;border-bottom:.5px solid var(--sep);white-space:nowrap;position:sticky;top:0;background:var(--surface);z-index:1}
+table.lt td{padding:8px;border-bottom:.5px solid var(--sep);vertical-align:top}
+table.lt b{font-weight:600}
+.lt-zeile{cursor:pointer}
+.lt-zeile:hover td{background:var(--fill)}
+.lt-prio{font-weight:700}
+.lt-notiz{display:block;max-width:44ch}
+.lt-akt{white-space:nowrap;text-align:right}
+.lt-akt>*{vertical-align:middle}
+.lt-tel{display:inline-flex;width:32px;height:32px;border-radius:16px;align-items:center;justify-content:center;background:var(--t-green);color:var(--green-text);margin-right:6px}
+.lt-tel svg{width:16px;height:16px}
+.lt-detail td{background:var(--surface-2)}
+.lt-detail-in{display:flex;flex-direction:column;gap:8px;padding:4px 2px}
+.lt-erg{display:flex;flex-wrap:wrap;gap:6px}
+.lt-trichter{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.lt-trichter li{display:grid;grid-template-columns:7.5rem 1fr 2rem;align-items:center;gap:10px}
+.lt-trichter .tb{height:12px;border-radius:6px;background:var(--fill);overflow:hidden}
+.lt-trichter .tb>div{height:100%;border-radius:6px;min-width:3px}
+.lt-trichter b{text-align:right}
+.lt-suche .feld{max-width:28rem}
+body.privat table.lt td:not(.lt-akt):not(.lt-prio){filter:blur(6px)}
 </style>
 
 <div class="app">
@@ -629,7 +662,7 @@ const NAV = [
   {id:"heute",titel:"Heute",ico:"sonne",farbe:"var(--orange)"},
   {id:"sales",titel:"Sales",ico:"ziel",farbe:"var(--red)"},
   {id:"aufgaben",titel:"Aufgaben",ico:"liste",farbe:"var(--blue)"},
-  {id:"leads",titel:"Leads",ico:"telefon",farbe:"var(--green)"},
+  {id:"leads",titel:"Akquise",ico:"telefon",farbe:"var(--green)"},
   {id:"partner",titel:"Partner",ico:"haus",farbe:"var(--green)"},
   {id:"agenten",titel:"Agenten",ico:"bot",farbe:"var(--red)"},
   {id:"einstellungen",titel:"Einstellungen",ico:"zahnrad",farbe:"var(--gray)"}
@@ -1210,21 +1243,48 @@ function anruflisteHtml(){
   return `<section aria-labelledby="h-anruf">${kopfZeile}<ul class="gruppe lead-liste">${zeigen.map(l=>leadZeile(l,true)).join("")}</ul>${offen.length>zeigen.length?`<p class="t-fn c2" style="margin-top:8px">${offen.length-zeigen.length} weitere offen unter „Leads“.</p>`:""}</section>`;
 }
 function seiteLeads(){
-  const alle = S.leads.filter(l=>!istAnfrage(l));
-  const F = [["alle","Offen",l=>leadOffen(l)],["A","Empfehlungen",l=>l.prioritaet==="A"&&leadOffen(l)],["Vorgespräch","Im Gespräch",l=>["Vorgespräch","Angebot"].includes(l.stufe)],["zu","Abgeschlossen",l=>!leadOffen(l)]];
-  const f = F.find(x=>x[0]===S.lFilter)||F[0];
+  const alle = S.leads.filter(l=>!istAnfrage(l)), anfr = S.leads.filter(istAnfrage).sort(leadSort);
   const q = S.lSuche.trim().toLowerCase();
-  const liste = alle.filter(f[2]).filter(l=>!q||`${l.betrieb} ${l.ansprechpartner||""} ${l.branche||""} ${l.ort||""}`.toLowerCase().includes(q)).sort(leadSort);
-  const anfr = S.leads.filter(istAnfrage);
-  return `${kopf("Leads", `${alle.filter(leadOffen).length} offen · ${alle.filter(l=>l.prioritaet==="A").length} Empfehlungen`, chatKnopf("alex","Alex fragen: Wen zuerst?"))}${verbindungsHinweis()}
-  <div class="lead-werkzeug"><div class="seg" role="group" aria-label="Filter">${F.map(([id,t,fn])=>`<button class="knopf ${id===f[0]?"primaer":"sekundaer"}" data-lfilter="${id}" aria-pressed="${id===f[0]}">${t} <span class="num" style="opacity:.75">${alle.filter(fn).length}</span></button>`).join("")}</div>
-  <label style="flex:1;min-width:200px"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Leads durchsuchen</span><input id="l-suche" class="feld" placeholder="Betrieb, Name, Branche …" value="${esc(S.lSuche)}"></label>
-  <button class="knopf primaer" data-lneu ${S.nurLesen?"disabled":""}>${ic("plus")}Neuer Lead</button></div>
-  ${liste.length?`<ul class="gruppe lead-liste">${liste.map(l=>leadZeile(l,false)).join("")}</ul>`:`<div class="card t-sub c2" style="padding:20px">Keine Leads in dieser Ansicht.</div>`}
-  <section><h2 class="t-t3" style="margin:8px 0">Empfehlungen anfragen <span class="t-sub c2">${anfr.filter(leadOffen).length} offen</span></h2><ul class="gruppe lead-liste">${anfr.sort(leadSort).map(l=>leadZeile(l,false)).join("")}</ul></section>
-  <p class="t-fn c2">„Termin vereinbart“ setzt den Lead auf Vorgespräch, „Empfehlung erhalten“ öffnet direkt einen neuen Lead. Jedes Ergebnis steht im Verlauf.</p>`;
+  const passt = l => !q || `${l.betrieb} ${l.ansprechpartner||""} ${l.branche||""} ${l.ort||""} ${l.quelle||""} ${l.notiz||""}`.toLowerCase().includes(q);
+  const imGespraech = l => leadOffen(l) && (["Angesprochen","Vorgespräch","Angebot"].includes(l.stufe) || l.prioritaet==="A");
+  const offeneLeads = alle.filter(imGespraech).filter(passt).sort((a,b)=>({Angebot:0,"Vorgespräch":1}[a.stufe]??2)-({Angebot:0,"Vorgespräch":1}[b.stufe]??2) || leadSort(a,b));
+  const ziele = alle.filter(l=>leadOffen(l) && !imGespraech(l)).filter(passt).sort((a,b)=>(b.vorschlag?1:0)-(a.vorschlag?1:0) || leadSort(a,b));
+  const zu = alle.filter(l=>!leadOffen(l)).filter(passt);
+  const wz = wochenZahlen(), sz = salesZahlen();
+  const stufen = ["Empfehlung","Neu","Angesprochen","Vorgespräch","Angebot","Gewonnen"], zahlS = st => alle.filter(l=>l.stufe===st).length, maxS = Math.max(1,...stufen.map(zahlS));
+  const letzte = l => (l.verlauf||[]).slice(-1)[0];
+  const zuletzt = l => { const v = letzte(l); return v ? `${datumDe(v.datum).slice(0,6)} ${v.ergebnis}` : "–"; };
+  const tel = l => l.telefon ? `<a class="lt-tel" href="${esc(telHref(l.telefon))}" aria-label="${esc(l.betrieb||l.partner)} anrufen">${ic("telefon")}</a>` : "";
+  const aktion = l => `<td class="lt-akt">${tel(l)}<button type="button" class="knopf sekundaer klein" data-lanruf="${esc(l.id)}">Anrufen</button></td>`;
+  const detail = (l, sp) => S.lOffen?.has(l.id) ? `<tr class="lt-detail"><td colspan="${sp}"><div class="lt-detail-in">
+      ${l.notiz?`<p class="t-fn">${esc(l.notiz)}</p>`:""}${l.leitfaden?.length?`<ul class="ad-liste">${l.leitfaden.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+      ${(l.verlauf||[]).length?`<p class="t-fn c2">Verlauf: ${(l.verlauf||[]).slice().reverse().map(v=>`${esc(datumDe(v.datum))} ${esc(v.ergebnis)}${v.notiz?` (${esc(v.notiz)})`:""}`).join(" · ")}</p>`:""}
+      <p class="t-fn c2">${[l.telefon?`Tel. ${esc(l.telefon)}`:"Telefon fehlt", l.website?esc(l.website):null, l.herkunft?esc(l.herkunft):null].filter(Boolean).join(" · ")}</p>
+      <div class="lt-erg">${(istAnfrage(l)?ERGEBNIS_ANFRAGE:ERGEBNIS_LEAD).map(o=>`<button type="button" class="knopf sekundaer klein" data-lerg="${esc(o)}" data-lid2="${esc(l.id)}" ${S.nurLesen?"disabled":""}>${esc(o)}</button>`).join("")}</div>
+    </div></td></tr>` : "";
+  const zweckP = l => { const [zw,bg,fg] = zweck(l); return `<span class="pille zweck" style="background:${bg};color:${fg}">${zw}</span>`; };
+  const tabOffen = `<table class="lt"><thead><tr><th>Lead</th><th>Branche</th><th>Quelle</th><th>Stufe</th><th>Nächster Schritt</th><th>Zuletzt</th><th></th></tr></thead><tbody>${offeneLeads.map(l=>`<tr class="lt-zeile" data-lzeile="${esc(l.id)}" tabindex="0"><td><b>${esc(l.betrieb)}</b><span class="t-c1 c2" style="display:block">${esc(l.ansprechpartner||"")}</span></td><td>${esc(l.branche||"–")}</td><td>${esc(l.quelle||"–")}</td><td>${esc(l.stufe||"–")}</td><td>${esc(l.naechsterSchritt||"–")}</td><td class="c2">${esc(zuletzt(l))}</td>${aktion(l)}</tr>${detail(l,7)}`).join("")}</tbody></table>`;
+  const tabZiele = `<table class="lt"><thead><tr><th>Prio</th><th>Betrieb</th><th>Branche</th><th>Ansprechpartner</th><th>Quelle</th><th>Zweck</th><th></th></tr></thead><tbody>${ziele.map(l=>`<tr class="lt-zeile" data-lzeile="${esc(l.id)}" tabindex="0"><td class="lt-prio">${esc(l.prioritaet||"B")}</td><td><b>${esc(l.betrieb)}</b>${l.notiz?`<span class="t-c1 c2 lt-notiz">${esc(String(l.notiz).slice(0,90))}${String(l.notiz).length>90?"…":""}</span>`:""}</td><td>${esc(l.branche||"–")}</td><td>${esc(l.ansprechpartner||"–")}</td><td>${esc(l.quelle||"–")}</td><td>${zweckP(l)}</td>${aktion(l)}</tr>${detail(l,7)}`).join("")}</tbody></table>`;
+  const tabAnfr = `<table class="lt"><thead><tr><th>Kunde</th><th>Ansprechpartner</th><th>Stand</th><th>Zuletzt</th><th></th></tr></thead><tbody>${anfr.map(l=>`<tr class="lt-zeile" data-lzeile="${esc(l.id)}" tabindex="0"><td><b>${esc(l.partner)}</b></td><td>${esc(l.ansprechpartner||"–")}</td><td>${esc(l.stufe||"–")}</td><td class="c2">${esc(zuletzt(l))}</td>${aktion(l)}</tr>${detail(l,5)}`).join("")}</tbody></table>`;
+  return `${kopf("Akquise", `${ziele.length} Akquise-Ziele · ${offeneLeads.length} offene Leads · ${anfr.filter(leadOffen).length} Empfehlungen anzufragen`, `<button class="knopf primaer" data-anrufmodus>${ic("telefon")}Anruf-Modus</button><button class="knopf sekundaer" data-lneu ${S.nurLesen?"disabled":""}>${ic("plus")}Neuer Lead</button>`+chatKnopf("alex","Alex fragen"))}${verbindungsHinweis()}
+  <div class="kpis kpis-4">
+    <div class="card kpi"><span class="t-c1 c2 kpi-label">Akquise-Ziele</span><span class="kpi-wert num">${ziele.length}</span><span class="t-c1 c2">noch nie angerufen · ${alle.filter(l=>l.vorschlag&&leadOffen(l)).length} neue Vorschläge</span></div>
+    <div class="card kpi"><span class="t-c1 c2 kpi-label">Offene Leads</span><span class="kpi-wert num">${offeneLeads.length}</span><span class="t-c1 c2">${alle.filter(l=>l.stufe==="Vorgespräch").length} im Vorgespräch · ${alle.filter(l=>l.stufe==="Angebot").length} Angebot</span></div>
+    <div class="card kpi"><span class="t-c1 c2 kpi-label">Anrufe diese Woche</span><span class="kpi-wert num">${wz.anrufe}<span class="kpi-von">/${ANRUF_ZIEL_WOCHE}</span></span><span class="t-c1 c2">heute ${wz.tag} · erreicht ${wz.erreicht}</span>${miniBalken(wz.anrufe/ANRUF_ZIEL_WOCHE)}</div>
+    <div class="card kpi"><span class="t-c1 c2 kpi-label">Termine im Monat</span><span class="kpi-wert num">${sz.termineMonat}<span class="kpi-von">/3</span></span><span class="t-c1 c2">Ziel 2–3 Vorgespräche · ${sz.empfehlungenMonat} Empfehlungen</span>${miniBalken(sz.termineMonat/3,"var(--blue)")}</div>
+  </div>
+  <section class="card lt-karte" aria-labelledby="h-lpipe"><div class="lt-kopf"><h2 id="h-lpipe" class="t-hl">Akquise-Pipeline</h2><span class="t-fn c2">Rund 30 qualifizierte Gespräche in 12 Monaten ergeben bei 20 % Abschlussquote die 5–6 Neukunden fürs Ziel.</span></div>
+    <ol class="lt-trichter">${stufen.map(st=>`<li><span class="t-fn">${st}</span><div class="tb"><div style="width:${zahlS(st)/maxS*100}%;background:${STUFE_FARBE[st]||"var(--blue)"}"></div></div><b class="t-fn num">${zahlS(st)}</b></li>`).join("")}</ol></section>
+  <label class="lt-suche"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Akquise durchsuchen</span><input id="l-suche" class="feld" type="search" placeholder="Suchen nach Betrieb, Branche, Ort, Quelle …" value="${esc(S.lSuche)}"></label>
+  <section class="card lt-karte" aria-labelledby="h-loffen"><div class="lt-kopf"><h2 id="h-loffen" class="t-hl">Offene Leads <span class="zahl-badge">${offeneLeads.length}</span></h2><span class="t-fn c2">Wer als Nächstes dran ist: Empfehlungen, angesprochen, im Gespräch</span></div>
+    <div class="lt-wrap">${offeneLeads.length?tabOffen:`<p class="t-sub c2">Keine offenen Leads${q?" zu dieser Suche":""}.</p>`}</div></section>
+  <section class="card lt-karte" aria-labelledby="h-lziele"><div class="lt-kopf"><h2 id="h-lziele" class="t-hl">Akquise-Ziele <span class="zahl-badge">${ziele.length}</span></h2><span class="t-fn c2">Zum Abtelefonieren. A = Empfehlung, B = Leadliste. Keine Konkurrenten von Hausman, Ytter oder Peinture.</span></div>
+    <div class="lt-wrap lt-scroll">${ziele.length?tabZiele:`<p class="t-sub c2">Keine Akquise-Ziele${q?" zu dieser Suche":""}. Neue Vorschläge kommen abends aus der Leadliste.</p>`}</div></section>
+  <section class="card lt-karte" aria-labelledby="h-lanfr"><div class="lt-kopf"><h2 id="h-lanfr" class="t-hl">Empfehlungen anfragen <span class="zahl-badge">${anfr.filter(leadOffen).length}</span></h2><span class="t-fn c2">Bestandskunden nach 2–3 konkreten Betrieben fragen</span></div>
+    <div class="lt-wrap">${tabAnfr}</div></section>
+  ${zu.length?`<details class="mehr"><summary><span class="pfeil">${ic("pfeil")}</span>Abgeschlossen: ${zu.length} (Kunde geworden oder kein Interesse)</summary><div class="card lt-karte" style="margin-top:8px"><div class="lt-wrap"><table class="lt"><thead><tr><th>Betrieb</th><th>Stufe</th><th>Zuletzt</th></tr></thead><tbody>${zu.map(l=>`<tr><td>${esc(l.betrieb)}</td><td>${esc(l.stufe)}</td><td class="c2">${esc(zuletzt(l))}</td></tr>`).join("")}</tbody></table></div></div></details>`:""}
+  <p class="t-fn c2">Klick auf eine Zeile zeigt Notiz, Stichpunkte, Verlauf und die Ergebnis-Knöpfe. „Anrufen“ öffnet den Anruf-Modus bei genau diesem Lead.</p>`;
 }
-
 function wocheStart(){ const d = new Date(heute()+"T12:00:00"); const w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d.toISOString().slice(0,10); }
 function kw(){ const d = new Date(heute()+"T12:00:00"); const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const n = t.getUTCDay()||7; t.setUTCDate(t.getUTCDate()+4-n); const j = new Date(Date.UTC(t.getUTCFullYear(),0,1)); return Math.ceil(((t-j)/86400000+1)/7); }
 function salesZahlen(){
@@ -1327,11 +1387,11 @@ function tagSpalten(){
   const meine = S.aufgaben.filter(a=> S.tAlle ? true : (a.zustaendig||"Danny")==="Danny");
   const erlTag = a => String(a.erledigtAm||a.aktualisiertAm||"").slice(0,10)===h;
   const sp = {
-    heute: meine.filter(a=>a.status==="offen" && a.heute && a.heute<=h),
+    heute: meine.filter(a=>a.status==="offen" && a.heute===h),
     arbeit: meine.filter(a=>a.status==="in Arbeit"),
     wartet: meine.filter(a=>a.status==="wartet"||a.status==="wartet auf Freigabe"),
     erledigt: meine.filter(a=>a.status==="erledigt" && erlTag(a)),
-    offen: meine.filter(a=>a.status==="offen" && !(a.heute && a.heute<=h) && !istSetup(a))
+    offen: meine.filter(a=>(a.status==="offen"||a.status==="prüfen") && !(a.heute && a.heute<=h) && !istSetup(a))
   };
   Object.values(sp).forEach(l=>l.sort(vergleich));
   return sp;
@@ -1348,16 +1408,16 @@ function aufgabenKarte(a){
 }
 function tagBoardHtml(){
   const sp = tagSpalten();
-  const MAXZ = {offen:5, erledigt:5};
+  const MAXZ = {erledigt:8};
   return `<section class="card tile tile-12 tagboard" aria-labelledby="h-tag">
     <header class="tile-kopf"><span class="ico-mini" style="background:var(--orange)">${ic("liste")}</span><h2 class="t-hl" id="h-tag">Mein Tag</h2>
       <div class="seg" role="group" aria-label="Wessen Aufgaben"><button class="knopf klein ${!S.tAlle?"primaer":"sekundaer"}" data-talle="0" aria-pressed="${!S.tAlle}">Meine</button><button class="knopf klein ${S.tAlle?"primaer":"sekundaer"}" data-talle="1" aria-pressed="${!!S.tAlle}">Alle inkl. Agenten</button></div>
       <button class="knopf sekundaer klein" data-tneu ${S.nurLesen?"disabled":""}>${ic("plus")}Aufgabe</button>
-      <button class="knopf sekundaer klein" data-abendbriefing ${S.nurLesen?"disabled":""}>Abend-Briefing</button><button class="knopf primaer klein" data-tagab ${S.nurLesen?"disabled":""}>Tag abschließen</button></header>
+      <button class="knopf sekundaer klein" data-morgen ${S.nurLesen?"disabled":""}>Morgen-Briefing</button><button class="knopf sekundaer klein" data-abendbriefing ${S.nurLesen?"disabled":""}>Abend-Briefing</button><button class="knopf primaer klein" data-tagab ${S.nurLesen?"disabled":""}>Tag abschließen</button></header>
     <p class="t-c1 c2">Karten ziehen, um sie einzuplanen oder den Stand zu ändern (am Handy kurz halten). Der Haken erledigt sofort, ein Klick öffnet die Aufgabe.</p>
     <div class="board tboard">${TSPALTEN.map(([id,t,f])=>{ const l = sp[id]; const max = MAXZ[id]; const voll = id==="heute" && l.length>HEUTE_MAX;
       return `<section class="spalte" data-tziel="${id}" aria-label="${t}"><header><span class="punkt-s" style="background:${f}"></span><span class="t-sub" style="font-weight:600">${t}</span><span class="t-fn num ${voll?"":"c2"}" style="margin-left:auto;${voll?"color:var(--red-text);font-weight:600":""}">${id==="heute"?`${l.length}/${HEUTE_MAX}`:l.length}</span></header>
-      ${l.length?l.slice(0,max||99).map(aufgabenKarte).join(""):`<p class="t-c1 c2 leer-spalte">${id==="heute"?"Hierher ziehen, was du heute schaffen willst.":"–"}</p>`}
+      ${l.length?l.slice(0,max||99).map(aufgabenKarte).join(""):`<p class="t-c1 c2 leer-spalte">${id==="heute"?(tagesplan()?"Alles erledigt oder nichts eingeplant.":`Noch nicht festgelegt. <button class=\"link-knopf\" data-morgen>Morgen-Briefing starten</button>`):"–"}</p>`}
       ${max&&l.length>max?`<a class="t-c1" href="#aufgaben" style="font-weight:600;padding:2px 4px">+ ${l.length-max} weitere</a>`:""}
       ${voll?`<p class="t-c1" style="color:var(--red-text)">Mehr als ${HEUTE_MAX} – lieber etwas zurückschieben.</p>`:""}</section>`; }).join("")}</div>
   </section>`;
@@ -1792,6 +1852,10 @@ seite.addEventListener("click", e => {
   const pk = e.target.closest("[data-pkarte]"); if(pk){ if(Date.now()-(S.zugEnde||0)<350) return; oeffneChanceDetail(pk.dataset.pkarte); return; }
   if(e.target.closest("[data-lneu]")){ oeffneLead(); return; }
   const lf = e.target.closest("[data-lfilter]"); if(lf){ S.lFilter = lf.dataset.lfilter; render(); return; }
+  const lan = e.target.closest("[data-lanruf]"); if(lan){ oeffneAnrufModus(lan.dataset.lanruf); return; }
+  if(e.target.closest(".lt-tel")) return;
+  const ler = e.target.closest("[data-lerg]"); if(ler){ leadErgebnis(ler.dataset.lid2, ler.dataset.lerg); return; }
+  const lz = e.target.closest("[data-lzeile]"); if(lz){ S.lOffen = S.lOffen || new Set(); const id = lz.dataset.lzeile; S.lOffen.has(id) ? S.lOffen.delete(id) : S.lOffen.add(id); render(); return; }
   const pa = e.target.closest("[data-pauftrag]"); if(pa){ const k = pa.closest("[data-cid]"); if(k) pipeAuftrag(k.dataset.cid, pa.dataset.pauftrag); return; }
   const ag = e.target.closest("[data-agauftrag]"); if(ag){ agentAuftrag(ag.dataset.agauftrag); return; }
   const zl = e.target.closest("[data-zust]"); if(zl){ S.fZust = zl.dataset.zust; S.fPartner=""; S.suche=""; S.ansicht="alle"; }
@@ -1807,7 +1871,7 @@ seite.addEventListener("click", e => {
   else if(akt==="haken"){ const a = S.aufgaben.find(x=>x.id===li.dataset.id); if(a) aendere(a.id,"status",a.status==="erledigt"?"offen":"erledigt"); }
   else if(akt==="ziel-bearb"){ const k="ziel:"+el.dataset.id; S.offen.has(k)?S.offen.delete(k):S.offen.add(k); render(); document.getElementById("ziel-"+el.dataset.id)?.focus(); }
 });
-seite.addEventListener("keydown", e => { if((e.key==="Enter"||e.key===" ") && e.target.matches && e.target.matches(".ak[data-aufgabe]")){ e.preventDefault(); e.target.click(); } });
+seite.addEventListener("keydown", e => { if((e.key==="Enter"||e.key===" ") && e.target.matches && e.target.matches(".ak[data-aufgabe], .lt-zeile")){ e.preventDefault(); e.target.click(); } });
 seite.addEventListener("change", e => {
   const t = e.target;
   if(t.id==="f-partner"){ S.fPartner = t.value; render(); return; }
@@ -1854,11 +1918,11 @@ const PERSONA = {
   alex:`Du bist Alex, Dannys Stratege und Sparringspartner nach Alex Hormozi. Du denkst in Grand Slam Offers, Value Equation (Traumergebnis × Wahrscheinlichkeit ÷ Zeit × Aufwand), Core Four (Warm- und Kaltakquise, Content, Ads), Empfehlungen und Money Models. Du bist direkt, rechnest mit echten Zahlen aus dem Cockpit, stellst eine scharfe Rückfrage, wenn etwas unklar ist, und endest mit dem einen nächsten Schritt mit dem größten Hebel auf die 140.000 € Neuumsatz.`,
   mark:`Du bist Mark, Dannys Umsetzer und Stabschef. Du machst aus Gesagtem klare Aufgaben, hältst den Tagesplan sauber, erinnerst an Fälliges und delegierst an die passenden Agenten. Kurz, freundlich, verbindlich.`
 };
-const CHAT_FARBE = id => id==="alex"?"var(--purple)":id==="mark"?"var(--blue)":id.startsWith("partner-")?"var(--green)":"var(--orange)";
+const CHAT_FARBE = id => id==="claude"?"var(--indigo)":id==="alex"?"var(--purple)":id==="mark"?"var(--blue)":id.startsWith("partner-")?"var(--green)":"var(--orange)";
 function chatAgenten(){
   const ag = [...S.agenten].sort((x,y)=>(x.ebene-y.ebene)||((x.reihe??0)-(y.reihe??0)));
   const vorn = id => ag.find(a=>a.id===id) || {id, name:id==="alex"?"Alex":"Mark", rolle:id==="alex"?"Stratege nach Hormozi":"Umsetzer"};
-  return [vorn("alex"), vorn("mark"), ...ag.filter(a=>a.id!=="alex"&&a.id!=="mark")];
+  return [{id:"claude", name:"Claude", rolle:"Claude Code · baut das Cockpit, nimmt deine Wünsche auf"}, vorn("alex"), vorn("mark"), ...ag.filter(a=>a.id!=="alex"&&a.id!=="mark")];
 }
 const chatAgent = () => chatAgenten().find(a=>a.id===CHAT.agent) || {id:CHAT.agent,name:CHAT.agent,rolle:""};
 
@@ -1936,13 +2000,14 @@ function chatWerkzeuge(){
         return {ok:true};
       }},
     {name:"aufgabe_aendern", description:"Ändert eine bestehende Aufgabe: status (offen, in Arbeit, wartet, erledigt, später), heute (JJJJ-MM-TT, auf Dannys Tagesliste), faelligAm, naechsterSchritt, zustaendig. Nur, wenn Danny es so sagt.",
-      inputSchema:{type:"object",properties:{id:{type:"string"},status:{type:"string"},heute:{type:"string"},faelligAm:{type:"string"},naechsterSchritt:{type:"string"},zustaendig:{type:"string"}},required:["id"]},
+      inputSchema:{type:"object",properties:{id:{type:"string"},status:{type:"string"},heute:{type:"string"},vorschlagHeute:{type:"string",description:"JJJJ-MM-TT: für das Morgen-Briefing vormerken"},faelligAm:{type:"string"},naechsterSchritt:{type:"string"},zustaendig:{type:"string"}},required:["id"]},
       execute:async (inp)=>{
         if(!S.db || S.nurLesen) throw new Error("Keine Schreibrechte im Gehirn.");
         const a = S.aufgaben.find(x=>x.id===String(inp.id)); if(!a) throw new Error("Aufgabe nicht gefunden.");
         const upd = {aktualisiertAm:new Date().toISOString()}, iso = /^\d{4}-\d{2}-\d{2}$/;
         if(inp.status){ const st = ["offen","in Arbeit","wartet","erledigt","später"].find(s=>s===String(inp.status)); if(!st) throw new Error("Unbekannter Status."); upd.status = st; if(st==="erledigt") upd.erledigtAm = upd.aktualisiertAm; }
         if(inp.heute && iso.test(String(inp.heute))) upd.heute = String(inp.heute);
+        if(inp.vorschlagHeute && iso.test(String(inp.vorschlagHeute))) upd.vorschlagHeute = String(inp.vorschlagHeute);
         if(inp.faelligAm && iso.test(String(inp.faelligAm))) upd.faelligAm = String(inp.faelligAm);
         if(inp.naechsterSchritt) upd.naechsterSchritt = String(inp.naechsterSchritt);
         if(inp.zustaendig){ const z = ZUST.find(x=>x.toLowerCase()===String(inp.zustaendig).toLowerCase()); if(z) upd.zustaendig = z; }
@@ -1972,6 +2037,9 @@ function chatWerkzeuge(){
         protokoll("Wochenfokus gesetzt", "system/sales", neu.join(" | ")); chatNotiz("Wochenfokus gespeichert");
         return {ok:true};
       }},
+    {name:"tagesplan_festlegen", description:"Legt nach Dannys Zustimmung fest, welche Aufgaben heute auf seinem Tag stehen (höchstens 5). Alle anderen werden von „Heute“ genommen.",
+      inputSchema:{type:"object",properties:{aufgaben:{type:"array",items:{type:"string"},description:"Aufgaben-IDs, z. B. AUF-0003"}},required:["aufgaben"]},
+      execute:async ({aufgaben})=>{ if(!S.db || S.nurLesen) throw new Error("Keine Schreibrechte im Gehirn."); const ids = (aufgaben||[]).map(String).filter(id=>S.aufgaben.some(a=>a.id===id)); if(!ids.length) throw new Error("Keine gültigen Aufgaben-IDs."); await tagFestlegen(ids, `Chat ${agentName}`); chatNotiz(`Tag festgelegt: ${ids.join(", ")}`); return {ok:true, festgelegt:ids}; }},
     {name:"aufgabe_anlegen", description:"Legt eine neue Aufgabe im Cockpit an (nur im Gehirn, es wird nichts gesendet). Nur nutzen, wenn Danny ausdrücklich eine Aufgabe oder einen Auftrag will. Gibt die neue Aufgaben-ID zurück.",
       inputSchema:{type:"object",properties:{aufgabe:{type:"string"},zustaendig:{type:"string",description:ZUST.join(", ")},partner:{type:"string"},naechsterSchritt:{type:"string"},faelligAm:{type:"string",description:"JJJJ-MM-TT"},heute:{type:"boolean",description:"auf Dannys Tagesliste von heute setzen"}},required:["aufgabe"]},
       execute:async (inp, ctx)=>{
@@ -1989,14 +2057,14 @@ function chatWerkzeuge(){
       }}
   ];
 }
-const WERKZEUG_TEXT = {lead_anlegen:"legt den Lead an",wochenfokus_setzen:"speichert den Wochenfokus",fragen_offen:"liest die offenen Fragen",frage_beantworten:"trägt die Antwort ein",aufgabe_aendern:"ändert die Aufgabe",lagebild:"schaut aufs Lagebild",kunden:"liest Kunden",leads:"liest Leads",sales:"liest Sales",aufgaben:"liest Aufgaben",aufgabe_anlegen:"legt Aufgabe an"};
+const WERKZEUG_TEXT = {tagesplan_festlegen:"legt den Tag fest",lead_anlegen:"legt den Lead an",wochenfokus_setzen:"speichert den Wochenfokus",fragen_offen:"liest die offenen Fragen",frage_beantworten:"trägt die Antwort ein",aufgabe_aendern:"ändert die Aufgabe",lagebild:"schaut aufs Lagebild",kunden:"liest Kunden",leads:"liest Leads",sales:"liest Sales",aufgaben:"liest Aufgaben",aufgabe_anlegen:"legt Aufgabe an"};
 
 const ABEND_REGIE = `
 JETZT LÄUFT DANNYS ABEND-BRIEFING. Du führst es Schritt für Schritt, wie ein kurzes Telefonat:
 1. Hol dir fragen_offen und aufgaben (Tagesliste heute). Stell immer nur EINE Frage pro Antwort, mit den Antwortmöglichkeiten in einem Satz.
 2. Zuerst die offenen Fragen des Organisators: nach Dannys Antwort sofort frage_beantworten aufrufen.
-3. Dann jede Aufgabe von heute, die noch nicht erledigt ist: Stand fragen und mit aufgabe_aendern setzen (erledigt, in Arbeit, oder heute = morgen).
-4. Dann: Was ist morgen der wichtigste Umsatzschritt? Gab es heute Empfehlungen, Termine oder neue Kontakte? Daraus Aufgaben mit aufgabe_anlegen bauen (heute = morgen, wenn es morgen dran ist).
+3. Dann jede Aufgabe von heute, die noch nicht erledigt ist: Stand fragen und mit aufgabe_aendern setzen (erledigt, in Arbeit, oder vorschlagHeute = morgen; das Datum von morgen ist ${morgenIso()}).
+4. Dann: Was ist morgen der wichtigste Umsatzschritt? Gab es heute Empfehlungen, Termine oder neue Kontakte? Daraus Aufgaben mit aufgabe_anlegen bauen und mit aufgabe_aendern vorschlagHeute = morgen setzen, wenn es morgen dran ist. Auf „Heute“ kommt es erst im Morgen-Briefing.
 5. Zum Schluss in 3 bis 5 Punkten zusammenfassen, was du eingetragen und angelegt hast, und kurz gute Nacht sagen.
 Erfinde keine Antworten. Wenn Danny „weiter“ oder „überspringen“ sagt, nimm die nächste Frage.`;
 const NOTIZ_REGIE = `
@@ -2007,7 +2075,13 @@ JETZT LÄUFT DAS WOCHEN-REVIEW (Freitag, 15 Minuten). Du führst es:
 2. Frag Danny nacheinander (immer nur eine Frage): Was hat diese Woche am meisten Umsatz-Richtung gebracht? Was hat Zeit gefressen ohne Umsatz? Was lassen wir nächste Woche weg?
 3. Leite daraus genau 3 Wochenfokus-Punkte für nächste Woche ab (konkret, messbar, mit dem größten Hebel nach Hormozi) und schlag sie vor. Erst wenn Danny zustimmt, speichere sie mit wochenfokus_setzen.
 4. Leg die nötigen Aufgaben mit aufgabe_anlegen an (Fälligkeit nächste Woche) und fasse in 3 Punkten zusammen.`;
-const REGIE = {abend:ABEND_REGIE, notiz:NOTIZ_REGIE, woche:WOCHE_REGIE};
+const MORGEN_REGIE = `
+JETZT LÄUFT DANNYS MORGEN-BRIEFING. Ziel: gemeinsam festlegen, was HEUTE auf seinen Tag kommt (höchstens 5 Aufgaben). Nur was Danny bestätigt, kommt auf „Heute“.
+1. Hol dir cockpit_lesen mit bereich lagebild und aufgaben. Fass in 2 Sätzen zusammen: Stand zum Ziel, Anrufe der Woche, was heute fällig oder überfällig ist.
+2. Schlag 3 bis 5 Aufgaben für heute vor (Vorrang: vorschlagHeute aus dem Abend-Briefing, in Arbeit, überfällig, heute fällig, größter Umsatzhebel; keine Setup-Aufgaben). Nenne sie nummeriert mit Grund und frag: „Passt das so, oder was soll raus oder rein?“
+3. Passe nach Dannys Antwort an. Erst wenn er zustimmt, rufe tagesplan_festlegen mit den Aufgaben-IDs auf. Neue Aufgaben, die er nennt, vorher mit aufgabe_anlegen anlegen.
+4. Bestätige in einem Satz und nenne den ersten Schritt.`;
+const REGIE = {morgen:MORGEN_REGIE, abend:ABEND_REGIE, notiz:NOTIZ_REGIE, woche:WOCHE_REGIE};
 function chatAnweisung(){
   const a = chatAgent();
   const persona = PERSONA[a.id] || `Du bist ${a.name}, ein Agent im Team von Clees & Ernster. Deine Rolle: ${a.rolle||"Fach-Agent"}.${a.id.startsWith("partner-")?" Du betreust diesen Partnerbetrieb und kennst ihn genau.":""}`;
@@ -2039,6 +2113,7 @@ const CHAT_START = {
 function chatZeichneVerlauf(){
   const box = chatEl.querySelector(".chat-verlauf"); if(!box) return;
   const v = chatVerlauf(), a = chatAgent();
+  if(a.id==="claude"){ box.innerHTML = postfachHtml() + (POST.sendet?`<div class="msg-werkzeug">wird zugestellt …</div>`:""); box.scrollTop = box.scrollHeight; return; }
   if(CHAT.ansicht==="liste"){
     const l = CHAT.liste;
     box.innerHTML = `<h3 class="t-hl">Gespräche mit ${esc(a.name)}</h3><p class="t-fn c2">Jedes Gespräch wird vollständig im Gehirn gespeichert (Sammlung chats).</p>${l.length?`<ul class="chat-sitzungen">${l.map(s=>{ const erste = (s.turns.find(m=>m.role==="user")||{}).content||""; return `<li><button type="button" data-chatsitzung="${esc(s.id)}"><span class="t-sub" style="font-weight:600">${esc(zeitDe.format(new Date(s.start||s.aktualisiertAm)))}${s.sprache?" · Sprache":""} · ${s.anzahl||s.turns.length} Beiträge</span><span class="t-fn c2">${esc(erste.slice(0,90))}</span></button></li>`; }).join("")}</ul>`:`<p class="t-sub c2" style="margin-top:12px">Noch keine gespeicherten Gespräche.</p>`}`;
@@ -2069,7 +2144,7 @@ function chatZeichne(){
       <button type="button" class="chat-ikon" data-chatzu aria-label="Chat schließen" title="Schließen">✕</button></div>
     <div class="chat-wahl" role="group" aria-label="Agent wählen">${chatAgenten().map(x=>`<button type="button" data-chatagent="${esc(x.id)}" aria-pressed="${x.id===a.id}">${esc(x.name.replace("Partner-Agent ",""))}</button>`).join("")}</div>
     <div class="chat-verlauf" aria-live="polite"></div>
-    ${CHAT.sample===null?`<p class="chat-hinweis">Der Chat braucht die Freigabe „Claude fragen“ für diese Seite. Ohne sie bleibt er stumm. <button type="button" class="link-knopf" data-chattest>Verbindung testen</button></p>`:`<p class="chat-hinweis">${CHAT.hoert?"Ich höre zu … Sprich einfach, nach einer Pause sende ich.":CHAT.micGesperrt?"Das Mikrofon ist hier gesperrt. Sprich über Wispr Flow ins Feld, ich sende nach dem Diktat automatisch.":CHAT.vorlesen?"Sprachmodus an: Mikrofon tippen oder mit Wispr Flow diktieren. Antworten werden vorgelesen.":"Alles wird mitgeschrieben und im Gehirn gespeichert."} <button type="button" class="link-knopf" data-chattest>Verbindung testen</button></p>`}
+    ${a.id==="claude"?`<p class="chat-hinweis">Geht direkt an meine Claude-Code-Sitzung und liegt zusätzlich im Gehirn-Postfach. Ich antworte hier.</p>`:CHAT.sample===null?`<p class="chat-hinweis">Der Chat braucht die Freigabe „Claude fragen“ für diese Seite. Ohne sie bleibt er stumm. <button type="button" class="link-knopf" data-chattest>Verbindung testen</button></p>`:`<p class="chat-hinweis">${CHAT.hoert?"Ich höre zu … Sprich einfach, nach einer Pause sende ich.":CHAT.micGesperrt?"Das Mikrofon ist hier gesperrt. Sprich über Wispr Flow ins Feld, ich sende nach dem Diktat automatisch.":CHAT.vorlesen?"Sprachmodus an: Mikrofon tippen oder mit Wispr Flow diktieren. Antworten werden vorgelesen.":"Alles wird mitgeschrieben und im Gehirn gespeichert."} <button type="button" class="link-knopf" data-chattest>Verbindung testen</button></p>`}
     <form class="chat-fuss"><label class="sr" for="chat-eingabe" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Nachricht an ${esc(a.name)}</label>
       <button type="button" class="chat-mic" data-chatmic aria-pressed="${!!CHAT.hoert}" aria-label="${CHAT.hoert?"Zuhören beenden":"Sprechen"}" title="Sprechen">${ic("mikro")}</button>
       <textarea id="chat-eingabe" rows="1" placeholder="Nachricht an ${esc(a.name)} …">${esc(entwurf)}</textarea>
@@ -2093,7 +2168,7 @@ async function chatLadeListe(aid){
   catch(e){ return []; }
 }
 async function chatLadeVerlauf(aid){
-  if(CHAT.geladen[aid] || !S.db) return; CHAT.geladen[aid] = true;
+  if(aid==="claude" || CHAT.geladen[aid] || !S.db) return; CHAT.geladen[aid] = true;
   const l = await chatLadeListe(aid), j = l[0];
   // Ein Gespräch der letzten 12 Stunden wird fortgesetzt, sonst beginnt ein neues.
   if(j && !chatVerlauf().length && CHAT.agent===aid && Date.now()-new Date(j.aktualisiertAm).getTime() < 12*3600e3){ CHAT.sitzung[aid] = j.id; CHAT.verlauf[aid] = j.turns.map(m=>({...m})); chatZeichneVerlauf(); }
@@ -2117,7 +2192,7 @@ function chatWerkzeugeKompakt(){
   const lesen = {name:"cockpit_lesen", description:"Liest Daten aus Dannys Cockpit. bereich: lagebild (Gesamtlage, Ziel, Umsatz, heutige Aufgaben), kunden (Partnerbetriebe; mit name alle Details), leads (Akquise und Anrufliste; Filter suche, stufe, nurOffen), sales (Pipeline und Umsatz pro Monat; jahr), aufgaben (Filter status, zustaendig, suche), fragen (offene Fragen an Danny mit id und Optionen).",
     inputSchema:{type:"object",properties:{bereich:{type:"string",enum:["lagebild","kunden","leads","sales","aufgaben","fragen"]},name:{type:"string"},suche:{type:"string"},stufe:{type:"string"},nurOffen:{type:"boolean"},status:{type:"string"},zustaendig:{type:"string"},jahr:{type:"number"}},required:["bereich"]},
     execute:(inp, ctx)=>{ const b = String(inp?.bereich||"lagebild"); const t = nach[b==="fragen"?"fragen_offen":b]; if(!t) throw new Error("Unbekannter Bereich."); return t.execute(inp||{}, ctx); }};
-  return [lesen, nach.aufgabe_anlegen, nach.aufgabe_aendern, nach.frage_beantworten, nach.lead_anlegen, nach.wochenfokus_setzen].filter(Boolean);
+  return [lesen, nach.tagesplan_festlegen, nach.aufgabe_anlegen, nach.aufgabe_aendern, nach.frage_beantworten, nach.lead_anlegen, nach.wochenfokus_setzen].filter(Boolean);
 }
 function chatSchnappschuss(){
   const k = chatWerkzeuge(), t = Object.fromEntries(k.map(x=>[x.name,x]));
@@ -2145,6 +2220,7 @@ async function chatVerbindungTesten(){
 }
 async function chatSenden(text, art="text"){
   text = String(text||"").trim(); if(!text || CHAT.laeuft) return;
+  if(CHAT.agent==="claude"){ const ta0 = chatEl.querySelector("textarea"); if(ta0) ta0.value = ""; clearTimeout(CHAT.diktatTimer); await postfachSenden(text, art); return; }
   clearTimeout(CHAT.diktatTimer); CHAT.weiterHoeren = art==="sprache";
   if(!CHAT.sitzung[CHAT.agent]) chatNeueSitzung(CHAT.agent);
   if(CHAT.sample===undefined){ try{ CHAT.sample = window.claude?.use ? await window.claude.use("sample") : null; }catch(e){ CHAT.sample = null; } }
@@ -2387,6 +2463,7 @@ function jetztDran(){
   const anrufe = S.leads.filter(leadOffen).sort(leadSort);
   const v = [];
   const freitag = new Date(heute()+"T12:00:00").getDay()===5;
+  if(!tagesplan() && std<14) v.push({t:"Morgen-Briefing: Tag festlegen", u:"Wir gehen die Vorschläge durch. Nur was du bestätigst, kommt auf „Heute“.", k:"Starten", a:`data-morgen`, ico:"sonne", farbe:"var(--orange)"});
   if(freitag && std>=13 && !(S.system.sales?.aktualisiertAm||"").startsWith(heute())) v.push({t:"Wochen-Review mit Alex", u:"15 Minuten: Zahlen der Woche, was hat Umsatz gebracht, Fokus für nächste Woche.", k:"Starten", a:`data-wochenreview`, ico:"ziel", farbe:"var(--purple)"});
   if(freitag && std>=12) v.push({t:"Aufräumen: jede Aufgabe einmal entscheiden", u:"10 Minuten. Heute, Diese Woche, Später, An Agent oder Weg.", k:"Aufräumen", a:`data-aufraeumen`, ico:"liste", farbe:"var(--gray)"});
   if(std>=16) v.push({t:"Abend-Briefing mit Mark", u:"Mark fragt dich ab und baut den Plan für morgen.", k:"Starten", a:`data-abendbriefing`, ico:"mond", farbe:"var(--indigo)"});
@@ -2430,8 +2507,8 @@ function gesundheitHtml(){
 const MODUS = {art:null, liste:[], i:0, notiz:"", einstieg:{}};
 const modusEl = document.createElement("div"); modusEl.id = "modus"; document.body.appendChild(modusEl);
 function modusSchliessen(){ MODUS.art = null; modusEl.innerHTML = ""; document.body.classList.remove("modus-auf"); render(); }
-function oeffneAnrufModus(){
-  MODUS.art = "anruf"; MODUS.liste = S.leads.filter(leadOffen).sort(leadSort).map(l=>l.id); MODUS.i = 0; MODUS.notiz = "";
+function oeffneAnrufModus(start){
+  MODUS.art = "anruf"; MODUS.liste = S.leads.filter(leadOffen).sort(leadSort).map(l=>l.id); if(start && typeof start==="string"){ MODUS.liste = [start, ...MODUS.liste.filter(x=>x!==start)]; } MODUS.i = 0; MODUS.notiz = "";
   document.body.classList.add("modus-auf"); anrufZeichne();
 }
 function anrufZeichne(){
@@ -2595,6 +2672,100 @@ document.addEventListener("click", e => {
   const d = e.target.closest("[data-detail]"); if(d){ oeffneAufgabeDetail(d.dataset.detail); return; }
 });
 
+/* ---------- Morgen-Briefing: nur was besprochen ist, kommt auf „Heute“ ---------- */
+const CLAUDE_SITZUNG = "session_01KctYvEvfTqcqLaKPQN8doS";
+const tagesplan = () => { const t = S.system.tagesplan; return t && t.datum===heute() ? t : null; };
+function morgenKandidaten(){
+  const h = heute(), danny = a => (a.zustaendig||"Danny")==="Danny";
+  const offen = S.aufgaben.filter(a=>["offen","in Arbeit","prüfen"].includes(a.status) && danny(a) && !istSetup(a));
+  const grund = a => a.vorschlagHeute && a.vorschlagHeute<=h ? "aus dem Abend-Briefing" : a.status==="in Arbeit" ? "in Arbeit" : ueberfaellig(a) ? "überfällig" : a.faelligAm===h ? "heute fällig" : a.faelligAm && a.faelligAm<=morgenIso() ? "morgen fällig" : prio(a)===1 ? "sofort" : a.heute ? "war eingeplant" : null;
+  const rang = a => ({"aus dem Abend-Briefing":0,"in Arbeit":1,"überfällig":2,"heute fällig":3,"sofort":4,"war eingeplant":5,"morgen fällig":6})[grund(a)] ?? 9;
+  const vorschlag = offen.filter(a=>grund(a)).sort((x,y)=>rang(x)-rang(y)||vergleich(x,y));
+  const rest = offen.filter(a=>!grund(a)).sort(vergleich);
+  return {vorschlag, rest, grund};
+}
+function oeffneMorgen(){
+  const tp = tagesplan(), k = morgenKandidaten();
+  MODUS.art = "morgen";
+  MODUS.wahl = new Set(tp ? tp.aufgaben : k.vorschlag.filter(a=>a.vorschlagHeute||a.status==="in Arbeit"||ueberfaellig(a)||a.faelligAm===heute()).slice(0,HEUTE_MAX).map(a=>a.id));
+  document.body.classList.add("modus-auf"); morgenZeichne();
+}
+function morgenZeichne(){
+  if(MODUS.art!=="morgen") return;
+  const k = morgenKandidaten(), b = S.briefings.find(x=>x.id==="morgen-"+heute());
+  const zeile = (a, g) => `<li><label class="mb-zeile"><input type="checkbox" data-mbwahl="${esc(a.id)}" ${MODUS.wahl.has(a.id)?"checked":""}><span style="min-width:0;flex:1"><span class="t-sub" style="font-weight:600;display:block">${esc(a.aufgabe)}</span><span class="t-c1 c2">${[g, partnerVon(a).join(", "), a.faelligAm?`fällig ${datumDe(a.faelligAm)}`:null].filter(Boolean).map(esc).join(" · ")}</span></span>${prioPille(prio(a))}</label></li>`;
+  const n = MODUS.wahl.size;
+  modusEl.innerHTML = `<div class="modus" role="dialog" aria-modal="true" aria-label="Morgen-Briefing">
+    <div class="modus-kopf"><div><p class="t-c1 c2">Morgen-Briefing · ${esc(new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"numeric",month:"long"}).format(new Date()))}</p><p class="t-hl">Was kommt heute auf deinen Tag? <span class="t-sub ${n>HEUTE_MAX?"":"c2"}" ${n>HEUTE_MAX?'style="color:var(--red-text)"':""}>${n} von höchstens ${HEUTE_MAX}</span></p></div><button class="knopf" data-modus-zu aria-label="Schließen">✕</button></div>
+    ${b?`<div class="anruf" style="flex:0 0 auto;gap:8px"><p class="t-c1 c2">Vom Organisator um ${esc(uhrzeit(b.erstelltAm))} Uhr</p><p class="t-sub">${esc(b.zusammenfassung||"")}</p>${(b.abschnitte||[]).filter(x=>/Top 3|Hinweise|Entscheidungen|Kampagnen/.test(x.titel)).map(x=>`<p class="t-fn"><strong>${esc(x.titel)}:</strong> ${esc((x.punkte||[]).join(" · "))}</p>`).join("")}</div>`:`<p class="t-sub c2">Das Morgen-Briefing des Organisators liegt noch nicht vor.</p>`}
+    <div class="anruf" style="flex:0 0 auto">
+      <h2 class="t-t3">Vorschläge</h2>${k.vorschlag.length?`<ul class="mb-liste">${k.vorschlag.map(a=>zeile(a,k.grund(a))).join("")}</ul>`:`<p class="t-sub c2">Keine Vorschläge. Wähle unten aus allen Aufgaben.</p>`}
+      <details><summary class="t-fn" style="color:var(--blue-text);font-weight:600;cursor:pointer">Alle anderen Aufgaben (${k.rest.length})</summary><ul class="mb-liste">${k.rest.map(a=>zeile(a,"")).join("")}</ul></details>
+      <div class="stapel-antw" style="margin-top:8px"><button class="knopf primaer" data-mbfest ${S.nurLesen?"disabled":""}>Tag festlegen (${n})</button><button class="knopf sekundaer" data-mbmark>${ic("sprechblase")}Lieber mit Mark besprechen</button></div>
+      <p class="t-c1 c2">Nur was du hier bestätigst, steht heute in „Mein Tag“ unter „Heute“. Alles andere bleibt in „Als Nächstes“.</p>
+    </div></div>`;
+}
+async function tagFestlegen(ids, quelle="Morgen-Briefing"){
+  if(!S.db || S.nurLesen) return;
+  const h = heute(), jetzt = new Date().toISOString(), wahl = new Set(ids);
+  const schreib = [];
+  for(const a of S.aufgaben){
+    if(wahl.has(a.id) && a.heute!==h) schreib.push([a.id, {heute:h, ...(a.status==="prüfen"?{status:"offen"}:{}), vorschlagHeute:null}]);
+    else if(!wahl.has(a.id) && a.heute===h && a.status!=="erledigt") schreib.push([a.id, {heute:null}]);
+    else if(wahl.has(a.id) && a.vorschlagHeute) schreib.push([a.id, {vorschlagHeute:null}]);
+  }
+  try{
+    for(const [id, u] of schreib) await S.db.doc("aufgaben/"+id).update({...u, aktualisiertAm:jetzt});
+    await S.db.doc("system/tagesplan")[S.system.tagesplan?"update":"set"]({datum:h, aufgaben:[...wahl], festgelegtAm:jetzt, quelle});
+    protokoll("Tag festgelegt", "system/tagesplan", `${wahl.size} Aufgaben (${quelle})`);
+    zeigeToast(`Tag festgelegt: ${wahl.size} Aufgaben auf „Heute“`);
+  }catch(e){ schreibFehler(e); }
+}
+function morgenMitMark(){
+  modusSchliessen();
+  CHAT.ansicht = "chat"; chatAbbrechen(); CHAT.agent = "mark"; CHAT.verlauf.mark = []; delete CHAT.sitzung.mark; CHAT.geladen.mark = true; CHAT.modus.mark = "morgen";
+  CHAT.offen = true; chatZeichne(); chatSenden("Starte mein Morgen-Briefing.", CHAT.vorlesen ? "sprache" : "text");
+}
+modusEl.addEventListener("change", e => { const c = e.target.closest("[data-mbwahl]"); if(c && MODUS.art==="morgen"){ c.checked ? MODUS.wahl.add(c.dataset.mbwahl) : MODUS.wahl.delete(c.dataset.mbwahl); morgenZeichne(); } });
+modusEl.addEventListener("click", async e => {
+  if(MODUS.art!=="morgen") return;
+  if(e.target.closest("[data-mbfest]")){ if(MODUS.wahl.size>HEUTE_MAX && !confirm(`${MODUS.wahl.size} Aufgaben sind mehr als ${HEUTE_MAX}. Trotzdem festlegen?`)) return; await tagFestlegen([...MODUS.wahl]); modusSchliessen(); return; }
+  if(e.target.closest("[data-mbmark]")){ morgenMitMark(); return; }
+});
+document.addEventListener("click", e => { if(e.target.closest("#modus")) return; if(e.target.closest("[data-morgen]")){ oeffneMorgen(); } });
+
+/* ---------- Chat zu Claude (Claude Code): Postfach im Gehirn + direkte Nachricht an die Sitzung ---------- */
+const POST = {mcp:undefined, sendet:false};
+const postfach = () => [...(S.postfach||[])].sort((a,b)=>String(a.zeit).localeCompare(String(b.zeit)));
+async function postfachSenden(text, art){
+  if(!S.db || S.nurLesen){ zeigeToast("Keine Schreibrechte im Gehirn."); return; }
+  const jetzt = new Date().toISOString(), id = "p-"+jetzt.replace(/[^0-9]/g,"").slice(0,17);
+  POST.sendet = true; chatZeichne();
+  const doc = {von:"Danny", text, zeit:jetzt, art, status:"neu", seite:ansichtAus().seite};
+  S.postfach = [...(S.postfach||[]).filter(x=>x.id!==id), {id, ...doc}]; chatZeichneVerlauf();
+  try{ await S.db.doc("postfach/"+id).set(doc); }
+  catch(e){ POST.sendet = false; schreibFehler(e); chatZeichne(); return; }
+  let zugestellt = false, grund = null;
+  try{
+    if(POST.mcp===undefined) POST.mcp = window.claude?.use ? await window.claude.use("mcp") : null;
+    if(POST.mcp){
+      await POST.mcp.callTool("Claude Code Remote", "send_message", {session_id:CLAUDE_SITZUNG, message:`Nachricht von Danny aus dem Cockpit (postfach/${id}, Seite ${ansichtAus().seite}):\n\n${text}\n\nAntwort bitte als Dokument in der Sammlung postfach mit von "Claude", antwortAuf "${id}".`});
+      zugestellt = true;
+    } else grund = "kein-mcp";
+  }catch(e){ grund = e?.code || "fehler"; }
+  try{ await S.db.doc("postfach/"+id).update(zugestellt ? {status:"zugestellt", zugestelltAm:new Date().toISOString()} : {zustellung:grund}); }catch(x){}
+  POST.sendet = false; chatZeichne();
+  if(!zugestellt) zeigeToast(grund==="approval_required"||grund==="not_in_manifest" ? "Bitte die Freigabe für „Claude Code Remote“ erlauben. Die Nachricht liegt im Postfach." : "Liegt im Postfach. Claude liest sie spätestens im nächsten Lauf.");
+}
+function postfachHtml(){
+  const l = postfach();
+  if(!l.length) return `<div class="chat-leer"><p class="t-hl">Claude</p><p class="t-sub">Schreib mir hier alles, was ins Cockpit soll: Wünsche, Änderungen, neue Ideen. Ich baue es und antworte hier.</p></div>`;
+  const st = {neu:"im Postfach", zugestellt:"bei Claude angekommen", gelesen:"gelesen", erledigt:"erledigt"};
+  return l.map(m => m.von==="Danny"
+    ? `<div class="msg ich">${m.art==="sprache"?`<span class="msg-art">${ic("mikro")}</span>`:""}${esc(m.text)}</div><div class="msg-werkzeug" style="align-self:flex-end">${esc(st[m.status]||m.status||"")}${m.zustellung&&m.status==="neu"?" · wird im nächsten Lauf gelesen":""}</div>`
+    : `<div class="msg ag">${chatMd(m.text||"")}</div>`).join("");
+}
+
 document.addEventListener("toggle", e => { if(e.target.matches && e.target.matches("details[data-mehr]")){ S.mehrOffen = e.target.open; try{ localStorage.setItem("cockpit.mehr", S.mehrOffen?"1":"0"); }catch(x){} if(S.mehrOffen) pAnwenden(); } }, true);
 /* ---------- Gehirn verbinden ---------- */
 render();
@@ -2616,6 +2787,7 @@ render();
   abo("leads", v => S.leads = v);
   abo("fragen", v => S.fragen = v);
   abo("kampagnen", v => S.kampagnen = v);
+  db.collection("postfach").onSnapshot(snap => { S.postfach = snap.docs.map(d=>({id:d.id, ...d.data()})); if(CHAT.offen && CHAT.agent==="claude") chatZeichneVerlauf(); renderNav(); }, () => {});
   abo("system", v => { S.system = Object.fromEntries(v.map(d=>[d.id,d])); });
   abo("gespraeche", v => S.gespraeche = v, db.collection("gespraeche").orderBy("datum","desc").limit(5));
   const v = ansichtAus(); if(v.aufgabe){ S.ansicht="alle"; S.offen.add(v.aufgabe); }
