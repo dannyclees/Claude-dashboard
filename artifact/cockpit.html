@@ -531,6 +531,9 @@ body.privat :is(.pk,.lead-haupt,.mini-liste li,.ak):hover{filter:blur(7px)}
 .tagboard .tile-kopf h2{white-space:nowrap;margin-right:auto}
 .jetzt-knoepfe{display:flex;gap:8px;align-items:center;flex:none}
 .spaeter{position:relative}
+.spaeter-liste{margin-top:8px}
+.spaeter-liste .mini-liste li{gap:10px;align-items:center}
+.spaeter-menu button{cursor:pointer}
 .spaeter-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:20;min-width:200px;padding:6px;border-radius:14px;background:var(--surface);box-shadow:var(--shadow-hover);border:.5px solid var(--sep);display:flex;flex-direction:column}
 .spaeter-menu[hidden]{display:none}
 .spaeter-menu button{min-height:40px;padding:0 12px;border-radius:10px;text-align:left;color:var(--label);font-size:.9375rem}
@@ -735,7 +738,7 @@ function prio(a){ if(a.status==="erledigt") return null; if(a.wichtig==null||a.d
 const HG = {hoch:0,mittel:1,niedrig:2};
 function vergleich(a,b){ const pa=prio(a)??9, pb=prio(b)??9; if(pa!==pb) return pa-pb; const ha=HG[a.umsatzhebel]??3, hb=HG[b.umsatzhebel]??3; if(ha!==hb) return ha-hb; const fa=a.faelligAm||"9999", fb=b.faelligAm||"9999"; if(fa!==fb) return fa<fb?-1:1; return a.id.localeCompare(b.id); }
 const sortiert = () => [...S.aufgaben].sort(vergleich);
-const topDrei = () => sortiert().filter(a => (a.status==="offen"||a.status==="in Arbeit") && prio(a)!==null).slice(0,3);
+const topDrei = () => sortiert().filter(a => (a.status==="offen"||a.status==="in Arbeit") && prio(a)!==null && !(a.nachhakenAm && a.nachhakenAm > new Date().toISOString())).slice(0,3);
 const ueberfaellig = a => a.status!=="erledigt" && a.faelligAm && a.faelligAm < heute();
 const partnerVon = a => Array.isArray(a.partner) ? a.partner : [];
 
@@ -1392,16 +1395,18 @@ function oeffneChanceDetail(id){
 }
 const TSPALTEN = [["offen","Als Nächstes","var(--gray)"],["heute","Heute","var(--orange)"],["arbeit","In Arbeit","var(--blue)"],["wartet","Wartet","var(--purple)"],["erledigt","Erledigt","var(--green)"]];
 const HEUTE_MAX = 5;
+const aufgabeZurueck = a => !!a.nachhakenAm && a.nachhakenAm > new Date().toISOString();
 function tagSpalten(){
   const h = heute();
   const meine = S.aufgaben.filter(a=> S.tAlle ? true : (a.zustaendig||"Danny")==="Danny");
   const erlTag = a => String(a.erledigtAm||a.aktualisiertAm||"").slice(0,10)===h;
   const sp = {
-    heute: meine.filter(a=>a.status==="offen" && a.heute===h),
-    arbeit: meine.filter(a=>a.status==="in Arbeit"),
+    heute: meine.filter(a=>a.status==="offen" && a.heute===h && !aufgabeZurueck(a)),
+    arbeit: meine.filter(a=>a.status==="in Arbeit" && !aufgabeZurueck(a)),
     wartet: meine.filter(a=>a.status==="wartet"||a.status==="wartet auf Freigabe"),
     erledigt: meine.filter(a=>a.status==="erledigt" && erlTag(a)),
-    offen: meine.filter(a=>(a.status==="offen"||a.status==="prüfen") && !(a.heute && a.heute<=h) && !istSetup(a))
+    offen: meine.filter(a=>(a.status==="offen"||a.status==="prüfen") && !(a.heute && a.heute<=h) && !istSetup(a) && !aufgabeZurueck(a)),
+    spaeter: meine.filter(a=>a.status!=="erledigt" && aufgabeZurueck(a) && !istSetup(a)).sort((x,y)=>String(x.nachhakenAm).localeCompare(String(y.nachhakenAm)))
   };
   Object.values(sp).forEach(l=>l.sort(vergleich));
   return sp;
@@ -1430,6 +1435,7 @@ function tagBoardHtml(){
       ${l.length?l.slice(0,max||99).map(aufgabenKarte).join(""):`<p class="t-c1 c2 leer-spalte">${id==="heute"?(tagesplan()?"Alles erledigt oder nichts eingeplant.":`Noch nicht festgelegt. <button class=\"link-knopf\" data-morgen>Morgen-Briefing starten</button>`):"–"}</p>`}
       ${max&&l.length>max?`<a class="t-c1" href="#aufgaben" style="font-weight:600;padding:2px 4px">+ ${l.length-max} weitere</a>`:""}
       ${voll?`<p class="t-c1" style="color:var(--red-text)">Mehr als ${HEUTE_MAX} – lieber etwas zurückschieben.</p>`:""}</section>`; }).join("")}</div>
+    ${sp.spaeter.length?`<details class="mehr spaeter-liste" ${S.spaeterOffen?"open":""}><summary><span class="pfeil">${ic("pfeil")}</span>Später: ${sp.spaeter.length} zurückgestellt</summary><ul class="mini-liste">${sp.spaeter.map(a=>`<li><button type="button" class="link-knopf t-sub" style="text-decoration:none;font-weight:600;text-align:left;flex:1" data-detail="${esc(a.id)}">${esc(a.aufgabe)}</button><span class="t-c1 c2">kommt ${esc(zeitDe.format(new Date(a.nachhakenAm)))} Uhr</span><button type="button" class="knopf sekundaer klein" data-zurueckholen="${esc(a.id)}">Jetzt zurückholen</button></li>`).join("")}</ul></details>`:""}
   </section>`;
 }
 async function aufgabeVerschieben(id, ziel){
@@ -2490,7 +2496,7 @@ async function zurueckstellen(key, wann, aufgabeId){
     await S.db.doc("system/zurueckgestellt")[S.system.zurueckgestellt?"update":"set"]({eintraege:neu, aktualisiertAm:jetzt});
     S.system.zurueckgestellt = {...(S.system.zurueckgestellt||{}), eintraege:neu};
     const a = aufgabeId && S.aufgaben.find(x=>x.id===aufgabeId);
-    if(a){
+    if(a){ a.nachhakenAm = bis.toISOString(); render();
       const tag = bis.toISOString().slice(0,10) > heute() ? new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Luxembourg"}).format(bis) : null;
       await S.db.doc("aufgaben/"+a.id).update({nachhakenAm:bis.toISOString(), ...(tag?{vorschlagHeute:tag, heute:a.heute===heute()?null:a.heute}:{}), aktualisiertAm:jetzt});
       protokoll("Aufgabe zurückgestellt", a.id, `${a.aufgabe} → ${zeitDe.format(bis)}`);
@@ -2499,7 +2505,14 @@ async function zurueckstellen(key, wann, aufgabeId){
     render();
   }catch(e){ schreibFehler(e); }
 }
+async function zurueckholen(id){
+  const a = S.aufgaben.find(x=>x.id===id); if(!a || !S.db) return;
+  const jetzt = new Date().toISOString(), neu = {...zurueckListe()}; delete neu["aufgabe:"+id];
+  a.nachhakenAm = null; render();
+  try{ await S.db.doc("aufgaben/"+id).update({nachhakenAm:null, aktualisiertAm:jetzt}); if(S.system.zurueckgestellt) await S.db.doc("system/zurueckgestellt").update({eintraege:neu, aktualisiertAm:jetzt}); S.system.zurueckgestellt = {...(S.system.zurueckgestellt||{}), eintraege:neu}; zeigeToast("Wieder da"); render(); }catch(e){ schreibFehler(e); }
+}
 document.addEventListener("click", e => {
+  const zh = e.target.closest("[data-zurueckholen]"); if(zh){ zurueckholen(zh.dataset.zurueckholen); return; }
   const auf = e.target.closest("[data-spaeter-auf]");
   if(auf){ const m = auf.parentElement.querySelector(".spaeter-menu"); const zu = m.hidden; document.querySelectorAll(".spaeter-menu").forEach(x=>x.hidden=true); m.hidden = !zu; auf.setAttribute("aria-expanded", String(zu)); return; }
   const s = e.target.closest("[data-spaeter]");
@@ -2727,7 +2740,7 @@ const CLAUDE_SITZUNG = "session_01KctYvEvfTqcqLaKPQN8doS";
 const tagesplan = () => { const t = S.system.tagesplan; return t && t.datum===heute() ? t : null; };
 function morgenKandidaten(){
   const h = heute(), danny = a => (a.zustaendig||"Danny")==="Danny";
-  const offen = S.aufgaben.filter(a=>["offen","in Arbeit","prüfen"].includes(a.status) && danny(a) && !istSetup(a));
+  const offen = S.aufgaben.filter(a=>["offen","in Arbeit","prüfen"].includes(a.status) && danny(a) && !istSetup(a) && !(aufgabeZurueck(a) && !(a.vorschlagHeute && a.vorschlagHeute<=h)));
   const grund = a => a.vorschlagHeute && a.vorschlagHeute<=h ? "aus dem Abend-Briefing" : a.status==="in Arbeit" ? "in Arbeit" : ueberfaellig(a) ? "überfällig" : a.faelligAm===h ? "heute fällig" : a.faelligAm && a.faelligAm<=morgenIso() ? "morgen fällig" : prio(a)===1 ? "sofort" : a.heute ? "war eingeplant" : null;
   const rang = a => ({"aus dem Abend-Briefing":0,"in Arbeit":1,"überfällig":2,"heute fällig":3,"sofort":4,"war eingeplant":5,"morgen fällig":6})[grund(a)] ?? 9;
   const vorschlag = offen.filter(a=>grund(a)).sort((x,y)=>rang(x)-rang(y)||vergleich(x,y));
@@ -2816,7 +2829,7 @@ function postfachHtml(){
     : `<div class="msg ag">${chatMd(m.text||"")}</div>`).join("");
 }
 
-document.addEventListener("toggle", e => { if(e.target.matches && e.target.matches("details[data-mehr]")){ S.mehrOffen = e.target.open; try{ localStorage.setItem("cockpit.mehr", S.mehrOffen?"1":"0"); }catch(x){} if(S.mehrOffen) pAnwenden(); } }, true);
+document.addEventListener("toggle", e => { if(e.target.matches && e.target.matches("details.spaeter-liste")) S.spaeterOffen = e.target.open; if(e.target.matches && e.target.matches("details[data-mehr]")){ S.mehrOffen = e.target.open; try{ localStorage.setItem("cockpit.mehr", S.mehrOffen?"1":"0"); }catch(x){} if(S.mehrOffen) pAnwenden(); } }, true);
 /* ---------- Gehirn verbinden ---------- */
 render();
 (async () => {
